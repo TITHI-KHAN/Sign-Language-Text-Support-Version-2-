@@ -89,7 +89,3 @@ Large video files are tracked using Git LFS.
 - JavaScript
 - Python scripts for data/video processing
 - Git LFS for large video files
-
-## Author
-
-Nazmun Nahar Khanom
