@@ -1,4 +1,3 @@
-```markdown
 # Sign Language Text Support - Version 2
 
 This project is a web-based sign language text support tool. It displays written text with synchronized sign language video support, helping users access content through multiple formats: text, sentence-level videos, paragraph-level videos, and word-level sign videos.
