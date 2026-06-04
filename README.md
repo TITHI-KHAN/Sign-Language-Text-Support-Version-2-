@@ -32,6 +32,8 @@ This project is a web-based sign language text support tool. It displays written
 │   └── paragraphs/
 ├── scripts/
 └── video.mp4
+```
+
 
 ## How to Run
 
