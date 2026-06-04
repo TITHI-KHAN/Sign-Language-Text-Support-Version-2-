@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Access Suggestions for Mobilizations (Video Segmentation Probe)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <main class="sins-container">
+    <section class="text-side">
+      <header class="blog-header">
+        <h1 class="blog-title" id="blogTitle">Access Suggestions for Mobilizations</h1>
+      </header>
+      <div id="textPanel" class="article-content"></div>
+    </section>
+
+    <div
+      class="panel-resizer"
+      id="panelResizer"
+      role="separator"
+      aria-orientation="vertical"
+      aria-label="Resize text and video panels"
+    ></div>
+
+    <aside class="video-side collapsed" id="videoSidebar">
+      <button
+        class="sidebar-menu-btn"
+        id="sidebarMenuBtn"
+        type="button"
+        aria-label="Open ASL support tool"
+        aria-expanded="false"
+        aria-controls="sidebarContent"
+      >
+        <span class="menu-icon" aria-hidden="true">
+          <img src="assets/sign-language.png" alt="" />
+        </span>
+        <span class="menu-label">Sign Language Text Support</span>
+        <span class="menu-close" aria-hidden="true"></span>
+      </button>
+
+      <div class="sidebar-content" id="sidebarContent">
+        <div class="support-dropdowns" aria-label="ASL support options">
+          <div class="support-dropdown">
+            <div class="support-dropdown-trigger">
+              Location
+            </div>
+            <div class="support-dropdown-menu">
+              <button type="button" data-feature-option="location" data-value="popup" aria-disabled="false">Popup</button>
+              <button type="button" data-feature-option="location" data-value="side" aria-disabled="false">Side</button>
+            </div>
+          </div>
+
+          <div class="support-dropdown active">
+            <div class="support-dropdown-trigger">
+              Video Segmentation
+            </div>
+            <div class="support-dropdown-menu">
+              <button type="button" data-feature-option="segmentation" data-value="word" aria-disabled="false">Word</button>
+              <button type="button" data-feature-option="segmentation" data-value="sentence" aria-disabled="false">Sentence</button>
+              <button type="button" data-feature-option="segmentation" data-value="paragraph" aria-disabled="false">Paragraph</button>
+              <button type="button" data-feature-option="segmentation" data-value="full" aria-disabled="false">Full Text</button>
+            </div>
+          </div>
+
+          <div class="support-dropdown">
+            <div class="support-dropdown-trigger">
+              Linking Granularity
+            </div>
+            <div class="support-dropdown-menu">
+              <button type="button" data-feature-option="linking-granularity" data-value="word" aria-disabled="false">Word</button>
+              <button type="button" data-feature-option="linking-granularity" data-value="sentence" aria-disabled="false">Sentence</button>
+              <button type="button" data-feature-option="linking-granularity" data-value="paragraph" aria-disabled="false">Paragraph</button>
+              <button type="button" data-feature-option="linking-granularity" data-value="full" aria-disabled="false">Full Text</button>
+            </div>
+          </div>
+
+          <div class="support-dropdown">
+            <div class="support-dropdown-trigger">
+              Navigation
+            </div>
+            <div class="support-dropdown-menu">
+              <button type="button" data-feature-option="navigation" data-value="text-centric" aria-disabled="false">Interactive Text</button>
+              <button type="button" data-feature-option="navigation" data-value="video-centric" aria-disabled="false">Interactive Video</button>
+              <button type="button" data-feature-option="navigation" data-value="both" aria-disabled="false">Both</button>
+            </div>
+            <div class="support-dropdown-message" id="navigationUnavailableMessage" hidden>
+              Navigation not available for this combination
+            </div>
+          </div>
+        </div>
+
+        <div class="video-container" id="videoPanel" style="display: none;">
+          <button class="video-close-btn" id="videoCloseBtn" type="button" aria-label="Close video">X</button>
+          <video id="video" controls>
+            <source src="video.mp4" type="video/mp4" />
+          </video>
+          <div id="segment-status">MODE: SENTENCE</div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="data/non_repeated_words.js"></script>
+  <script src="data/sign_video_map.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

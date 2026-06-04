@@ -1,0 +1,3459 @@
+{
+  "source": "app.js TITLE_TEXT and CUES",
+  "generated_at": "2026-05-17T22:21:45.106Z",
+  "total_tokens": 799,
+  "unique_words": 383,
+  "sign_sources": {
+    "asl_signbank": "https://aslsignbank.haskins.yale.edu/",
+    "signasl": "https://www.signasl.org/"
+  },
+  "words": [
+    {
+      "word": "a",
+      "count": 16,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=a",
+      "signasl_lookup_url": "https://www.signasl.org/sign/a",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "ableism",
+      "count": 1,
+      "local_video": "assets/words/ableism.mp4",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=ableism",
+      "signasl_lookup_url": "https://www.signasl.org/sign/ableism",
+      "status": "local-video-exists",
+      "notes": "Already mapped in complexWordVideos."
+    },
+    {
+      "word": "ableist",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=ableist",
+      "signasl_lookup_url": "https://www.signasl.org/sign/ableist",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "about",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=about",
+      "signasl_lookup_url": "https://www.signasl.org/sign/about",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "abuse",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=abuse",
+      "signasl_lookup_url": "https://www.signasl.org/sign/abuse",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "access",
+      "count": 5,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=access",
+      "signasl_lookup_url": "https://www.signasl.org/sign/access",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "accessibility",
+      "count": 1,
+      "local_video": "assets/words/accessibility.mp4",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=accessibility",
+      "signasl_lookup_url": "https://www.signasl.org/sign/accessibility",
+      "status": "local-video-exists",
+      "notes": "Already mapped in complexWordVideos."
+    },
+    {
+      "word": "accessible",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=accessible",
+      "signasl_lookup_url": "https://www.signasl.org/sign/accessible",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "action",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=action",
+      "signasl_lookup_url": "https://www.signasl.org/sign/action",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "actions",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=actions",
+      "signasl_lookup_url": "https://www.signasl.org/sign/actions",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "addition",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=addition",
+      "signasl_lookup_url": "https://www.signasl.org/sign/addition",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "additional",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=additional",
+      "signasl_lookup_url": "https://www.signasl.org/sign/additional",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "administration",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=administration",
+      "signasl_lookup_url": "https://www.signasl.org/sign/administration",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "again",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=again",
+      "signasl_lookup_url": "https://www.signasl.org/sign/again",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "agendas",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=agendas",
+      "signasl_lookup_url": "https://www.signasl.org/sign/agendas",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "ahead",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=ahead",
+      "signasl_lookup_url": "https://www.signasl.org/sign/ahead",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "all",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=all",
+      "signasl_lookup_url": "https://www.signasl.org/sign/all",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "along",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=along",
+      "signasl_lookup_url": "https://www.signasl.org/sign/along",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "also",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=also",
+      "signasl_lookup_url": "https://www.signasl.org/sign/also",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "always",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=always",
+      "signasl_lookup_url": "https://www.signasl.org/sign/always",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "an",
+      "count": 4,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=an",
+      "signasl_lookup_url": "https://www.signasl.org/sign/an",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "and",
+      "count": 31,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=and",
+      "signasl_lookup_url": "https://www.signasl.org/sign/and",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "announce",
+      "count": 4,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=announce",
+      "signasl_lookup_url": "https://www.signasl.org/sign/announce",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "announcements",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=announcements",
+      "signasl_lookup_url": "https://www.signasl.org/sign/announcements",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "any",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=any",
+      "signasl_lookup_url": "https://www.signasl.org/sign/any",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "are",
+      "count": 10,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=are",
+      "signasl_lookup_url": "https://www.signasl.org/sign/are",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "area",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=area",
+      "signasl_lookup_url": "https://www.signasl.org/sign/area",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "areas",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=areas",
+      "signasl_lookup_url": "https://www.signasl.org/sign/areas",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "armbands",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=armbands",
+      "signasl_lookup_url": "https://www.signasl.org/sign/armbands",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "as",
+      "count": 9,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=as",
+      "signasl_lookup_url": "https://www.signasl.org/sign/as",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "asking",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=asking",
+      "signasl_lookup_url": "https://www.signasl.org/sign/asking",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "asl",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=asl",
+      "signasl_lookup_url": "https://www.signasl.org/sign/asl",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "at",
+      "count": 11,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=at",
+      "signasl_lookup_url": "https://www.signasl.org/sign/at",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "autonomy",
+      "count": 1,
+      "local_video": "assets/words/autonomy.mp4",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=autonomy",
+      "signasl_lookup_url": "https://www.signasl.org/sign/autonomy",
+      "status": "local-video-exists",
+      "notes": "Already mapped in complexWordVideos."
+    },
+    {
+      "word": "availability",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=availability",
+      "signasl_lookup_url": "https://www.signasl.org/sign/availability",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "available",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=available",
+      "signasl_lookup_url": "https://www.signasl.org/sign/available",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "aware",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=aware",
+      "signasl_lookup_url": "https://www.signasl.org/sign/aware",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "back",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=back",
+      "signasl_lookup_url": "https://www.signasl.org/sign/back",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "be",
+      "count": 10,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=be",
+      "signasl_lookup_url": "https://www.signasl.org/sign/be",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "beforehand",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=beforehand",
+      "signasl_lookup_url": "https://www.signasl.org/sign/beforehand",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "behind",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=behind",
+      "signasl_lookup_url": "https://www.signasl.org/sign/behind",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "better",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=better",
+      "signasl_lookup_url": "https://www.signasl.org/sign/better",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "between",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=between",
+      "signasl_lookup_url": "https://www.signasl.org/sign/between",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "black",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=black",
+      "signasl_lookup_url": "https://www.signasl.org/sign/black",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "bleachers",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=bleachers",
+      "signasl_lookup_url": "https://www.signasl.org/sign/bleachers",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "body",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=body",
+      "signasl_lookup_url": "https://www.signasl.org/sign/body",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "braille",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=braille",
+      "signasl_lookup_url": "https://www.signasl.org/sign/braille",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "bring",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=bring",
+      "signasl_lookup_url": "https://www.signasl.org/sign/bring",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "brink",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=brink",
+      "signasl_lookup_url": "https://www.signasl.org/sign/brink",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "brown",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=brown",
+      "signasl_lookup_url": "https://www.signasl.org/sign/brown",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "brutality",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=brutality",
+      "signasl_lookup_url": "https://www.signasl.org/sign/brutality",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "by",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=by",
+      "signasl_lookup_url": "https://www.signasl.org/sign/by",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "calm",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=calm",
+      "signasl_lookup_url": "https://www.signasl.org/sign/calm",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "camps",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=camps",
+      "signasl_lookup_url": "https://www.signasl.org/sign/camps",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "can",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=can",
+      "signasl_lookup_url": "https://www.signasl.org/sign/can",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "cannot",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=cannot",
+      "signasl_lookup_url": "https://www.signasl.org/sign/cannot",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "cars",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=cars",
+      "signasl_lookup_url": "https://www.signasl.org/sign/cars",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "cascade",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=cascade",
+      "signasl_lookup_url": "https://www.signasl.org/sign/cascade",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "central",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=central",
+      "signasl_lookup_url": "https://www.signasl.org/sign/central",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "chairs",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=chairs",
+      "signasl_lookup_url": "https://www.signasl.org/sign/chairs",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "changing",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=changing",
+      "signasl_lookup_url": "https://www.signasl.org/sign/changing",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "chants",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=chants",
+      "signasl_lookup_url": "https://www.signasl.org/sign/chants",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "chaos",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=chaos",
+      "signasl_lookup_url": "https://www.signasl.org/sign/chaos",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "childcare",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=childcare",
+      "signasl_lookup_url": "https://www.signasl.org/sign/childcare",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "choose",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=choose",
+      "signasl_lookup_url": "https://www.signasl.org/sign/choose",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "circumstances",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=circumstances",
+      "signasl_lookup_url": "https://www.signasl.org/sign/circumstances",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "clearly",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=clearly",
+      "signasl_lookup_url": "https://www.signasl.org/sign/clearly",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "climate",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=climate",
+      "signasl_lookup_url": "https://www.signasl.org/sign/climate",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "closing",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=closing",
+      "signasl_lookup_url": "https://www.signasl.org/sign/closing",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "collapse",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=collapse",
+      "signasl_lookup_url": "https://www.signasl.org/sign/collapse",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "comic",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=comic",
+      "signasl_lookup_url": "https://www.signasl.org/sign/comic",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "commitment",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=commitment",
+      "signasl_lookup_url": "https://www.signasl.org/sign/commitment",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "communicate",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=communicate",
+      "signasl_lookup_url": "https://www.signasl.org/sign/communicate",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "communicated",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=communicated",
+      "signasl_lookup_url": "https://www.signasl.org/sign/communicated",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "communication",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=communication",
+      "signasl_lookup_url": "https://www.signasl.org/sign/communication",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "communities",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=communities",
+      "signasl_lookup_url": "https://www.signasl.org/sign/communities",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "concentration",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=concentration",
+      "signasl_lookup_url": "https://www.signasl.org/sign/concentration",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "conjunction",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=conjunction",
+      "signasl_lookup_url": "https://www.signasl.org/sign/conjunction",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "consent",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=consent",
+      "signasl_lookup_url": "https://www.signasl.org/sign/consent",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "cops",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=cops",
+      "signasl_lookup_url": "https://www.signasl.org/sign/cops",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "cracks",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=cracks",
+      "signasl_lookup_url": "https://www.signasl.org/sign/cracks",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "create",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=create",
+      "signasl_lookup_url": "https://www.signasl.org/sign/create",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "created",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=created",
+      "signasl_lookup_url": "https://www.signasl.org/sign/created",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "creating",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=creating",
+      "signasl_lookup_url": "https://www.signasl.org/sign/creating",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "creative",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=creative",
+      "signasl_lookup_url": "https://www.signasl.org/sign/creative",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "critique",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=critique",
+      "signasl_lookup_url": "https://www.signasl.org/sign/critique",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "crowd",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=crowd",
+      "signasl_lookup_url": "https://www.signasl.org/sign/crowd",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "curbs",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=curbs",
+      "signasl_lookup_url": "https://www.signasl.org/sign/curbs",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "daily",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=daily",
+      "signasl_lookup_url": "https://www.signasl.org/sign/daily",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "deaf",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=deaf",
+      "signasl_lookup_url": "https://www.signasl.org/sign/deaf",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "deeper",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=deeper",
+      "signasl_lookup_url": "https://www.signasl.org/sign/deeper",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "description",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=description",
+      "signasl_lookup_url": "https://www.signasl.org/sign/description",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "destination",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=destination",
+      "signasl_lookup_url": "https://www.signasl.org/sign/destination",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "destinations",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=destinations",
+      "signasl_lookup_url": "https://www.signasl.org/sign/destinations",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "developing",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=developing",
+      "signasl_lookup_url": "https://www.signasl.org/sign/developing",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "devices",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=devices",
+      "signasl_lookup_url": "https://www.signasl.org/sign/devices",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "difference",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=difference",
+      "signasl_lookup_url": "https://www.signasl.org/sign/difference",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "dire",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=dire",
+      "signasl_lookup_url": "https://www.signasl.org/sign/dire",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "direct",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=direct",
+      "signasl_lookup_url": "https://www.signasl.org/sign/direct",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "disabilities",
+      "count": 8,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=disabilities",
+      "signasl_lookup_url": "https://www.signasl.org/sign/disabilities",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "disability",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=disability",
+      "signasl_lookup_url": "https://www.signasl.org/sign/disability",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "disabled",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=disabled",
+      "signasl_lookup_url": "https://www.signasl.org/sign/disabled",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "dissipates",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=dissipates",
+      "signasl_lookup_url": "https://www.signasl.org/sign/dissipates",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "distance",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=distance",
+      "signasl_lookup_url": "https://www.signasl.org/sign/distance",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "do",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=do",
+      "signasl_lookup_url": "https://www.signasl.org/sign/do",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "documented",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=documented",
+      "signasl_lookup_url": "https://www.signasl.org/sign/documented",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "don",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=don",
+      "signasl_lookup_url": "https://www.signasl.org/sign/don",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "done",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=done",
+      "signasl_lookup_url": "https://www.signasl.org/sign/done",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "drive",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=drive",
+      "signasl_lookup_url": "https://www.signasl.org/sign/drive",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "dyslexic",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=dyslexic",
+      "signasl_lookup_url": "https://www.signasl.org/sign/dyslexic",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "edges",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=edges",
+      "signasl_lookup_url": "https://www.signasl.org/sign/edges",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "elders",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=elders",
+      "signasl_lookup_url": "https://www.signasl.org/sign/elders",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "end",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=end",
+      "signasl_lookup_url": "https://www.signasl.org/sign/end",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "ending",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=ending",
+      "signasl_lookup_url": "https://www.signasl.org/sign/ending",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "energy",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=energy",
+      "signasl_lookup_url": "https://www.signasl.org/sign/energy",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "escalation",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=escalation",
+      "signasl_lookup_url": "https://www.signasl.org/sign/escalation",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "etc",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=etc",
+      "signasl_lookup_url": "https://www.signasl.org/sign/etc",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "event",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=event",
+      "signasl_lookup_url": "https://www.signasl.org/sign/event",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "events",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=events",
+      "signasl_lookup_url": "https://www.signasl.org/sign/events",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "ever",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=ever",
+      "signasl_lookup_url": "https://www.signasl.org/sign/ever",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "everyone",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=everyone",
+      "signasl_lookup_url": "https://www.signasl.org/sign/everyone",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "exist",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=exist",
+      "signasl_lookup_url": "https://www.signasl.org/sign/exist",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "expect",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=expect",
+      "signasl_lookup_url": "https://www.signasl.org/sign/expect",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "experiencing",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=experiencing",
+      "signasl_lookup_url": "https://www.signasl.org/sign/experiencing",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "explain",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=explain",
+      "signasl_lookup_url": "https://www.signasl.org/sign/explain",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "eye",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=eye",
+      "signasl_lookup_url": "https://www.signasl.org/sign/eye",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "facing",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=facing",
+      "signasl_lookup_url": "https://www.signasl.org/sign/facing",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "fascism",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=fascism",
+      "signasl_lookup_url": "https://www.signasl.org/sign/fascism",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "feels",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=feels",
+      "signasl_lookup_url": "https://www.signasl.org/sign/feels",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "focus",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=focus",
+      "signasl_lookup_url": "https://www.signasl.org/sign/focus",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "folding",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=folding",
+      "signasl_lookup_url": "https://www.signasl.org/sign/folding",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "folks",
+      "count": 6,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=folks",
+      "signasl_lookup_url": "https://www.signasl.org/sign/folks",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "font",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=font",
+      "signasl_lookup_url": "https://www.signasl.org/sign/font",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "fonts",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=fonts",
+      "signasl_lookup_url": "https://www.signasl.org/sign/fonts",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "for",
+      "count": 15,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=for",
+      "signasl_lookup_url": "https://www.signasl.org/sign/for",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "forget",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=forget",
+      "signasl_lookup_url": "https://www.signasl.org/sign/forget",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "four",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=four",
+      "signasl_lookup_url": "https://www.signasl.org/sign/four",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "framework",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=framework",
+      "signasl_lookup_url": "https://www.signasl.org/sign/framework",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "free",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=free",
+      "signasl_lookup_url": "https://www.signasl.org/sign/free",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "from",
+      "count": 4,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=from",
+      "signasl_lookup_url": "https://www.signasl.org/sign/from",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "front",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=front",
+      "signasl_lookup_url": "https://www.signasl.org/sign/front",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "furthermore",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=furthermore",
+      "signasl_lookup_url": "https://www.signasl.org/sign/furthermore",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "future",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=future",
+      "signasl_lookup_url": "https://www.signasl.org/sign/future",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "gathering",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=gathering",
+      "signasl_lookup_url": "https://www.signasl.org/sign/gathering",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "gatherings",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=gatherings",
+      "signasl_lookup_url": "https://www.signasl.org/sign/gatherings",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "gets",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=gets",
+      "signasl_lookup_url": "https://www.signasl.org/sign/gets",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "give",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=give",
+      "signasl_lookup_url": "https://www.signasl.org/sign/give",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "good",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=good",
+      "signasl_lookup_url": "https://www.signasl.org/sign/good",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "grassy",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=grassy",
+      "signasl_lookup_url": "https://www.signasl.org/sign/grassy",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "grates",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=grates",
+      "signasl_lookup_url": "https://www.signasl.org/sign/grates",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "guild",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=guild",
+      "signasl_lookup_url": "https://www.signasl.org/sign/guild",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "happening",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=happening",
+      "signasl_lookup_url": "https://www.signasl.org/sign/happening",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "hard",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=hard",
+      "signasl_lookup_url": "https://www.signasl.org/sign/hard",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "has",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=has",
+      "signasl_lookup_url": "https://www.signasl.org/sign/has",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "have",
+      "count": 8,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=have",
+      "signasl_lookup_url": "https://www.signasl.org/sign/have",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "help",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=help",
+      "signasl_lookup_url": "https://www.signasl.org/sign/help",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "hills",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=hills",
+      "signasl_lookup_url": "https://www.signasl.org/sign/hills",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "holes",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=holes",
+      "signasl_lookup_url": "https://www.signasl.org/sign/holes",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "honoring",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=honoring",
+      "signasl_lookup_url": "https://www.signasl.org/sign/honoring",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "horrors",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=horrors",
+      "signasl_lookup_url": "https://www.signasl.org/sign/horrors",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "hostile",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=hostile",
+      "signasl_lookup_url": "https://www.signasl.org/sign/hostile",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "how",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=how",
+      "signasl_lookup_url": "https://www.signasl.org/sign/how",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "hurried",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=hurried",
+      "signasl_lookup_url": "https://www.signasl.org/sign/hurried",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "ideally",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=ideally",
+      "signasl_lookup_url": "https://www.signasl.org/sign/ideally",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "if",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=if",
+      "signasl_lookup_url": "https://www.signasl.org/sign/if",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "immigrants",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=immigrants",
+      "signasl_lookup_url": "https://www.signasl.org/sign/immigrants",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "impact",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=impact",
+      "signasl_lookup_url": "https://www.signasl.org/sign/impact",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "impairments",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=impairments",
+      "signasl_lookup_url": "https://www.signasl.org/sign/impairments",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "important",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=important",
+      "signasl_lookup_url": "https://www.signasl.org/sign/important",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "in",
+      "count": 7,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=in",
+      "signasl_lookup_url": "https://www.signasl.org/sign/in",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "include",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=include",
+      "signasl_lookup_url": "https://www.signasl.org/sign/include",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "increasing",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=increasing",
+      "signasl_lookup_url": "https://www.signasl.org/sign/increasing",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "indigenous",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=indigenous",
+      "signasl_lookup_url": "https://www.signasl.org/sign/indigenous",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "information",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=information",
+      "signasl_lookup_url": "https://www.signasl.org/sign/information",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "inhabitants",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=inhabitants",
+      "signasl_lookup_url": "https://www.signasl.org/sign/inhabitants",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "inquire",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=inquire",
+      "signasl_lookup_url": "https://www.signasl.org/sign/inquire",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "instructions",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=instructions",
+      "signasl_lookup_url": "https://www.signasl.org/sign/instructions",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "intends",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=intends",
+      "signasl_lookup_url": "https://www.signasl.org/sign/intends",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "interpreter",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=interpreter",
+      "signasl_lookup_url": "https://www.signasl.org/sign/interpreter",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "interpreters",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=interpreters",
+      "signasl_lookup_url": "https://www.signasl.org/sign/interpreters",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "interrupting",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=interrupting",
+      "signasl_lookup_url": "https://www.signasl.org/sign/interrupting",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "invite",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=invite",
+      "signasl_lookup_url": "https://www.signasl.org/sign/invite",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "involve",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=involve",
+      "signasl_lookup_url": "https://www.signasl.org/sign/involve",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "is",
+      "count": 11,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=is",
+      "signasl_lookup_url": "https://www.signasl.org/sign/is",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "it",
+      "count": 5,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=it",
+      "signasl_lookup_url": "https://www.signasl.org/sign/it",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "its",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=its",
+      "signasl_lookup_url": "https://www.signasl.org/sign/its",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "justice",
+      "count": 2,
+      "local_video": "assets/words/justice.mp4",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=justice",
+      "signasl_lookup_url": "https://www.signasl.org/sign/justice",
+      "status": "local-video-exists",
+      "notes": "Already mapped in complexWordVideos."
+    },
+    {
+      "word": "keep",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=keep",
+      "signasl_lookup_url": "https://www.signasl.org/sign/keep",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "key",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=key",
+      "signasl_lookup_url": "https://www.signasl.org/sign/key",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "know",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=know",
+      "signasl_lookup_url": "https://www.signasl.org/sign/know",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "landscape",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=landscape",
+      "signasl_lookup_url": "https://www.signasl.org/sign/landscape",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "languages",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=languages",
+      "signasl_lookup_url": "https://www.signasl.org/sign/languages",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "large",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=large",
+      "signasl_lookup_url": "https://www.signasl.org/sign/large",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "lawyers",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=lawyers",
+      "signasl_lookup_url": "https://www.signasl.org/sign/lawyers",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "leading",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=leading",
+      "signasl_lookup_url": "https://www.signasl.org/sign/leading",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "least",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=least",
+      "signasl_lookup_url": "https://www.signasl.org/sign/least",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "left",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=left",
+      "signasl_lookup_url": "https://www.signasl.org/sign/left",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "length",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=length",
+      "signasl_lookup_url": "https://www.signasl.org/sign/length",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "let",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=let",
+      "signasl_lookup_url": "https://www.signasl.org/sign/let",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "lets",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=lets",
+      "signasl_lookup_url": "https://www.signasl.org/sign/lets",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "letters",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=letters",
+      "signasl_lookup_url": "https://www.signasl.org/sign/letters",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "liaisons",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=liaisons",
+      "signasl_lookup_url": "https://www.signasl.org/sign/liaisons",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "life",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=life",
+      "signasl_lookup_url": "https://www.signasl.org/sign/life",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "like",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=like",
+      "signasl_lookup_url": "https://www.signasl.org/sign/like",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "links",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=links",
+      "signasl_lookup_url": "https://www.signasl.org/sign/links",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "listening",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=listening",
+      "signasl_lookup_url": "https://www.signasl.org/sign/listening",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "little",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=little",
+      "signasl_lookup_url": "https://www.signasl.org/sign/little",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "location",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=location",
+      "signasl_lookup_url": "https://www.signasl.org/sign/location",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "low",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=low",
+      "signasl_lookup_url": "https://www.signasl.org/sign/low",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "main",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=main",
+      "signasl_lookup_url": "https://www.signasl.org/sign/main",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "making",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=making",
+      "signasl_lookup_url": "https://www.signasl.org/sign/making",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "manner",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=manner",
+      "signasl_lookup_url": "https://www.signasl.org/sign/manner",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "manual",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=manual",
+      "signasl_lookup_url": "https://www.signasl.org/sign/manual",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "march",
+      "count": 8,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=march",
+      "signasl_lookup_url": "https://www.signasl.org/sign/march",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "marginalized",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=marginalized",
+      "signasl_lookup_url": "https://www.signasl.org/sign/marginalized",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "marked",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=marked",
+      "signasl_lookup_url": "https://www.signasl.org/sign/marked",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "materials",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=materials",
+      "signasl_lookup_url": "https://www.signasl.org/sign/materials",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "may",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=may",
+      "signasl_lookup_url": "https://www.signasl.org/sign/may",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "meet",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=meet",
+      "signasl_lookup_url": "https://www.signasl.org/sign/meet",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "messaging",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=messaging",
+      "signasl_lookup_url": "https://www.signasl.org/sign/messaging",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "metal",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=metal",
+      "signasl_lookup_url": "https://www.signasl.org/sign/metal",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "mic",
+      "count": 4,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=mic",
+      "signasl_lookup_url": "https://www.signasl.org/sign/mic",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "microphones",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=microphones",
+      "signasl_lookup_url": "https://www.signasl.org/sign/microphones",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "middle",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=middle",
+      "signasl_lookup_url": "https://www.signasl.org/sign/middle",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "mind",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=mind",
+      "signasl_lookup_url": "https://www.signasl.org/sign/mind",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "mindful",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=mindful",
+      "signasl_lookup_url": "https://www.signasl.org/sign/mindful",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "mobile",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=mobile",
+      "signasl_lookup_url": "https://www.signasl.org/sign/mobile",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "mobility",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=mobility",
+      "signasl_lookup_url": "https://www.signasl.org/sign/mobility",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "mobilization",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=mobilization",
+      "signasl_lookup_url": "https://www.signasl.org/sign/mobilization",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "mobilizations",
+      "count": 1,
+      "local_video": "assets/words/mobilizations.mp4",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=mobilizations",
+      "signasl_lookup_url": "https://www.signasl.org/sign/mobilizations",
+      "status": "local-video-exists",
+      "notes": "Already mapped in complexWordVideos."
+    },
+    {
+      "word": "more",
+      "count": 4,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=more",
+      "signasl_lookup_url": "https://www.signasl.org/sign/more",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "most",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=most",
+      "signasl_lookup_url": "https://www.signasl.org/sign/most",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "movement",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=movement",
+      "signasl_lookup_url": "https://www.signasl.org/sign/movement",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "much",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=much",
+      "signasl_lookup_url": "https://www.signasl.org/sign/much",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "national",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=national",
+      "signasl_lookup_url": "https://www.signasl.org/sign/national",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "near",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=near",
+      "signasl_lookup_url": "https://www.signasl.org/sign/near",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "need",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=need",
+      "signasl_lookup_url": "https://www.signasl.org/sign/need",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "needed",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=needed",
+      "signasl_lookup_url": "https://www.signasl.org/sign/needed",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "neurodiverse",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=neurodiverse",
+      "signasl_lookup_url": "https://www.signasl.org/sign/neurodiverse",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "no",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=no",
+      "signasl_lookup_url": "https://www.signasl.org/sign/no",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "nobody",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=nobody",
+      "signasl_lookup_url": "https://www.signasl.org/sign/nobody",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "not",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=not",
+      "signasl_lookup_url": "https://www.signasl.org/sign/not",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "note",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=note",
+      "signasl_lookup_url": "https://www.signasl.org/sign/note",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "number",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=number",
+      "signasl_lookup_url": "https://www.signasl.org/sign/number",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "of",
+      "count": 21,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=of",
+      "signasl_lookup_url": "https://www.signasl.org/sign/of",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "offer",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=offer",
+      "signasl_lookup_url": "https://www.signasl.org/sign/offer",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "often",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=often",
+      "signasl_lookup_url": "https://www.signasl.org/sign/often",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "on",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=on",
+      "signasl_lookup_url": "https://www.signasl.org/sign/on",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "one",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=one",
+      "signasl_lookup_url": "https://www.signasl.org/sign/one",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "opendyslexic",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=opendyslexic",
+      "signasl_lookup_url": "https://www.signasl.org/sign/opendyslexic",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "or",
+      "count": 8,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=or",
+      "signasl_lookup_url": "https://www.signasl.org/sign/or",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "organize",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=organize",
+      "signasl_lookup_url": "https://www.signasl.org/sign/organize",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "originally",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=originally",
+      "signasl_lookup_url": "https://www.signasl.org/sign/originally",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "others",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=others",
+      "signasl_lookup_url": "https://www.signasl.org/sign/others",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "our",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=our",
+      "signasl_lookup_url": "https://www.signasl.org/sign/our",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "out",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=out",
+      "signasl_lookup_url": "https://www.signasl.org/sign/out",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "pace",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=pace",
+      "signasl_lookup_url": "https://www.signasl.org/sign/pace",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "part",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=part",
+      "signasl_lookup_url": "https://www.signasl.org/sign/part",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "participants",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=participants",
+      "signasl_lookup_url": "https://www.signasl.org/sign/participants",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "particularly",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=particularly",
+      "signasl_lookup_url": "https://www.signasl.org/sign/particularly",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "patronizing",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=patronizing",
+      "signasl_lookup_url": "https://www.signasl.org/sign/patronizing",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "people",
+      "count": 16,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=people",
+      "signasl_lookup_url": "https://www.signasl.org/sign/people",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "perceive",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=perceive",
+      "signasl_lookup_url": "https://www.signasl.org/sign/perceive",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "person",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=person",
+      "signasl_lookup_url": "https://www.signasl.org/sign/person",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "phone",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=phone",
+      "signasl_lookup_url": "https://www.signasl.org/sign/phone",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "planet",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=planet",
+      "signasl_lookup_url": "https://www.signasl.org/sign/planet",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "point",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=point",
+      "signasl_lookup_url": "https://www.signasl.org/sign/point",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "police",
+      "count": 5,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=police",
+      "signasl_lookup_url": "https://www.signasl.org/sign/police",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "political",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=political",
+      "signasl_lookup_url": "https://www.signasl.org/sign/political",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "possible",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=possible",
+      "signasl_lookup_url": "https://www.signasl.org/sign/possible",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "precarious",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=precarious",
+      "signasl_lookup_url": "https://www.signasl.org/sign/precarious",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "pregnant",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=pregnant",
+      "signasl_lookup_url": "https://www.signasl.org/sign/pregnant",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "presidential",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=presidential",
+      "signasl_lookup_url": "https://www.signasl.org/sign/presidential",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "print",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=print",
+      "signasl_lookup_url": "https://www.signasl.org/sign/print",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "problem",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=problem",
+      "signasl_lookup_url": "https://www.signasl.org/sign/problem",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "protecting",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=protecting",
+      "signasl_lookup_url": "https://www.signasl.org/sign/protecting",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "proven",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=proven",
+      "signasl_lookup_url": "https://www.signasl.org/sign/proven",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "provide",
+      "count": 4,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=provide",
+      "signasl_lookup_url": "https://www.signasl.org/sign/provide",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "public",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=public",
+      "signasl_lookup_url": "https://www.signasl.org/sign/public",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "quadrants",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=quadrants",
+      "signasl_lookup_url": "https://www.signasl.org/sign/quadrants",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "rallies",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=rallies",
+      "signasl_lookup_url": "https://www.signasl.org/sign/rallies",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "rally",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=rally",
+      "signasl_lookup_url": "https://www.signasl.org/sign/rally",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "readability",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=readability",
+      "signasl_lookup_url": "https://www.signasl.org/sign/readability",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "recommendations",
+      "count": 1,
+      "local_video": "assets/words/recommendations.mp4",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=recommendations",
+      "signasl_lookup_url": "https://www.signasl.org/sign/recommendations",
+      "status": "local-video-exists",
+      "notes": "Already mapped in complexWordVideos."
+    },
+    {
+      "word": "relationships",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=relationships",
+      "signasl_lookup_url": "https://www.signasl.org/sign/relationships",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "rent",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=rent",
+      "signasl_lookup_url": "https://www.signasl.org/sign/rent",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "require",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=require",
+      "signasl_lookup_url": "https://www.signasl.org/sign/require",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "respect",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=respect",
+      "signasl_lookup_url": "https://www.signasl.org/sign/respect",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "respectful",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=respectful",
+      "signasl_lookup_url": "https://www.signasl.org/sign/respectful",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "responsible",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=responsible",
+      "signasl_lookup_url": "https://www.signasl.org/sign/responsible",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "responsive",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=responsive",
+      "signasl_lookup_url": "https://www.signasl.org/sign/responsive",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "right",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=right",
+      "signasl_lookup_url": "https://www.signasl.org/sign/right",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "role",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=role",
+      "signasl_lookup_url": "https://www.signasl.org/sign/role",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "room",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=room",
+      "signasl_lookup_url": "https://www.signasl.org/sign/room",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "route",
+      "count": 5,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=route",
+      "signasl_lookup_url": "https://www.signasl.org/sign/route",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "run",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=run",
+      "signasl_lookup_url": "https://www.signasl.org/sign/run",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "safeguarding",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=safeguarding",
+      "signasl_lookup_url": "https://www.signasl.org/sign/safeguarding",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "safety",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=safety",
+      "signasl_lookup_url": "https://www.signasl.org/sign/safety",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "sans",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=sans",
+      "signasl_lookup_url": "https://www.signasl.org/sign/sans",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "scent",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=scent",
+      "signasl_lookup_url": "https://www.signasl.org/sign/scent",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "scooters",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=scooters",
+      "signasl_lookup_url": "https://www.signasl.org/sign/scooters",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "seating",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=seating",
+      "signasl_lookup_url": "https://www.signasl.org/sign/seating",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "serif",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=serif",
+      "signasl_lookup_url": "https://www.signasl.org/sign/serif",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "set",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=set",
+      "signasl_lookup_url": "https://www.signasl.org/sign/set",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "shifted",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=shifted",
+      "signasl_lookup_url": "https://www.signasl.org/sign/shifted",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "should",
+      "count": 5,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=should",
+      "signasl_lookup_url": "https://www.signasl.org/sign/should",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "since",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=since",
+      "signasl_lookup_url": "https://www.signasl.org/sign/since",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "sit",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=sit",
+      "signasl_lookup_url": "https://www.signasl.org/sign/sit",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "skills",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=skills",
+      "signasl_lookup_url": "https://www.signasl.org/sign/skills",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "sole",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=sole",
+      "signasl_lookup_url": "https://www.signasl.org/sign/sole",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "solving",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=solving",
+      "signasl_lookup_url": "https://www.signasl.org/sign/solving",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "some",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=some",
+      "signasl_lookup_url": "https://www.signasl.org/sign/some",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "sovereignty",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=sovereignty",
+      "signasl_lookup_url": "https://www.signasl.org/sign/sovereignty",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "space",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=space",
+      "signasl_lookup_url": "https://www.signasl.org/sign/space",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "spaces",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=spaces",
+      "signasl_lookup_url": "https://www.signasl.org/sign/spaces",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "spread",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=spread",
+      "signasl_lookup_url": "https://www.signasl.org/sign/spread",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "stand",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=stand",
+      "signasl_lookup_url": "https://www.signasl.org/sign/stand",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "standing",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=standing",
+      "signasl_lookup_url": "https://www.signasl.org/sign/standing",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "station",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=station",
+      "signasl_lookup_url": "https://www.signasl.org/sign/station",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "stationed",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=stationed",
+      "signasl_lookup_url": "https://www.signasl.org/sign/stationed",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "stations",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=stations",
+      "signasl_lookup_url": "https://www.signasl.org/sign/stations",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "stimulation",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=stimulation",
+      "signasl_lookup_url": "https://www.signasl.org/sign/stimulation",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "strategies",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=strategies",
+      "signasl_lookup_url": "https://www.signasl.org/sign/strategies",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "strategize",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=strategize",
+      "signasl_lookup_url": "https://www.signasl.org/sign/strategize",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "strengths",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=strengths",
+      "signasl_lookup_url": "https://www.signasl.org/sign/strengths",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "such",
+      "count": 4,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=such",
+      "signasl_lookup_url": "https://www.signasl.org/sign/such",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "suggestions",
+      "count": 4,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=suggestions",
+      "signasl_lookup_url": "https://www.signasl.org/sign/suggestions",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "support",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=support",
+      "signasl_lookup_url": "https://www.signasl.org/sign/support",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "sure",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=sure",
+      "signasl_lookup_url": "https://www.signasl.org/sign/sure",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "tails",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=tails",
+      "signasl_lookup_url": "https://www.signasl.org/sign/tails",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "talkies",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=talkies",
+      "signasl_lookup_url": "https://www.signasl.org/sign/talkies",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "target",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=target",
+      "signasl_lookup_url": "https://www.signasl.org/sign/target",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "team",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=team",
+      "signasl_lookup_url": "https://www.signasl.org/sign/team",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "tent",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=tent",
+      "signasl_lookup_url": "https://www.signasl.org/sign/tent",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "than",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=than",
+      "signasl_lookup_url": "https://www.signasl.org/sign/than",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "that",
+      "count": 10,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=that",
+      "signasl_lookup_url": "https://www.signasl.org/sign/that",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "the",
+      "count": 40,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=the",
+      "signasl_lookup_url": "https://www.signasl.org/sign/the",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "their",
+      "count": 5,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=their",
+      "signasl_lookup_url": "https://www.signasl.org/sign/their",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "them",
+      "count": 5,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=them",
+      "signasl_lookup_url": "https://www.signasl.org/sign/them",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "there",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=there",
+      "signasl_lookup_url": "https://www.signasl.org/sign/there",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "these",
+      "count": 5,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=these",
+      "signasl_lookup_url": "https://www.signasl.org/sign/these",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "they",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=they",
+      "signasl_lookup_url": "https://www.signasl.org/sign/they",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "think",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=think",
+      "signasl_lookup_url": "https://www.signasl.org/sign/think",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "this",
+      "count": 4,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=this",
+      "signasl_lookup_url": "https://www.signasl.org/sign/this",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "through",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=through",
+      "signasl_lookup_url": "https://www.signasl.org/sign/through",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "throughout",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=throughout",
+      "signasl_lookup_url": "https://www.signasl.org/sign/throughout",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "time",
+      "count": 4,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=time",
+      "signasl_lookup_url": "https://www.signasl.org/sign/time",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "times",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=times",
+      "signasl_lookup_url": "https://www.signasl.org/sign/times",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "to",
+      "count": 18,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=to",
+      "signasl_lookup_url": "https://www.signasl.org/sign/to",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "together",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=together",
+      "signasl_lookup_url": "https://www.signasl.org/sign/together",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "touch",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=touch",
+      "signasl_lookup_url": "https://www.signasl.org/sign/touch",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "trying",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=trying",
+      "signasl_lookup_url": "https://www.signasl.org/sign/trying",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "under",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=under",
+      "signasl_lookup_url": "https://www.signasl.org/sign/under",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "understanding",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=understanding",
+      "signasl_lookup_url": "https://www.signasl.org/sign/understanding",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "us",
+      "count": 5,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=us",
+      "signasl_lookup_url": "https://www.signasl.org/sign/us",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "use",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=use",
+      "signasl_lookup_url": "https://www.signasl.org/sign/use",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "used",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=used",
+      "signasl_lookup_url": "https://www.signasl.org/sign/used",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "useful",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=useful",
+      "signasl_lookup_url": "https://www.signasl.org/sign/useful",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "vans",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=vans",
+      "signasl_lookup_url": "https://www.signasl.org/sign/vans",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "vehicles",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=vehicles",
+      "signasl_lookup_url": "https://www.signasl.org/sign/vehicles",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "verbal",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=verbal",
+      "signasl_lookup_url": "https://www.signasl.org/sign/verbal",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "versions",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=versions",
+      "signasl_lookup_url": "https://www.signasl.org/sign/versions",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "visibility",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=visibility",
+      "signasl_lookup_url": "https://www.signasl.org/sign/visibility",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "volunteers",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=volunteers",
+      "signasl_lookup_url": "https://www.signasl.org/sign/volunteers",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "walkie",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=walkie",
+      "signasl_lookup_url": "https://www.signasl.org/sign/walkie",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "we",
+      "count": 7,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=we",
+      "signasl_lookup_url": "https://www.signasl.org/sign/we",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "weak",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=weak",
+      "signasl_lookup_url": "https://www.signasl.org/sign/weak",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "wear",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=wear",
+      "signasl_lookup_url": "https://www.signasl.org/sign/wear",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "well",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=well",
+      "signasl_lookup_url": "https://www.signasl.org/sign/well",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "what",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=what",
+      "signasl_lookup_url": "https://www.signasl.org/sign/what",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "wheelchairs",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=wheelchairs",
+      "signasl_lookup_url": "https://www.signasl.org/sign/wheelchairs",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "where",
+      "count": 3,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=where",
+      "signasl_lookup_url": "https://www.signasl.org/sign/where",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "which",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=which",
+      "signasl_lookup_url": "https://www.signasl.org/sign/which",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "who",
+      "count": 6,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=who",
+      "signasl_lookup_url": "https://www.signasl.org/sign/who",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "whose",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=whose",
+      "signasl_lookup_url": "https://www.signasl.org/sign/whose",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "why",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=why",
+      "signasl_lookup_url": "https://www.signasl.org/sign/why",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "will",
+      "count": 4,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=will",
+      "signasl_lookup_url": "https://www.signasl.org/sign/will",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "with",
+      "count": 14,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=with",
+      "signasl_lookup_url": "https://www.signasl.org/sign/with",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "without",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=without",
+      "signasl_lookup_url": "https://www.signasl.org/sign/without",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "work",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=work",
+      "signasl_lookup_url": "https://www.signasl.org/sign/work",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "written",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=written",
+      "signasl_lookup_url": "https://www.signasl.org/sign/written",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "you",
+      "count": 1,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=you",
+      "signasl_lookup_url": "https://www.signasl.org/sign/you",
+      "status": "needs-review",
+      "notes": ""
+    },
+    {
+      "word": "your",
+      "count": 2,
+      "local_video": "",
+      "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=your",
+      "signasl_lookup_url": "https://www.signasl.org/sign/your",
+      "status": "needs-review",
+      "notes": ""
+    }
+  ]
+}
