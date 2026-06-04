@@ -13,7 +13,8 @@ This project is a web-based sign language text support tool. It displays written
 
 ## Project Structure
 
-```
+```text
+
 ├── index.html
 ├── styles.css
 ├── app.js
