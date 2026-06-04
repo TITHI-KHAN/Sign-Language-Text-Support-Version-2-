@@ -1,5 +1,3 @@
-You can write a README that explains what the project does, how to run it, and what files are important. Here is a good starter version for your repo:
-
 ```markdown
 # Sign Language Text Support - Version 2
 
