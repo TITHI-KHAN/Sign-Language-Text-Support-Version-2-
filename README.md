@@ -36,9 +36,9 @@ This project is a web-based sign language text support tool. It displays written
 
 1. Clone the repository:
 
-```bash
+'''bash
 git clone https://github.com/TITHI-KHAN/Sign-Language-Text-Support-Version-2-.git
-```
+'''
 
 2. Open the project folder:
 
