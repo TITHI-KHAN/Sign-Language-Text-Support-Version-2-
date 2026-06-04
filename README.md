@@ -32,7 +32,6 @@ This project is a web-based sign language text support tool. It displays written
 │   └── paragraphs/
 ├── scripts/
 └── video.mp4
-```
 
 ## How to Run
 
@@ -92,6 +91,3 @@ Large video files are tracked using Git LFS.
 ## Author
 
 Nazmun Nahar Khanom
-```
-
-You can create a file named `README.md` in the main project folder and paste this there.
