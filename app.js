@@ -81,6 +81,10 @@ function getIndividualSignVideo(word) {
   return window.SIGN_VIDEO_MAP?.[normalizeWordKey(word)]?.video_url || "";
 }
 
+function getStandaloneWordVideo(word) {
+  return getAvailableWordVideo(word) || getIndividualSignVideo(word);
+}
+
 function shouldUseIndividualWordVideos() {
   return currentMode === "word" && currentLinkingGranularity === "word";
 }
@@ -91,7 +95,6 @@ function setWordLinkAffordance(element, word) {
   }
 
   const wordKey = normalizeWordKey(word);
-  const individualSignVideo = getIndividualSignVideo(wordKey);
 
   if (!wordKey) {
     return;
@@ -99,9 +102,15 @@ function setWordLinkAffordance(element, word) {
 
   element.dataset.wordKey = wordKey;
 
-  if (individualSignVideo) {
+  if (!shouldUseIndividualWordVideos()) {
+    return;
+  }
+
+  const standaloneWordVideo = getStandaloneWordVideo(wordKey);
+
+  if (standaloneWordVideo) {
     element.dataset.hasWordVideo = "true";
-    element.dataset.signVideoUrl = individualSignVideo;
+    element.dataset.signVideoUrl = standaloneWordVideo;
   }
 }
 
@@ -468,15 +477,31 @@ function isSameDisplayedSegment(chunk, target) {
     && chunkSegmentEnd === targetSegmentEnd;
 }
 
+function isVideoShowing() {
+  return videoPanel?.style.display !== "none";
+}
+
+function isChunkInCurrentVideoScope(chunk) {
+  return !isVideoShowing() || !currentVideoTarget || isSameDisplayedSegment(chunk, currentVideoTarget);
+}
+
+function canUseTextChunkForNavigation(chunk) {
+  return Boolean(chunk)
+    && canTextControlVideo()
+    && isTextChunkInArticle(chunk)
+    && isChunkInCurrentVideoScope(chunk)
+    && (!shouldUseIndividualWordVideos() || chunk.dataset.hasWordVideo === "true");
+}
+
 function updateTextLinkStates() {
-  const textCanControlVideo = canTextControlVideo();
+  const shouldShowCurrentScopeLinks = isVideoShowing() && currentVideoTarget;
 
   document.querySelectorAll(".cueChunk").forEach((chunk) => {
-    const shouldShowLink = textCanControlVideo
-      && (!shouldUseIndividualWordVideos() || chunk.dataset.hasWordVideo === "true");
+    const shouldShowLink = shouldShowCurrentScopeLinks
+      && canUseTextChunkForNavigation(chunk);
 
     chunk.classList.toggle("is-linked", shouldShowLink);
-    chunk.setAttribute("aria-disabled", String(!textCanControlVideo));
+    chunk.setAttribute("aria-disabled", String(!canUseTextChunkForNavigation(chunk)));
   });
 }
 
@@ -675,11 +700,12 @@ function appendProcessedText(container, rawText, cue, cueIndex) {
         setWordLinkAffordance(span, word);
 
         if (currentLinkingGranularity === "word") {
-          const availableWordVideo = span.dataset.signVideoUrl || getIndividualSignVideo(clean);
           span.onclick = (e) => {
             e.stopPropagation();
 
             if (shouldUseIndividualWordVideos()) {
+              const availableWordVideo = span.dataset.signVideoUrl || getStandaloneWordVideo(clean);
+
               if (availableWordVideo) {
                 playSegment(null, null, true, availableWordVideo, span);
               }
@@ -1095,7 +1121,7 @@ function seekMainVideoFromText(element, { play = false, stopAt = null, position 
 }
 
 function playClipForTarget(src, element, { stopAt = null, seekTo = null, timelineStart = null } = {}) {
-  if (!canTextControlVideo()) {
+  if (!canUseTextChunkForNavigation(element)) {
     return;
   }
 
@@ -1135,6 +1161,10 @@ function syncVideoToTextScroll() {
     return;
   }
 
+  if (!canUseTextChunkForNavigation(activeChunk)) {
+    return;
+  }
+
   const targetChanged = activeChunk !== currentVideoTarget;
 
   currentVideoTarget = activeChunk;
@@ -1148,7 +1178,7 @@ function syncVideoToTextScroll() {
   if (currentLinkingGranularity === "word") {
     if (shouldUseIndividualWordVideos() && activeChunk.dataset.hasWordVideo === "true") {
       setVideoVisible(true, activeChunk, { position: currentLocation !== "popup" });
-      setVideoSource(activeChunk.dataset.signVideoUrl || getIndividualSignVideo(activeChunk.dataset.wordKey || activeChunk.textContent));
+      setVideoSource(activeChunk.dataset.signVideoUrl || getStandaloneWordVideo(activeChunk.dataset.wordKey || activeChunk.textContent));
       currentVideoTimelineStart = 0;
       currentVideoHasTimeline = false;
       video.pause();
@@ -1449,6 +1479,8 @@ function setVideoVisible(visible, targetElement = null, { position = true } = {}
     video.pause();
     video.currentTime = 0;
   }
+
+  updateTextLinkStates();
 }
 
 function setSidebarCollapsed(collapsed) {
