@@ -13,6 +13,7 @@ const choiceMadeByFeature = {
 let stopTime = null;
 let lastActiveEl = null;
 let currentVideoTarget = null;
+let currentVideoScopeTarget = null;
 let currentVideoTimelineStart = 0;
 let currentVideoHasTimeline = true;
 let isProgrammaticTextScroll = false;
@@ -22,7 +23,14 @@ let sentenceClipCounter = 0;
 let isInitializingVideoStart = false;
 let isTextDrivenVideoSeek = false;
 let lastUserScrollTime = 0;
+let lastTextDrivenNavigationTime = 0;
 let navigationPanelRevealToken = 0;
+let videoStartInitToken = 0;
+let textClickHighlightTimer = null;
+let currentBlobVideoUrl = null;
+let hasUserPlacedPopup = false;
+let popupDragPosition = null;
+let popupDragState = null;
 const TITLE_TEXT = "Access Suggestions for Mobilizations";
 const TITLE_CUE = { start: 0, end: 16.6667, text: TITLE_TEXT };
 const textPanel = document.getElementById("textPanel");
@@ -45,6 +53,7 @@ const navigationUnavailableMessage = document.getElementById("navigationUnavaila
 const MAIN_VIDEO_PATH = "video.mp4";
 const MOBILE_LAYOUT_BREAKPOINT = 700;
 const GRANULARITY_ORDER = ["word", "sentence", "paragraph", "full"];
+const TIMELINE_MATCH_EPSILON = 0.005;
 
 const popupVideoLayer = document.createElement("div");
 popupVideoLayer.className = "video-popup-layer";
@@ -83,6 +92,15 @@ function getIndividualSignVideo(word) {
 
 function getStandaloneWordVideo(word) {
   return getAvailableWordVideo(word) || getIndividualSignVideo(word);
+}
+
+function revokeCurrentBlobVideoUrl() {
+  if (!currentBlobVideoUrl) {
+    return;
+  }
+
+  URL.revokeObjectURL(currentBlobVideoUrl);
+  currentBlobVideoUrl = null;
 }
 
 function shouldUseIndividualWordVideos() {
@@ -165,6 +183,8 @@ function getClipPlaybackForTarget(element, fallback = {}) {
   const end = parseFloat(element.dataset.end);
   const segmentStart = parseFloat(element.dataset.segmentStart);
   const segmentEnd = parseFloat(element.dataset.segmentEnd);
+  const selectionStart = shouldSelectVideoSegmentationLevel() && Number.isFinite(segmentStart) ? segmentStart : start;
+  const selectionEnd = shouldSelectVideoSegmentationLevel() && Number.isFinite(segmentEnd) ? segmentEnd : end;
   const sentenceClipIndex = Number.parseInt(element.dataset.sentenceClipIndex, 10);
   const paragraphClipIndex = Number.parseInt(element.dataset.paragraphClipIndex, 10);
 
@@ -173,8 +193,8 @@ function getClipPlaybackForTarget(element, fallback = {}) {
     return {
       src: `segments/paragraphs/para_${paragraphClipIndex}.mp4`,
       timelineStart,
-      seekTo: Number.isFinite(start) && Number.isFinite(timelineStart) ? Math.max(start - timelineStart, 0) : null,
-      stopAt: Number.isFinite(end) && Number.isFinite(timelineStart) ? Math.max(end - timelineStart, 0) : null
+      seekTo: Number.isFinite(selectionStart) && Number.isFinite(timelineStart) ? Math.max(selectionStart - timelineStart, 0) : null,
+      stopAt: Number.isFinite(selectionEnd) && Number.isFinite(timelineStart) ? Math.max(selectionEnd - timelineStart, 0) : null
     };
   }
 
@@ -183,15 +203,15 @@ function getClipPlaybackForTarget(element, fallback = {}) {
     return {
       src: `segments/sentences/sent_${sentenceClipIndex}.mp4`,
       timelineStart,
-      seekTo: Number.isFinite(start) && Number.isFinite(timelineStart) ? Math.max(start - timelineStart, 0) : 0,
+      seekTo: Number.isFinite(selectionStart) && Number.isFinite(timelineStart) ? Math.max(selectionStart - timelineStart, 0) : 0,
       stopAt: null
     };
   }
 
   return {
     src: MAIN_VIDEO_PATH,
-    seekTo: Number.isFinite(start) ? start : fallback.seekTo,
-    stopAt: Number.isFinite(end) ? end : fallback.stopAt,
+    seekTo: Number.isFinite(selectionStart) ? selectionStart : fallback.seekTo,
+    stopAt: Number.isFinite(selectionEnd) ? selectionEnd : fallback.stopAt,
     timelineStart: 0
   };
 }
@@ -291,6 +311,7 @@ function setMode(mode, revealVideo = true, { syncLinkingGranularity = false } = 
 
   // RESET LOGIC: 
   // Always point back to the main video when switching modes
+  revokeCurrentBlobVideoUrl();
   video.src = MAIN_VIDEO_PATH; 
   currentVideoTimelineStart = 0;
   currentVideoHasTimeline = true;
@@ -307,6 +328,7 @@ function setMode(mode, revealVideo = true, { syncLinkingGranularity = false } = 
   }
 
   renderContent();
+  ensureVideoScopeTarget();
   updateLinkingGranularityAvailability();
   updateTextLinkStates();
   updateNavigationAvailability();
@@ -323,6 +345,7 @@ function setNavigationInteraction(navigationMode, { markChoice = true, deferPane
   currentNavigation = navigationMode;
   lastEnabledNavigation = navigationMode;
   hasNavigationChoice = markChoice;
+  ensureVideoScopeTarget();
 
   navigationOptionButtons.forEach((button) => {
     const optionAvailable = availability.allowedModes.includes(button.dataset.value);
@@ -377,6 +400,7 @@ function setLinkingGranularity(granularity) {
   updateChoiceVisuals("linking-granularity", granularity);
 
   renderContent();
+  ensureVideoScopeTarget();
   updateLinkingGranularityAvailability();
   updateTextLinkStates();
   updateNavigationAvailability();
@@ -455,6 +479,10 @@ function canVideoControlText() {
     && (currentNavigation === "video-centric" || currentNavigation === "both");
 }
 
+function shouldSelectVideoSegmentationLevel() {
+  return hasNavigationChoice && currentNavigation === "video-centric";
+}
+
 function isSameDisplayedSegment(chunk, target) {
   if (!chunk || !target) {
     return false;
@@ -482,26 +510,52 @@ function isVideoShowing() {
 }
 
 function isChunkInCurrentVideoScope(chunk) {
-  return !isVideoShowing() || !currentVideoTarget || isSameDisplayedSegment(chunk, currentVideoTarget);
+  const scopeTarget = currentVideoScopeTarget || currentVideoTarget;
+
+  return Boolean(chunk && scopeTarget && isSameDisplayedSegment(chunk, scopeTarget));
+}
+
+function hasActiveVideoScope() {
+  return Boolean(currentVideoScopeTarget || currentVideoTarget);
+}
+
+function shouldLimitTextNavigationToCurrentVideoScope() {
+  return hasActiveVideoScope() && currentNavigation === "video-centric";
 }
 
 function canUseTextChunkForNavigation(chunk) {
   return Boolean(chunk)
     && canTextControlVideo()
     && isTextChunkInArticle(chunk)
-    && isChunkInCurrentVideoScope(chunk)
+    && (!shouldLimitTextNavigationToCurrentVideoScope() || isChunkInCurrentVideoScope(chunk))
     && (!shouldUseIndividualWordVideos() || chunk.dataset.hasWordVideo === "true");
 }
 
-function updateTextLinkStates() {
-  const shouldShowCurrentScopeLinks = isVideoShowing() && currentVideoTarget;
+function canUseTextChunkForSegmentSelection(chunk) {
+  return Boolean(chunk)
+    && shouldSelectVideoSegmentationLevel()
+    && isTextChunkInArticle(chunk)
+    && (!hasActiveVideoScope() || !isChunkInCurrentVideoScope(chunk))
+    && Number.isFinite(parseFloat(chunk.dataset.segmentStart))
+    && Number.isFinite(parseFloat(chunk.dataset.segmentEnd));
+}
 
+function canActivateTextChunk(chunk) {
+  return canUseTextChunkForNavigation(chunk) || canUseTextChunkForSegmentSelection(chunk);
+}
+
+function updateTextLinkStates() {
   document.querySelectorAll(".cueChunk").forEach((chunk) => {
-    const shouldShowLink = shouldShowCurrentScopeLinks
-      && canUseTextChunkForNavigation(chunk);
+    const isInActiveScope = isChunkInCurrentVideoScope(chunk);
+    const shouldShowNavigationLink = (currentNavigation === "text-centric" || currentNavigation === "both")
+      && canUseTextChunkForNavigation(chunk)
+      && isInActiveScope;
+    const shouldShowSegmentSelectionLink = canUseTextChunkForSegmentSelection(chunk)
+      && !hasActiveVideoScope();
+    const shouldShowLink = shouldShowNavigationLink || shouldShowSegmentSelectionLink;
 
     chunk.classList.toggle("is-linked", shouldShowLink);
-    chunk.setAttribute("aria-disabled", String(!canUseTextChunkForNavigation(chunk)));
+    chunk.setAttribute("aria-disabled", String(!canActivateTextChunk(chunk)));
   });
 }
 
@@ -833,7 +887,28 @@ function getStartingTextChunk() {
   return blogTitle?.querySelector(".cueChunk") || getFirstTextChunk();
 }
 
+function setVideoScopeTarget(element) {
+  currentVideoScopeTarget = element || null;
+  updateTextLinkStates();
+}
+
+function ensureVideoScopeTarget() {
+  if (currentNavigation === "none") {
+    currentVideoScopeTarget = null;
+    return;
+  }
+
+  if (currentVideoScopeTarget && isTextChunkInArticle(currentVideoScopeTarget)) {
+    return;
+  }
+
+  currentVideoScopeTarget = getStartingTextChunk();
+}
+
 function highlightChunk(element) {
+  window.clearTimeout(textClickHighlightTimer);
+  textClickHighlightTimer = null;
+
   document.querySelectorAll(".cueChunk").forEach((chunk) => {
     chunk.classList.remove("activeHighlight", "activeSegmentHighlight");
   });
@@ -846,7 +921,7 @@ function highlightChunk(element) {
   const segmentStart = element.dataset.segmentStart;
   const segmentEnd = element.dataset.segmentEnd;
 
-  if (segmentStart && segmentEnd) {
+  if (segmentStart && segmentEnd && currentNavigation !== "text-centric" && currentNavigation !== "both" && !shouldSelectVideoSegmentationLevel()) {
     document.querySelectorAll(".cueChunk").forEach((chunk) => {
       if (isSameDisplayedSegment(chunk, element)) {
         chunk.classList.add("activeSegmentHighlight");
@@ -859,6 +934,22 @@ function highlightChunk(element) {
   updateTextLinkStates();
 }
 
+function brieflyHighlightTextClick(element) {
+  highlightChunk(element);
+  window.clearTimeout(textClickHighlightTimer);
+  textClickHighlightTimer = window.setTimeout(() => {
+    if (currentNavigation !== "text-centric") {
+      return;
+    }
+
+    document.querySelectorAll(".cueChunk").forEach((chunk) => {
+      chunk.classList.remove("activeHighlight", "activeSegmentHighlight");
+    });
+    textClickHighlightTimer = null;
+    updateTextLinkStates();
+  }, 500);
+}
+
 let hoverSegmentTarget = null;
 
 function clearHoverSegmentHighlight() {
@@ -869,7 +960,7 @@ function clearHoverSegmentHighlight() {
 }
 
 function highlightHoverSegment(element) {
-  if (!element || !canTextControlVideo() || !element.classList.contains("is-linked")) {
+  if (!element || !canActivateTextChunk(element) || !element.classList.contains("is-linked")) {
     clearHoverSegmentHighlight();
     return;
   }
@@ -887,7 +978,15 @@ function isTextChunkInArticle(element) {
 document.addEventListener("mouseover", (event) => {
   const chunk = event.target.closest?.(".cueChunk");
 
-  if (!isTextChunkInArticle(chunk) || chunk === hoverSegmentTarget) {
+  if (!isTextChunkInArticle(chunk)) {
+    return;
+  }
+
+  if ((currentNavigation === "text-centric" || currentNavigation === "both") && !isChunkInCurrentVideoScope(chunk)) {
+    setVideoScopeTarget(chunk);
+  }
+
+  if (chunk === hoverSegmentTarget) {
     return;
   }
 
@@ -970,11 +1069,13 @@ function getChunkForMainVideoTime(time) {
     return getStartingTextChunk();
   }
 
+  const adjustedTime = time + TIMELINE_MATCH_EPSILON;
+
   return Array.from(document.querySelectorAll(".cueChunk")).find((element) => {
     const start = parseFloat(element.dataset.start);
     const end = parseFloat(element.dataset.end);
 
-    return Number.isFinite(start) && Number.isFinite(end) && time >= start && time < end;
+    return Number.isFinite(start) && Number.isFinite(end) && adjustedTime >= start && time < end;
   }) || null;
 }
 
@@ -1022,6 +1123,7 @@ function prepareVideoCentricPanel() {
 
   stopTime = null;
   isInitializingVideoStart = true;
+  const initToken = ++videoStartInitToken;
   window.clearTimeout(textScrollSyncTimer);
   textScrollSyncTimer = null;
 
@@ -1031,6 +1133,7 @@ function prepareVideoCentricPanel() {
   }
 
   video.pause();
+  revokeCurrentBlobVideoUrl();
   video.src = MAIN_VIDEO_PATH;
   currentVideoTimelineStart = 0;
   currentVideoHasTimeline = true;
@@ -1040,14 +1143,44 @@ function prepareVideoCentricPanel() {
 
   setVideoVisible(true, firstChunk);
   currentVideoTarget = firstChunk;
+  currentVideoScopeTarget = firstChunk;
   highlightChunk(firstChunk);
   scrollChunkIntoViewFromVideo(firstChunk, true);
+  const shouldAutoPlayFullText = currentMode === "full";
+  let didRequestFullTextBlob = false;
+  let didStartFullTextPlayback = false;
+
+  const applyInitialPlaybackState = () => {
+    if (!shouldAutoPlayFullText) {
+      video.pause();
+      return;
+    }
+
+    if (didStartFullTextPlayback) {
+      return;
+    }
+
+    didStartFullTextPlayback = true;
+    video.play().catch(() => {});
+  };
 
   const applyStartTime = () => {
+    if (initToken !== videoStartInitToken) {
+      return;
+    }
+
     video.currentTime = 0;
-    video.pause();
     currentVideoTarget = firstChunk;
+    currentVideoScopeTarget = firstChunk;
     highlightChunk(firstChunk);
+
+    if (currentMode === "full" && !currentBlobVideoUrl && !didRequestFullTextBlob && !hasUsableSeekRange()) {
+      didRequestFullTextBlob = true;
+      loadSeekableBlobSource(MAIN_VIDEO_PATH, 0, initToken, applyInitialPlaybackState);
+      return;
+    }
+
+    applyInitialPlaybackState();
   };
 
   if (video.readyState >= 1) {
@@ -1060,7 +1193,9 @@ function prepareVideoCentricPanel() {
   requestAnimationFrame(() => {
     applyStartTime();
     window.setTimeout(() => {
-      isInitializingVideoStart = false;
+      if (initToken === videoStartInitToken) {
+        isInitializingVideoStart = false;
+      }
     }, 250);
   });
 }
@@ -1078,6 +1213,8 @@ function setVideoSource(src, shouldLoad = true) {
     return false;
   }
 
+  revokeCurrentBlobVideoUrl();
+
   video.src = src;
 
   if (shouldLoad) {
@@ -1085,6 +1222,124 @@ function setVideoSource(src, shouldLoad = true) {
   }
 
   return true;
+}
+
+function canSeekLoadedVideoTo(time) {
+  if (!Number.isFinite(time) || time <= 0) {
+    return true;
+  }
+
+  for (let index = 0; index < video.seekable.length; index += 1) {
+    if (time >= video.seekable.start(index) && time <= video.seekable.end(index)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function hasUsableSeekRange() {
+  for (let index = 0; index < video.seekable.length; index += 1) {
+    if (video.seekable.end(index) > video.seekable.start(index)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+async function loadSeekableBlobSource(src, seekTo, playbackToken, playVideo) {
+  try {
+    const response = await fetch(src);
+
+    if (!response.ok) {
+      playVideo();
+      return;
+    }
+
+    const blob = await response.blob();
+    const blobUrl = URL.createObjectURL(blob);
+
+    if (playbackToken !== videoStartInitToken) {
+      URL.revokeObjectURL(blobUrl);
+      return;
+    }
+
+    revokeCurrentBlobVideoUrl();
+
+    currentBlobVideoUrl = blobUrl;
+    video.src = blobUrl;
+    video.load();
+
+    const seekBlobAndPlay = () => {
+      video.currentTime = seekTo;
+      scheduleProgrammaticSeekCompletion(playbackToken);
+      playVideo();
+    };
+
+    if (video.readyState < 1) {
+      video.addEventListener("loadedmetadata", seekBlobAndPlay, { once: true });
+    } else {
+      seekBlobAndPlay();
+    }
+  } catch (error) {
+    playVideo();
+  }
+}
+
+function scheduleProgrammaticSeekCompletion(playbackToken) {
+  let completed = false;
+  const complete = (forceSync = false) => {
+    if ((!forceSync && completed) || (playbackToken !== null && playbackToken !== videoStartInitToken)) {
+      return;
+    }
+
+    completed = true;
+    isTextDrivenVideoSeek = false;
+
+    if (canVideoControlText()) {
+      syncHighlightFromVideoTime({ forceScroll: currentNavigation === "video-centric" });
+    }
+  };
+
+  video.addEventListener("seeked", complete, { once: true });
+  window.setTimeout(complete, 350);
+  window.setTimeout(() => complete(true), 850);
+}
+
+function startVideoPlaybackAt(seekTo, sourceChanged, { fallbackBlobSrc = null, playbackToken = null, play = true } = {}) {
+  const finishPlaybackState = () => {
+    if (play) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  };
+
+  if (!Number.isFinite(seekTo)) {
+    isTextDrivenVideoSeek = false;
+    finishPlaybackState();
+    return;
+  }
+
+  const applySeekAndPlay = () => {
+    if (fallbackBlobSrc && (fallbackBlobSrc === MAIN_VIDEO_PATH || !hasUsableSeekRange() || !canSeekLoadedVideoTo(seekTo))) {
+      loadSeekableBlobSource(fallbackBlobSrc, seekTo, playbackToken, finishPlaybackState);
+      return;
+    }
+
+    video.currentTime = seekTo;
+    scheduleProgrammaticSeekCompletion(playbackToken);
+    finishPlaybackState();
+  };
+
+  if (sourceChanged || (fallbackBlobSrc && video.readyState < 1)) {
+    video.addEventListener("loadedmetadata", applySeekAndPlay, { once: true });
+    video.load();
+    return;
+  }
+
+  applySeekAndPlay();
 }
 
 function seekMainVideoFromText(element, { play = false, stopAt = null, position = true } = {}) {
@@ -1100,20 +1355,27 @@ function seekMainVideoFromText(element, { play = false, stopAt = null, position 
 
   setVideoVisible(true, element, { position });
   currentVideoTarget = element;
+  currentVideoScopeTarget = element;
   lastActiveEl = element;
-  highlightChunk(element);
-  setVideoSource(MAIN_VIDEO_PATH);
+  if (currentNavigation === "text-centric") {
+    brieflyHighlightTextClick(element);
+  } else {
+    highlightChunk(element);
+  }
   currentVideoTimelineStart = 0;
   currentVideoHasTimeline = true;
-  stopTime = stopAt;
+  stopTime = (currentNavigation === "text-centric" || currentNavigation === "both") ? null : stopAt;
   isTextDrivenVideoSeek = true;
-  video.currentTime = start;
-
-  if (play) {
-    video.play().catch(() => {});
-  } else {
-    video.pause();
-  }
+  lastTextDrivenNavigationTime = Date.now();
+  const sourceChanged = setVideoSource(MAIN_VIDEO_PATH, false);
+  const fallbackBlobSrc = (currentNavigation === "text-centric" || currentNavigation === "both") && Number.isFinite(start)
+    ? MAIN_VIDEO_PATH
+    : null;
+  startVideoPlaybackAt(start, sourceChanged, {
+    fallbackBlobSrc,
+    playbackToken: ++videoStartInitToken,
+    play
+  });
 
   window.setTimeout(() => {
     isTextDrivenVideoSeek = false;
@@ -1121,9 +1383,14 @@ function seekMainVideoFromText(element, { play = false, stopAt = null, position 
 }
 
 function playClipForTarget(src, element, { stopAt = null, seekTo = null, timelineStart = null } = {}) {
-  if (!canUseTextChunkForNavigation(element)) {
+  if (!canActivateTextChunk(element)) {
     return;
   }
+
+  const playbackToken = ++videoStartInitToken;
+  isInitializingVideoStart = false;
+  isTextDrivenVideoSeek = true;
+  lastTextDrivenNavigationTime = Date.now();
 
   if (currentNavigation === "text-centric" && element && src === MAIN_VIDEO_PATH) {
     seekMainVideoFromText(element, { play: true, stopAt });
@@ -1135,23 +1402,50 @@ function playClipForTarget(src, element, { stopAt = null, seekTo = null, timelin
   }
 
   setVideoVisible(true, element);
-  activateVideoTarget(element);
-  stopTime = stopAt;
-  const sourceChanged = setVideoSource(src);
+  currentVideoScopeTarget = element;
+  if (shouldSelectVideoSegmentationLevel()) {
+    currentVideoTarget = element;
+    updateTextLinkStates();
+  } else {
+    activateVideoTarget(element);
+  }
+  if (currentNavigation === "text-centric") {
+    brieflyHighlightTextClick(element);
+  }
+  stopTime = (currentNavigation === "text-centric" || currentNavigation === "both") ? null : stopAt;
+  const sourceChanged = setVideoSource(src, false);
   currentVideoTimelineStart = Number.isFinite(timelineStart) ? timelineStart : 0;
   currentVideoHasTimeline = src === MAIN_VIDEO_PATH || Number.isFinite(timelineStart);
 
-  if (Number.isFinite(seekTo)) {
-    video.currentTime = seekTo;
-  } else if (!sourceChanged) {
+  if (!Number.isFinite(seekTo) && !sourceChanged) {
     video.currentTime = 0;
   }
 
-  video.play().catch(() => {});
+  const playbackSeekTo = currentNavigation === "both" && Number.isFinite(seekTo)
+    ? seekTo + TIMELINE_MATCH_EPSILON
+    : seekTo;
+  const fallbackBlobSrc = (currentNavigation === "text-centric" || currentNavigation === "both" || shouldSelectVideoSegmentationLevel()) && Number.isFinite(seekTo)
+    ? src
+    : null;
+
+  startVideoPlaybackAt(playbackSeekTo, sourceChanged, { fallbackBlobSrc, playbackToken });
+
+  if (shouldSelectVideoSegmentationLevel()) {
+    const initialTimelineTime = currentVideoTimelineStart + (Number.isFinite(playbackSeekTo) ? playbackSeekTo : 0);
+    const initialChunk = getChunkForMainVideoTime(initialTimelineTime);
+
+    if (initialChunk) {
+      activateVideoTarget(initialChunk, { forceScroll: true });
+    }
+  }
 }
 
 function syncVideoToTextScroll() {
-  if (isProgrammaticTextScroll || !hasNavigationChoice || currentNavigation !== "both") {
+  if (isProgrammaticTextScroll || isTextDrivenVideoSeek || isInitializingVideoStart || !hasNavigationChoice || currentNavigation !== "both") {
+    return;
+  }
+
+  if (Date.now() - lastTextDrivenNavigationTime < 1000) {
     return;
   }
 
@@ -1168,6 +1462,7 @@ function syncVideoToTextScroll() {
   const targetChanged = activeChunk !== currentVideoTarget;
 
   currentVideoTarget = activeChunk;
+  currentVideoScopeTarget = activeChunk;
   lastActiveEl = activeChunk;
   highlightChunk(activeChunk);
 
@@ -1187,7 +1482,7 @@ function syncVideoToTextScroll() {
       const shouldKeepPlaying = !video.paused;
       setVideoVisible(true, activeChunk, { position: currentLocation !== "popup" });
       activateVideoTarget(activeChunk, { scroll: false });
-      stopTime = playback.stopAt;
+      stopTime = null;
       setVideoSource(playback.src);
       currentVideoTimelineStart = Number.isFinite(playback.timelineStart) ? playback.timelineStart : 0;
       currentVideoHasTimeline = playback.src === MAIN_VIDEO_PATH || Number.isFinite(playback.timelineStart);
@@ -1307,18 +1602,51 @@ function getInDocumentVideoWidth() {
   return Math.min(sideWidth, availableTextWidth, 420);
 }
 
+function clampPopupPosition(left, top) {
+  const panelRect = videoPanel.getBoundingClientRect();
+  const viewportPadding = 12;
+  const maxLeft = Math.max(window.innerWidth - panelRect.width - viewportPadding, viewportPadding);
+  const maxTop = Math.max(window.innerHeight - panelRect.height - viewportPadding, viewportPadding);
+
+  return {
+    left: Math.min(Math.max(left, viewportPadding), maxLeft),
+    top: Math.min(Math.max(top, viewportPadding), maxTop)
+  };
+}
+
+function setPopupPanelPosition(left, top) {
+  const position = clampPopupPosition(left, top);
+
+  popupDragPosition = position;
+  videoPanel.style.left = `${position.left}px`;
+  videoPanel.style.top = `${position.top}px`;
+}
+
+function resetPopupDragPlacement() {
+  hasUserPlacedPopup = false;
+  popupDragPosition = null;
+  popupDragState = null;
+  document.body.classList.remove("is-popup-dragging");
+}
+
 function positionPopupVideoPanel(targetElement = null) {
+  const panelWidth = getSideVideoWidth();
+
+  videoPanel.style.width = `${panelWidth}px`;
+
+  if (hasUserPlacedPopup && popupDragPosition) {
+    setPopupPanelPosition(popupDragPosition.left, popupDragPosition.top);
+    return;
+  }
+
   const anchor = getPopupAnchor(targetElement);
   const anchorRect = anchor.getBoundingClientRect();
   const textRect = textSide?.getBoundingClientRect() || document.body.getBoundingClientRect();
   const panelRect = videoPanel.getBoundingClientRect();
   const margin = 10;
   const viewportPadding = 12;
-  const panelWidth = getSideVideoWidth();
   const minLeft = Math.max(textRect.left + viewportPadding, viewportPadding);
   const maxLeft = Math.min(textRect.right - panelWidth - viewportPadding, window.innerWidth - panelWidth - viewportPadding);
-
-  videoPanel.style.width = `${panelWidth}px`;
 
   const nextPanelRect = videoPanel.getBoundingClientRect();
   const effectivePanelWidth = nextPanelRect.width || panelWidth;
@@ -1375,6 +1703,78 @@ function resetVideoPanelPlacementStyles() {
   videoPanel.style.removeProperty("width");
 }
 
+function isPopupDragIgnoredTarget(target) {
+  return Boolean(target?.closest?.("video, button, input, select, textarea, a"));
+}
+
+function setupPopupDrag() {
+  if (!videoPanel) {
+    return;
+  }
+
+  const getClientPoint = (event) => {
+    if ("touches" in event) {
+      return event.touches[0] || event.changedTouches[0] || null;
+    }
+
+    return event;
+  };
+
+  const startDrag = (event) => {
+    if (currentLocation !== "popup" || videoPanel.style.display === "none" || isPopupDragIgnoredTarget(event.target)) {
+      return;
+    }
+
+    const point = getClientPoint(event);
+
+    if (!point) {
+      return;
+    }
+
+    const rect = videoPanel.getBoundingClientRect();
+    popupDragState = {
+      pointerId: event.pointerId ?? null,
+      offsetX: point.clientX - rect.left,
+      offsetY: point.clientY - rect.top
+    };
+    hasUserPlacedPopup = true;
+    document.body.classList.add("is-popup-dragging");
+    event.preventDefault();
+  };
+
+  const moveDrag = (event) => {
+    if (!popupDragState) {
+      return;
+    }
+
+    const point = getClientPoint(event);
+
+    if (!point) {
+      return;
+    }
+
+    event.preventDefault();
+    setPopupPanelPosition(point.clientX - popupDragState.offsetX, point.clientY - popupDragState.offsetY);
+  };
+
+  const stopDrag = () => {
+    if (!popupDragState) {
+      return;
+    }
+
+    popupDragState = null;
+    document.body.classList.remove("is-popup-dragging");
+  };
+
+  videoPanel.addEventListener("mousedown", startDrag);
+  videoPanel.addEventListener("touchstart", startDrag, { passive: false });
+  window.addEventListener("mousemove", moveDrag);
+  window.addEventListener("touchmove", moveDrag, { passive: false });
+  window.addEventListener("mouseup", stopDrag);
+  window.addEventListener("touchend", stopDrag);
+  window.addEventListener("touchcancel", stopDrag);
+}
+
 function getInPlaceBlockTarget(targetElement = null) {
   return targetElement?.closest(".cue-container, .blog-header") || blogTitle?.closest(".blog-header") || textPanel;
 }
@@ -1392,6 +1792,8 @@ function placeVideoPanel(targetElement = null) {
     requestAnimationFrame(() => positionPopupVideoPanel(targetElement));
     return;
   }
+
+  resetPopupDragPlacement();
 
   if (currentLocation === "in-place") {
     if (currentNavigation === "text-centric") {
@@ -1432,15 +1834,21 @@ function setLocation(location) {
 
 function resetInteractionState() {
   navigationPanelRevealToken += 1;
+  videoStartInitToken += 1;
+  isInitializingVideoStart = false;
+  window.clearTimeout(textClickHighlightTimer);
+  textClickHighlightTimer = null;
   stopTime = null;
   lastActiveEl = null;
   currentVideoTarget = null;
+  currentVideoScopeTarget = null;
   currentNavigation = "none";
   document.querySelectorAll(".cueChunk").forEach((element) => {
     element.classList.remove("activeHighlight", "activeSegmentHighlight");
   });
 
   video.pause();
+  revokeCurrentBlobVideoUrl();
   video.src = MAIN_VIDEO_PATH;
   video.currentTime = 0;
   setVideoVisible(false);
@@ -1649,6 +2057,7 @@ textPanel?.addEventListener("scroll", handleScrollInteraction, { passive: true }
 
 setupSidebarControls();
 setupPanelResize();
+setupPopupDrag();
 setLinkingGranularity('full');
 setMode('full', false);
 resetInteractionState();
