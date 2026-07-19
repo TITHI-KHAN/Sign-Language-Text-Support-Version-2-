@@ -26,11 +26,11 @@ let lastUserScrollTime = 0;
 let lastTextDrivenNavigationTime = 0;
 let navigationPanelRevealToken = 0;
 let videoStartInitToken = 0;
-let textClickHighlightTimer = null;
 let currentBlobVideoUrl = null;
 let hasUserPlacedPopup = false;
 let popupDragPosition = null;
 let popupDragState = null;
+let activeTextClickHighlight = null;
 const TITLE_TEXT = "Access Suggestions for Mobilizations";
 const TITLE_CUE = { start: 0, end: 16.6667, text: TITLE_TEXT };
 const textPanel = document.getElementById("textPanel");
@@ -38,6 +38,7 @@ const blogTitle = document.getElementById("blogTitle");
 const video = document.getElementById("video");
 const videoPanel = document.getElementById("videoPanel");
 const videoCloseBtn = document.getElementById("videoCloseBtn");
+const videoPlaceholder = document.getElementById("videoPlaceholder");
 const container = document.querySelector(".sins-container");
 const textSide = document.querySelector(".text-side");
 const sidebarContent = document.getElementById("sidebarContent");
@@ -48,12 +49,16 @@ const featureOptionButtons = document.querySelectorAll("[data-feature-option]");
 const segmentationOptionButtons = document.querySelectorAll('[data-feature-option="segmentation"]');
 const linkingGranularityOptionButtons = document.querySelectorAll('[data-feature-option="linking-granularity"]');
 const navigationOptionButtons = document.querySelectorAll('[data-feature-option="navigation"]');
+const locationOptionButtons = document.querySelectorAll('[data-feature-option="location"]');
 const navigationDropdown = navigationOptionButtons[0]?.closest(".support-dropdown");
 const navigationUnavailableMessage = document.getElementById("navigationUnavailableMessage");
 const MAIN_VIDEO_PATH = "video.mp4";
 const MOBILE_LAYOUT_BREAKPOINT = 700;
 const GRANULARITY_ORDER = ["word", "sentence", "paragraph", "full"];
 const TIMELINE_MATCH_EPSILON = 0.005;
+const LINK_UNDERLINE_STYLE = "dotted";
+
+document.documentElement.dataset.linkUnderlineStyle = LINK_UNDERLINE_STYLE;
 
 const popupVideoLayer = document.createElement("div");
 popupVideoLayer.className = "video-popup-layer";
@@ -204,7 +209,7 @@ function getClipPlaybackForTarget(element, fallback = {}) {
       src: `segments/sentences/sent_${sentenceClipIndex}.mp4`,
       timelineStart,
       seekTo: Number.isFinite(selectionStart) && Number.isFinite(timelineStart) ? Math.max(selectionStart - timelineStart, 0) : 0,
-      stopAt: null
+      stopAt: Number.isFinite(selectionEnd) && Number.isFinite(timelineStart) ? Math.max(selectionEnd - timelineStart, 0) : null
     };
   }
 
@@ -234,6 +239,19 @@ function clearChoiceVisual(feature) {
   document.querySelectorAll(`[data-feature-option="${feature}"]`).forEach((button) => {
     button.classList.remove("current-selection");
   });
+}
+
+function getValidLocation(location) {
+  const validButtons = Array.from(locationOptionButtons).filter((button) => !button.disabled);
+
+  return validButtons.some((button) => button.dataset.value === location)
+    ? location
+    : validButtons[0]?.dataset.value || "popup";
+}
+
+function ensureValidLocationSelection({ markChoice = true } = {}) {
+  currentLocation = getValidLocation(currentLocation);
+  updateChoiceVisuals("location", currentLocation, { markChoice });
 }
 
 function getGranularityRank(granularity) {
@@ -289,6 +307,7 @@ function updateLinkingGranularityAvailability() {
 function setMode(mode, revealVideo = true, { syncLinkingGranularity = false } = {}) {
   currentMode = mode;
   stopTime = null;
+  activeTextClickHighlight = null;
   document.body.dataset.mode = mode;
 
   updateChoiceVisuals("segmentation", mode);
@@ -342,6 +361,7 @@ function setNavigationInteraction(navigationMode, { markChoice = true, deferPane
     return;
   }
 
+  ensureValidLocationSelection({ markChoice: true });
   currentNavigation = navigationMode;
   lastEnabledNavigation = navigationMode;
   hasNavigationChoice = markChoice;
@@ -357,14 +377,7 @@ function setNavigationInteraction(navigationMode, { markChoice = true, deferPane
   });
 
   const revealNavigationPanel = () => {
-    if (navigationMode === "video-centric" || navigationMode === "both") {
-      prepareVideoCentricPanel();
-      return;
-    }
-
-    if (navigationMode === "text-centric") {
-      setVideoVisible(currentLocation !== "popup");
-    }
+    applyNavigationInitialState(navigationMode);
   };
 
   if (!markChoice) {
@@ -389,12 +402,63 @@ function setNavigationInteraction(navigationMode, { markChoice = true, deferPane
   updateTextLinkStates();
 }
 
+function setVideoPlaceholderVisible(visible) {
+  if (!videoPlaceholder) {
+    return;
+  }
+
+  videoPlaceholder.hidden = !visible;
+
+  if (!visible) {
+    return;
+  }
+
+  resetVideoPanelPlacementStyles();
+  videoPlaceholder.textContent = "Select text to view video.";
+
+  if (sidebarContent) {
+    const supportDropdowns = sidebarContent.querySelector(".support-dropdowns");
+    const anchor = videoPanel?.parentElement === sidebarContent ? videoPanel.nextSibling : supportDropdowns?.nextSibling;
+
+    if (anchor) {
+      sidebarContent.insertBefore(videoPlaceholder, anchor);
+    } else {
+      sidebarContent.appendChild(videoPlaceholder);
+    }
+  }
+
+  if (currentLocation === "side") {
+    setSidebarCollapsed(false);
+  }
+}
+
+function applyNavigationInitialState(navigationMode = currentNavigation) {
+  if (!hasNavigationChoice) {
+    setVideoPlaceholderVisible(false);
+    return;
+  }
+
+  if (navigationMode === "text-centric") {
+    setVideoVisible(false);
+    currentVideoScopeTarget = getStartingTextChunk();
+    setVideoPlaceholderVisible(true);
+    updateTextLinkStates();
+    return;
+  }
+
+  if (navigationMode === "video-centric" || navigationMode === "both") {
+    setVideoPlaceholderVisible(false);
+    prepareVideoCentricPanel();
+  }
+}
+
 function setLinkingGranularity(granularity) {
   if (getValidLinkingGranularity(currentMode, granularity) !== granularity) {
     updateLinkingGranularityAvailability();
     return;
   }
 
+  activeTextClickHighlight = null;
   currentLinkingGranularity = granularity;
 
   updateChoiceVisuals("linking-granularity", granularity);
@@ -660,6 +724,10 @@ function setFormattedText(element, text, trailingSpace = false) {
   }
 }
 
+function appendInterUnitSpace(container) {
+  container.appendChild(document.createTextNode(" "));
+}
+
 function setSegmentRange(element, start, end) {
   element.dataset.segmentStart = start;
   element.dataset.segmentEnd = end;
@@ -744,7 +812,7 @@ function appendProcessedText(container, rawText, cue, cueIndex) {
         const wordEnd = wordIndex === words.length - 1
           ? sentenceEnd
           : sentenceStart + ((wordIndex + 1) * perWordDuration);
-        span.textContent = word + " ";
+        span.textContent = word;
         span.className = "cueChunk inline-text";
         span.dataset.start = wordStart;
         span.dataset.end = wordEnd;
@@ -771,6 +839,7 @@ function appendProcessedText(container, rawText, cue, cueIndex) {
           };
         }
         container.appendChild(span);
+        appendInterUnitSpace(container);
       });
     });
   } 
@@ -787,7 +856,7 @@ function appendProcessedText(container, rawText, cue, cueIndex) {
         ? cue.end
         : cue.start + ((sentenceIdx + 1) * perSentenceDuration);
       span.className = "cueChunk sentence-chunk";
-      setFormattedText(span, sentenceText, true);
+      setFormattedText(span, sentenceText);
       span.dataset.start = sentenceStart;
       span.dataset.end = sentenceEnd;
       setDisplayedSegmentRange(span, cue, { sentenceStart, sentenceEnd });
@@ -798,6 +867,7 @@ function appendProcessedText(container, rawText, cue, cueIndex) {
         playClipForTarget(playback.src, span, playback);
       };
       container.appendChild(span);
+      appendInterUnitSpace(container);
     });
   }
   else if (currentLinkingGranularity === 'paragraph') {
@@ -834,12 +904,13 @@ function appendProcessedText(container, rawText, cue, cueIndex) {
       span.dataset.end = sentenceEnd;
       setDisplayedSegmentRange(span, cue, { sentenceStart, sentenceEnd });
       setClipIndexes(span, { sentenceClipIndex: sentenceClipCounter++, paragraphClipIndex: cueIndex });
-      setFormattedText(span, sentenceText, true);
+      setFormattedText(span, sentenceText);
       span.onclick = () => {
         const playback = getClipPlaybackForTarget(span, { seekTo: sentenceStart });
         playClipForTarget(playback.src, span, playback);
       };
       container.appendChild(span);
+      appendInterUnitSpace(container);
     });
   }
 }
@@ -906,9 +977,6 @@ function ensureVideoScopeTarget() {
 }
 
 function highlightChunk(element) {
-  window.clearTimeout(textClickHighlightTimer);
-  textClickHighlightTimer = null;
-
   document.querySelectorAll(".cueChunk").forEach((chunk) => {
     chunk.classList.remove("activeHighlight", "activeSegmentHighlight");
   });
@@ -934,20 +1002,118 @@ function highlightChunk(element) {
   updateTextLinkStates();
 }
 
-function brieflyHighlightTextClick(element) {
-  highlightChunk(element);
-  window.clearTimeout(textClickHighlightTimer);
-  textClickHighlightTimer = window.setTimeout(() => {
-    if (currentNavigation !== "text-centric") {
-      return;
-    }
+function clearTextClickHighlight() {
+  activeTextClickHighlight = null;
+  document.querySelectorAll(".cueChunk").forEach((chunk) => {
+    chunk.classList.remove("activeHighlight", "activeSegmentHighlight");
+  });
+  updateTextLinkStates();
+}
 
-    document.querySelectorAll(".cueChunk").forEach((chunk) => {
-      chunk.classList.remove("activeHighlight", "activeSegmentHighlight");
-    });
-    textClickHighlightTimer = null;
-    updateTextLinkStates();
-  }, 500);
+function getNextChunkStart(element) {
+  const start = parseFloat(element?.dataset.start);
+
+  if (!Number.isFinite(start)) {
+    return null;
+  }
+
+  return Array.from(document.querySelectorAll(".cueChunk"))
+    .map((chunk) => parseFloat(chunk.dataset.start))
+    .filter((chunkStart) => Number.isFinite(chunkStart) && chunkStart > start)
+    .sort((a, b) => a - b)[0] ?? null;
+}
+
+function getLinkedUnitTimelineRange(element, { followPlaybackEnd = false } = {}) {
+  if (!element) {
+    return null;
+  }
+
+  const start = parseFloat(element.dataset.start);
+  const explicitEnd = parseFloat(element.dataset.end);
+  const nextStart = currentVideoHasTimeline ? getNextChunkStart(element) : null;
+  const segmentEnd = currentVideoHasTimeline ? parseFloat(element.dataset.segmentEnd) : null;
+  const timelineStart = currentVideoHasTimeline ? currentVideoTimelineStart : start;
+  const durationEnd = Number.isFinite(video.duration)
+    ? timelineStart + video.duration
+    : null;
+  const end = followPlaybackEnd && Number.isFinite(durationEnd) && durationEnd > start
+    ? durationEnd
+    : null;
+
+  if (Number.isFinite(start) && Number.isFinite(end)) {
+    return { start, end };
+  }
+
+  const endCandidates = [explicitEnd, nextStart, segmentEnd, durationEnd]
+    .filter((candidate) => Number.isFinite(candidate) && candidate > start);
+  const fallbackEnd = endCandidates.length > 0 ? Math.min(...endCandidates) : null;
+
+  if (!Number.isFinite(start) || !Number.isFinite(fallbackEnd)) {
+    return null;
+  }
+
+  return { start, end: fallbackEnd };
+}
+
+function getCurrentVideoTimelineTime() {
+  if (!currentVideoHasTimeline) {
+    return video.currentTime;
+  }
+
+  return currentVideoTimelineStart + video.currentTime;
+}
+
+function updateTextClickHighlightFromVideoTime() {
+  if (!activeTextClickHighlight || currentNavigation !== "text-centric") {
+    return;
+  }
+
+  if (isTextDrivenVideoSeek || isInitializingVideoStart || video.seeking || video.readyState < 1) {
+    return;
+  }
+
+  if (!isTextChunkInArticle(activeTextClickHighlight.element)) {
+    clearTextClickHighlight();
+    return;
+  }
+
+  const currentTime = currentVideoHasTimeline
+    ? getCurrentVideoTimelineTime()
+    : activeTextClickHighlight.start + video.currentTime;
+  const range = getLinkedUnitTimelineRange(activeTextClickHighlight.element, {
+    followPlaybackEnd: activeTextClickHighlight.followPlaybackEnd
+  });
+
+  if (!range) {
+    clearTextClickHighlight();
+    return;
+  }
+
+  activeTextClickHighlight.start = range.start;
+  activeTextClickHighlight.end = range.end;
+  const { start, end } = range;
+
+  if (Number.isFinite(currentTime) && currentTime + TIMELINE_MATCH_EPSILON >= start && currentTime < end) {
+    if (!activeTextClickHighlight.element.classList.contains("activeHighlight")) {
+      highlightChunk(activeTextClickHighlight.element);
+    }
+    return;
+  }
+
+  clearTextClickHighlight();
+}
+
+function highlightTextClickForActiveRange(element) {
+  const range = getLinkedUnitTimelineRange(element);
+
+  if (!range) {
+    highlightChunk(element);
+    activeTextClickHighlight = null;
+    return;
+  }
+
+  activeTextClickHighlight = { element, ...range, followPlaybackEnd: true };
+  highlightChunk(element);
 }
 
 let hoverSegmentTarget = null;
@@ -1084,6 +1250,10 @@ function syncHighlightFromVideoTime(options = {}) {
     return;
   }
 
+  if (!isVideoShowing()) {
+    return;
+  }
+
   if (!canVideoControlText()) {
     return;
   }
@@ -1121,6 +1291,11 @@ function prepareVideoCentricPanel() {
     return;
   }
 
+  const playback = getClipPlaybackForTarget(firstChunk);
+  const initialSrc = shouldUseIndividualWordVideos() && firstChunk.dataset.hasWordVideo === "true"
+    ? firstChunk.dataset.signVideoUrl || getStandaloneWordVideo(firstChunk.dataset.wordKey || firstChunk.textContent)
+    : playback.src || MAIN_VIDEO_PATH;
+  const initialSeek = Number.isFinite(playback.seekTo) ? playback.seekTo : 0;
   stopTime = null;
   isInitializingVideoStart = true;
   const initToken = ++videoStartInitToken;
@@ -1134,19 +1309,19 @@ function prepareVideoCentricPanel() {
 
   video.pause();
   revokeCurrentBlobVideoUrl();
-  video.src = MAIN_VIDEO_PATH;
-  currentVideoTimelineStart = 0;
-  currentVideoHasTimeline = true;
+  video.src = initialSrc;
+  currentVideoTimelineStart = Number.isFinite(playback.timelineStart) ? playback.timelineStart : 0;
+  currentVideoHasTimeline = initialSrc === MAIN_VIDEO_PATH || Number.isFinite(playback.timelineStart);
   video.load();
   video.pause();
-  video.currentTime = 0;
+  video.currentTime = initialSeek;
 
   setVideoVisible(true, firstChunk);
   currentVideoTarget = firstChunk;
   currentVideoScopeTarget = firstChunk;
   highlightChunk(firstChunk);
   scrollChunkIntoViewFromVideo(firstChunk, true);
-  const shouldAutoPlayFullText = currentMode === "full";
+  const shouldAutoPlayFullText = currentMode === "full" && initialSrc === MAIN_VIDEO_PATH;
   let didRequestFullTextBlob = false;
   let didStartFullTextPlayback = false;
 
@@ -1169,7 +1344,7 @@ function prepareVideoCentricPanel() {
       return;
     }
 
-    video.currentTime = 0;
+    video.currentTime = initialSeek;
     currentVideoTarget = firstChunk;
     currentVideoScopeTarget = firstChunk;
     highlightChunk(firstChunk);
@@ -1213,6 +1388,7 @@ function setVideoSource(src, shouldLoad = true) {
     return false;
   }
 
+  activeTextClickHighlight = null;
   revokeCurrentBlobVideoUrl();
 
   video.src = src;
@@ -1296,6 +1472,7 @@ function scheduleProgrammaticSeekCompletion(playbackToken) {
 
     completed = true;
     isTextDrivenVideoSeek = false;
+    updateTextClickHighlightFromVideoTime();
 
     if (canVideoControlText()) {
       syncHighlightFromVideoTime({ forceScroll: currentNavigation === "video-centric" });
@@ -1357,17 +1534,17 @@ function seekMainVideoFromText(element, { play = false, stopAt = null, position 
   currentVideoTarget = element;
   currentVideoScopeTarget = element;
   lastActiveEl = element;
-  if (currentNavigation === "text-centric") {
-    brieflyHighlightTextClick(element);
-  } else {
-    highlightChunk(element);
-  }
   currentVideoTimelineStart = 0;
   currentVideoHasTimeline = true;
   stopTime = (currentNavigation === "text-centric" || currentNavigation === "both") ? null : stopAt;
   isTextDrivenVideoSeek = true;
   lastTextDrivenNavigationTime = Date.now();
   const sourceChanged = setVideoSource(MAIN_VIDEO_PATH, false);
+  if (currentNavigation === "text-centric") {
+    highlightTextClickForActiveRange(element);
+  } else {
+    highlightChunk(element);
+  }
   const fallbackBlobSrc = (currentNavigation === "text-centric" || currentNavigation === "both") && Number.isFinite(start)
     ? MAIN_VIDEO_PATH
     : null;
@@ -1376,10 +1553,6 @@ function seekMainVideoFromText(element, { play = false, stopAt = null, position 
     playbackToken: ++videoStartInitToken,
     play
   });
-
-  window.setTimeout(() => {
-    isTextDrivenVideoSeek = false;
-  }, 180);
 }
 
 function playClipForTarget(src, element, { stopAt = null, seekTo = null, timelineStart = null } = {}) {
@@ -1403,19 +1576,19 @@ function playClipForTarget(src, element, { stopAt = null, seekTo = null, timelin
 
   setVideoVisible(true, element);
   currentVideoScopeTarget = element;
-  if (shouldSelectVideoSegmentationLevel()) {
-    currentVideoTarget = element;
-    updateTextLinkStates();
-  } else {
-    activateVideoTarget(element);
-  }
-  if (currentNavigation === "text-centric") {
-    brieflyHighlightTextClick(element);
-  }
-  stopTime = (currentNavigation === "text-centric" || currentNavigation === "both") ? null : stopAt;
   const sourceChanged = setVideoSource(src, false);
   currentVideoTimelineStart = Number.isFinite(timelineStart) ? timelineStart : 0;
   currentVideoHasTimeline = src === MAIN_VIDEO_PATH || Number.isFinite(timelineStart);
+
+  if (shouldSelectVideoSegmentationLevel()) {
+    currentVideoTarget = element;
+    updateTextLinkStates();
+  } else if (currentNavigation === "text-centric") {
+    highlightTextClickForActiveRange(element);
+  } else {
+    activateVideoTarget(element);
+  }
+  stopTime = (currentNavigation === "text-centric" || currentNavigation === "both") ? null : stopAt;
 
   if (!Number.isFinite(seekTo) && !sourceChanged) {
     video.currentTime = 0;
@@ -1539,12 +1712,20 @@ video.addEventListener("timeupdate", () => {
     stopTime = null;
   }
 
+  updateTextClickHighlightFromVideoTime();
   syncHighlightFromVideoTime();
 });
 
-video.addEventListener("seeking", () => syncHighlightFromVideoTime({ forceScroll: true }));
-video.addEventListener("seeked", () => syncHighlightFromVideoTime({ forceScroll: true }));
+video.addEventListener("seeking", () => {
+  updateTextClickHighlightFromVideoTime();
+  syncHighlightFromVideoTime({ forceScroll: true });
+});
+video.addEventListener("seeked", () => {
+  updateTextClickHighlightFromVideoTime();
+  syncHighlightFromVideoTime({ forceScroll: true });
+});
 video.addEventListener("play", syncHighlightFromVideoTime);
+video.addEventListener("ended", updateTextClickHighlightFromVideoTime);
 
 videoPanel?.addEventListener("wheel", (event) => {
   if (currentLocation !== "popup" && currentLocation !== "in-place") {
@@ -1703,8 +1884,32 @@ function resetVideoPanelPlacementStyles() {
   videoPanel.style.removeProperty("width");
 }
 
-function isPopupDragIgnoredTarget(target) {
-  return Boolean(target?.closest?.("video, button, input, select, textarea, a"));
+function isPopupDragIgnoredTarget(target, event) {
+  if (!target?.closest) {
+    return false;
+  }
+
+  if (target.closest("button, input, select, textarea, a, [role='button'], [role='slider'], [contenteditable='true']")) {
+    return true;
+  }
+
+  const videoElement = target.closest("video");
+
+  if (!videoElement) {
+    return false;
+  }
+
+  const point = "touches" in event
+    ? event.touches[0] || event.changedTouches[0] || null
+    : event;
+
+  if (!point) {
+    return true;
+  }
+
+  const rect = videoElement.getBoundingClientRect();
+  const controlsHeight = Math.min(56, rect.height * 0.36);
+  return point.clientY >= rect.bottom - controlsHeight;
 }
 
 function setupPopupDrag() {
@@ -1721,7 +1926,7 @@ function setupPopupDrag() {
   };
 
   const startDrag = (event) => {
-    if (currentLocation !== "popup" || videoPanel.style.display === "none" || isPopupDragIgnoredTarget(event.target)) {
+    if (currentLocation !== "popup" || videoPanel.style.display === "none" || isPopupDragIgnoredTarget(event.target, event)) {
       return;
     }
 
@@ -1836,13 +2041,15 @@ function resetInteractionState() {
   navigationPanelRevealToken += 1;
   videoStartInitToken += 1;
   isInitializingVideoStart = false;
-  window.clearTimeout(textClickHighlightTimer);
-  textClickHighlightTimer = null;
+  activeTextClickHighlight = null;
   stopTime = null;
   lastActiveEl = null;
   currentVideoTarget = null;
   currentVideoScopeTarget = null;
   currentNavigation = "none";
+  hasNavigationChoice = false;
+  choiceMadeByFeature.navigation = false;
+  clearChoiceVisual("navigation");
   document.querySelectorAll(".cueChunk").forEach((element) => {
     element.classList.remove("activeHighlight", "activeSegmentHighlight");
   });
@@ -1852,6 +2059,7 @@ function resetInteractionState() {
   video.src = MAIN_VIDEO_PATH;
   video.currentTime = 0;
   setVideoVisible(false);
+  setVideoPlaceholderVisible(false);
 }
 
 function setVideoVisible(visible, targetElement = null, { position = true } = {}) {
@@ -1860,6 +2068,8 @@ function setVideoVisible(visible, targetElement = null, { position = true } = {}
   }
 
   if (visible) {
+    setVideoPlaceholderVisible(false);
+    ensureValidLocationSelection({ markChoice: true });
     currentVideoTarget = targetElement || currentVideoTarget;
     if (position || videoPanel.style.display === "none") {
       placeVideoPanel(currentVideoTarget);
@@ -1884,6 +2094,14 @@ function setVideoVisible(visible, targetElement = null, { position = true } = {}
   }
 
   if (!visible) {
+    activeTextClickHighlight = null;
+    currentVideoTarget = null;
+    currentVideoScopeTarget = null;
+    lastActiveEl = null;
+    stopTime = null;
+    document.querySelectorAll(".cueChunk").forEach((element) => {
+      element.classList.remove("activeHighlight", "activeSegmentHighlight");
+    });
     video.pause();
     video.currentTime = 0;
   }
@@ -1919,6 +2137,12 @@ function setupSidebarControls() {
 
   videoCloseBtn?.addEventListener("click", () => {
     setVideoVisible(false);
+
+    if (currentNavigation === "text-centric" && hasNavigationChoice) {
+      currentVideoScopeTarget = getStartingTextChunk();
+      setVideoPlaceholderVisible(true);
+      updateTextLinkStates();
+    }
   });
 
   featureOptionButtons.forEach((button) => {
@@ -2056,6 +2280,7 @@ textSide?.addEventListener("scroll", handleScrollInteraction, { passive: true })
 textPanel?.addEventListener("scroll", handleScrollInteraction, { passive: true });
 
 setupSidebarControls();
+ensureValidLocationSelection({ markChoice: true });
 setupPanelResize();
 setupPopupDrag();
 setLinkingGranularity('full');

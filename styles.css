@@ -95,6 +95,14 @@ li.cue-container::before {
   text-underline-offset: 0.2em;
 }
 
+html[data-link-underline-style="solid"] .cueChunk.is-linked {
+  text-decoration-style: solid;
+}
+
+html[data-link-underline-style="dotted"] .cueChunk.is-linked {
+  text-decoration-style: dotted;
+}
+
 .cueChunk.activeSegmentHighlight {
   background-color: #eef4fb !important;
   color: #000 !important;
@@ -453,6 +461,25 @@ body[data-mode="full"] .cueChunk:not(.is-linked):hover {
   justify-self: start;
 }
 
+.video-placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 160px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 18px;
+  border: 1px dashed #b8b8b8;
+  border-radius: 6px;
+  background: #fafafa;
+  color: #555;
+  font-weight: 700;
+  text-align: center;
+}
+
+.video-placeholder[hidden] {
+  display: none;
+}
+
 .video-popup-layer {
   position: fixed;
   inset: 0;
@@ -469,40 +496,15 @@ body[data-mode="full"] .cueChunk:not(.is-linked):hover {
   position: fixed;
   pointer-events: auto;
   cursor: grab;
-  padding-top: 28px;
   background: #fff;
-  border-radius: 6px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
 }
 
 .video-container.video-popup-panel video,
 .video-container.video-popup-panel button {
   cursor: auto;
-}
-
-.video-drag-handle {
-  display: none;
-}
-
-.video-container.video-popup-panel .video-drag-handle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 28px;
-  padding: 0 46px 0 12px;
-  color: #555;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  background: #f2f2f2;
-  border-radius: 6px 6px 0 0;
-  cursor: grab;
-  user-select: none;
 }
 
 .video-container.video-popup-panel .video-close-btn {
@@ -521,22 +523,30 @@ body[data-mode="full"] .cueChunk:not(.is-linked):hover {
 
 .video-close-btn {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 6px;
+  right: 6px;
   z-index: 2;
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
   border: none;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.92);
-  color: #111;
-  font-size: 20px;
+  background: transparent;
+  color: #fff;
+  font-size: 18px;
   line-height: 1;
   cursor: pointer;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 .video-close-btn:hover {
-  background: #fff;
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.video-close-btn:focus,
+.video-close-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  background: rgba(0, 0, 0, 0.34);
 }
 
 video {
