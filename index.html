@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Access Suggestions for Mobilizations (Video Segmentation Probe)</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20260729-3" />
 </head>
 <body>
 
@@ -96,6 +96,34 @@
           <video id="video" controls>
             <source src="video.mp4" type="video/mp4" />
           </video>
+          <div
+            class="segment-nav"
+            id="segmentNavigation"
+            role="group"
+            aria-label="Video segment navigation"
+            hidden
+          >
+            <button
+              class="segment-nav-btn"
+              id="previousSegmentBtn"
+              type="button"
+              aria-label="Previous video segment"
+              title="Previous video segment"
+            >
+              <span class="segment-nav-icon" aria-hidden="true">|◀</span>
+              <span>Previous</span>
+            </button>
+            <button
+              class="segment-nav-btn"
+              id="nextSegmentBtn"
+              type="button"
+              aria-label="Next video segment"
+              title="Next video segment"
+            >
+              <span>Next</span>
+              <span class="segment-nav-icon" aria-hidden="true">▶|</span>
+            </button>
+          </div>
           <div id="segment-status">MODE: SENTENCE</div>
         </div>
         <div class="video-placeholder" id="videoPlaceholder" hidden>
@@ -107,6 +135,6 @@
 
   <script src="data/non_repeated_words.js"></script>
   <script src="data/sign_video_map.js"></script>
-  <script src="app.js"></script>
+  <script src="app.js?v=20260729-5"></script>
 </body>
 </html>

@@ -39,6 +39,9 @@ const video = document.getElementById("video");
 const videoPanel = document.getElementById("videoPanel");
 const videoCloseBtn = document.getElementById("videoCloseBtn");
 const videoPlaceholder = document.getElementById("videoPlaceholder");
+const segmentNavigation = document.getElementById("segmentNavigation");
+const previousSegmentBtn = document.getElementById("previousSegmentBtn");
+const nextSegmentBtn = document.getElementById("nextSegmentBtn");
 const container = document.querySelector(".sins-container");
 const textSide = document.querySelector(".text-side");
 const sidebarContent = document.getElementById("sidebarContent");
@@ -56,7 +59,7 @@ const MAIN_VIDEO_PATH = "video.mp4";
 const MOBILE_LAYOUT_BREAKPOINT = 700;
 const GRANULARITY_ORDER = ["word", "sentence", "paragraph", "full"];
 const TIMELINE_MATCH_EPSILON = 0.005;
-const LINK_UNDERLINE_STYLE = "dotted";
+const LINK_UNDERLINE_STYLE = "solid";
 
 document.documentElement.dataset.linkUnderlineStyle = LINK_UNDERLINE_STYLE;
 
@@ -266,7 +269,7 @@ function getStateMachineState(mode = currentMode, linkingGranularity = currentLi
   const modeRank = getGranularityRank(mode);
   const linkingRank = getGranularityRank(linkingGranularity);
   const valid = modeRank !== -1 && linkingRank !== -1 && linkingRank <= modeRank;
-  const navigationAvailable = valid && linkingRank < modeRank;
+  const navigationAvailable = valid;
 
   return {
     modeRank,
@@ -352,6 +355,7 @@ function setMode(mode, revealVideo = true, { syncLinkingGranularity = false } = 
   updateTextLinkStates();
   updateNavigationAvailability();
   scheduleTextScrollSync();
+  updateSegmentNavigationButtons();
 }
 
 function setNavigationInteraction(navigationMode, { markChoice = true, deferPanelReveal = false } = {}) {
@@ -400,6 +404,7 @@ function setNavigationInteraction(navigationMode, { markChoice = true, deferPane
   }
 
   updateTextLinkStates();
+  updateSegmentNavigationButtons();
 }
 
 function setVideoPlaceholderVisible(visible) {
@@ -468,12 +473,16 @@ function setLinkingGranularity(granularity) {
   updateLinkingGranularityAvailability();
   updateTextLinkStates();
   updateNavigationAvailability();
+  updateSegmentNavigationButtons();
 }
 
 function getNavigationAvailability() {
   const { navigationAvailable } = getStateMachineState();
+  const requiredSettingsSelected = choiceMadeByFeature.segmentation
+    && choiceMadeByFeature["linking-granularity"];
+
   return {
-    available: navigationAvailable,
+    available: navigationAvailable && requiredSettingsSelected,
     allowedModes: ["text-centric", "video-centric", "both"]
   };
 }
@@ -529,11 +538,11 @@ function canTextControlVideo() {
     return false;
   }
 
-  if (state.sameGranularity) {
-    return true;
+  if (hasNavigationChoice) {
+    return currentNavigation === "text-centric" || currentNavigation === "both";
   }
 
-  return hasNavigationChoice && (currentNavigation === "text-centric" || currentNavigation === "both");
+  return state.sameGranularity;
 }
 
 function canVideoControlText() {
@@ -1023,36 +1032,95 @@ function getNextChunkStart(element) {
     .sort((a, b) => a - b)[0] ?? null;
 }
 
-function getLinkedUnitTimelineRange(element, { followPlaybackEnd = false } = {}) {
+function getVideoSegmentRange(element) {
+  const start = parseFloat(element?.dataset.segmentStart);
+  const end = parseFloat(element?.dataset.segmentEnd);
+
+  if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start) {
+    return null;
+  }
+
+  return { start, end };
+}
+
+function getVideoSegmentIdentity(element, segmentationType = currentMode) {
+  if (!element) {
+    return "";
+  }
+
+  if (segmentationType === "paragraph" && element.dataset.paragraphClipIndex !== undefined) {
+    return `paragraph:${element.dataset.paragraphClipIndex}`;
+  }
+
+  if (segmentationType === "sentence" && element.dataset.sentenceClipIndex !== undefined) {
+    return `sentence:${element.dataset.sentenceClipIndex}`;
+  }
+
+  const range = getVideoSegmentRange(element);
+  return range ? `${segmentationType}:${range.start.toFixed(4)}:${range.end.toFixed(4)}` : "";
+}
+
+function isSameVideoSegment(first, second) {
+  const firstIdentity = getVideoSegmentIdentity(first);
+  const secondIdentity = getVideoSegmentIdentity(second);
+
+  if (firstIdentity && secondIdentity) {
+    return firstIdentity === secondIdentity;
+  }
+
+  const firstRange = getVideoSegmentRange(first);
+  const secondRange = getVideoSegmentRange(second);
+
+  return Boolean(firstRange && secondRange
+    && Math.abs(firstRange.start - secondRange.start) < TIMELINE_MATCH_EPSILON
+    && Math.abs(firstRange.end - secondRange.end) < TIMELINE_MATCH_EPSILON);
+}
+
+// Temporary timing adapter. Replace this helper when sign-level timestamps exist.
+function getEstimatedLinkedUnitInterval(element, videoSegmentElement = element) {
+  const segment = getVideoSegmentRange(videoSegmentElement);
+
+  if (!segment || !element) {
+    return null;
+  }
+
+  const linkedUnits = Array.from(document.querySelectorAll(".cueChunk"))
+    .filter((chunk) => isSameVideoSegment(chunk, videoSegmentElement))
+    .sort((first, second) => parseFloat(first.dataset.start) - parseFloat(second.dataset.start));
+  const unitIndex = linkedUnits.indexOf(element);
+
+  if (unitIndex < 0 || linkedUnits.length === 0) {
+    return null;
+  }
+
+  const estimatedUnitDuration = (segment.end - segment.start) / linkedUnits.length;
+  const start = segment.start + (unitIndex * estimatedUnitDuration);
+  const end = unitIndex === linkedUnits.length - 1
+    ? segment.end
+    : start + estimatedUnitDuration;
+
+  return { start, end };
+}
+
+function getLinkedUnitPositionInsideVideoSegment(element, videoSegmentElement = element) {
+  if (!element || !getVideoSegmentRange(videoSegmentElement)) {
+    return null;
+  }
+
+  const linkedUnits = Array.from(document.querySelectorAll(".cueChunk"))
+    .filter((chunk) => isSameVideoSegment(chunk, videoSegmentElement))
+    .sort((first, second) => parseFloat(first.dataset.start) - parseFloat(second.dataset.start));
+  const index = linkedUnits.indexOf(element);
+
+  return index >= 0 ? { index, count: linkedUnits.length } : null;
+}
+
+function getLinkedUnitTimelineRange(element) {
   if (!element) {
     return null;
   }
 
-  const start = parseFloat(element.dataset.start);
-  const explicitEnd = parseFloat(element.dataset.end);
-  const nextStart = currentVideoHasTimeline ? getNextChunkStart(element) : null;
-  const segmentEnd = currentVideoHasTimeline ? parseFloat(element.dataset.segmentEnd) : null;
-  const timelineStart = currentVideoHasTimeline ? currentVideoTimelineStart : start;
-  const durationEnd = Number.isFinite(video.duration)
-    ? timelineStart + video.duration
-    : null;
-  const end = followPlaybackEnd && Number.isFinite(durationEnd) && durationEnd > start
-    ? durationEnd
-    : null;
-
-  if (Number.isFinite(start) && Number.isFinite(end)) {
-    return { start, end };
-  }
-
-  const endCandidates = [explicitEnd, nextStart, segmentEnd, durationEnd]
-    .filter((candidate) => Number.isFinite(candidate) && candidate > start);
-  const fallbackEnd = endCandidates.length > 0 ? Math.min(...endCandidates) : null;
-
-  if (!Number.isFinite(start) || !Number.isFinite(fallbackEnd)) {
-    return null;
-  }
-
-  return { start, end: fallbackEnd };
+  return getEstimatedLinkedUnitInterval(element, currentVideoScopeTarget || element);
 }
 
 function getCurrentVideoTimelineTime() {
@@ -1064,7 +1132,7 @@ function getCurrentVideoTimelineTime() {
 }
 
 function updateTextClickHighlightFromVideoTime() {
-  if (!activeTextClickHighlight || currentNavigation !== "text-centric") {
+  if (!activeTextClickHighlight || (currentNavigation !== "text-centric" && currentNavigation !== "both")) {
     return;
   }
 
@@ -1077,12 +1145,17 @@ function updateTextClickHighlightFromVideoTime() {
     return;
   }
 
-  const currentTime = currentVideoHasTimeline
+  const currentTime = activeTextClickHighlight.usesLoadedClipDuration
+    ? video.currentTime
+    : currentVideoHasTimeline
     ? getCurrentVideoTimelineTime()
     : activeTextClickHighlight.start + video.currentTime;
-  const range = getLinkedUnitTimelineRange(activeTextClickHighlight.element, {
-    followPlaybackEnd: activeTextClickHighlight.followPlaybackEnd
-  });
+  const range = activeTextClickHighlight.usesLoadedClipDuration
+    ? {
+        start: activeTextClickHighlight.start,
+        end: activeTextClickHighlight.end
+      }
+    : getLinkedUnitTimelineRange(activeTextClickHighlight.element);
 
   if (!range) {
     clearTextClickHighlight();
@@ -1112,8 +1185,134 @@ function highlightTextClickForActiveRange(element) {
     return;
   }
 
-  activeTextClickHighlight = { element, ...range, followPlaybackEnd: true };
+  activeTextClickHighlight = { element, ...range };
   highlightChunk(element);
+}
+
+function getVideoSegments(segmentationType = currentMode) {
+  if (segmentationType === "full") {
+    return [];
+  }
+
+  const segments = [];
+  const segmentsByIdentity = new Map();
+
+  Array.from(document.querySelectorAll(".cueChunk"))
+    .sort((first, second) => parseFloat(first.dataset.segmentStart) - parseFloat(second.dataset.segmentStart))
+    .forEach((element) => {
+      const range = getVideoSegmentRange(element);
+      const identity = getVideoSegmentIdentity(element, segmentationType);
+
+      if (!range || !identity) {
+        return;
+      }
+
+      const existing = segmentsByIdentity.get(identity);
+
+      if (existing) {
+        existing.start = Math.min(existing.start, range.start);
+        existing.end = Math.max(existing.end, range.end);
+      } else {
+        const segment = { ...range, identity, element };
+        segmentsByIdentity.set(identity, segment);
+        segments.push(segment);
+      }
+    });
+
+  return segments;
+}
+
+function getCurrentVideoSegmentIndex(currentTime = getCurrentVideoTimelineTime(), segmentationType = currentMode) {
+  const segments = getVideoSegments(segmentationType);
+  const activeIdentity = getVideoSegmentIdentity(currentVideoScopeTarget, segmentationType);
+  const scopeIndex = segments.findIndex((segment) => segment.identity === activeIdentity);
+
+  if (scopeIndex >= 0) {
+    return scopeIndex;
+  }
+
+  return segments.findIndex((segment, index) => (
+    currentTime + TIMELINE_MATCH_EPSILON >= segment.start
+    && (currentTime < segment.end || index === segments.length - 1)
+  ));
+}
+
+function shouldShowSegmentNavigation() {
+  return hasNavigationChoice
+    && (currentNavigation === "video-centric" || currentNavigation === "both")
+    && currentMode !== "full"
+    && isVideoShowing();
+}
+
+function updateSegmentNavigationVisibility() {
+  const show = shouldShowSegmentNavigation();
+
+  if (segmentNavigation) {
+    segmentNavigation.hidden = !show;
+  }
+
+  return show;
+}
+
+function updateSegmentNavigationButtons() {
+  if (!updateSegmentNavigationVisibility()) {
+    return;
+  }
+
+  const segments = getVideoSegments();
+  const currentIndex = getCurrentVideoSegmentIndex();
+  const hasValidCurrentSegment = currentIndex >= 0 && currentIndex < segments.length;
+  const hasMultipleSegments = segments.length > 1;
+  const previousDisabled = !hasValidCurrentSegment || !hasMultipleSegments || currentIndex === 0;
+  const nextDisabled = !hasValidCurrentSegment
+    || !hasMultipleSegments
+    || currentIndex === segments.length - 1;
+
+  previousSegmentBtn.disabled = previousDisabled;
+  previousSegmentBtn.setAttribute("aria-disabled", String(previousDisabled));
+  nextSegmentBtn.disabled = nextDisabled;
+  nextSegmentBtn.setAttribute("aria-disabled", String(nextDisabled));
+}
+
+function navigateToAdjacentVideoSegment(direction) {
+  if (!hasNavigationChoice
+      || (currentNavigation !== "video-centric" && currentNavigation !== "both")
+      || currentMode === "full") {
+    return;
+  }
+
+  const segments = getVideoSegments(currentMode);
+  const currentIndex = getCurrentVideoSegmentIndex(getCurrentVideoTimelineTime(), currentMode);
+  const nextIndex = currentIndex + direction;
+
+  if (currentIndex < 0 || nextIndex < 0 || nextIndex >= segments.length) {
+    updateSegmentNavigationButtons();
+    return;
+  }
+
+  activeTextClickHighlight = null;
+  lastTextDrivenNavigationTime = Date.now();
+  const target = segments[nextIndex].element;
+  const playback = getClipPlaybackForTarget(target);
+  currentVideoScopeTarget = null;
+  const individualWordVideo = shouldUseIndividualWordVideos() && target.dataset.hasWordVideo === "true"
+    ? target.dataset.signVideoUrl || getStandaloneWordVideo(target.dataset.wordKey || target.textContent)
+    : "";
+
+  if (individualWordVideo) {
+    playClipForTarget(individualWordVideo, target, {
+      seekTo: 0,
+      limitToLinkedUnit: false,
+      allowProgrammaticNavigation: true
+    });
+  } else {
+    playClipForTarget(playback.src, target, {
+      ...playback,
+      limitToLinkedUnit: false,
+      allowProgrammaticNavigation: true
+    });
+  }
+  updateSegmentNavigationButtons();
 }
 
 let hoverSegmentTarget = null;
@@ -1258,6 +1457,10 @@ function syncHighlightFromVideoTime(options = {}) {
     return;
   }
 
+  if (currentNavigation === "both" && activeTextClickHighlight) {
+    return;
+  }
+
   const shouldAutoScrollText = options.forceScroll === true || currentNavigation === "video-centric";
 
   if (!isMainVideoSource() && !currentVideoHasTimeline) {
@@ -1277,6 +1480,7 @@ function syncHighlightFromVideoTime(options = {}) {
       scroll: shouldAutoScrollText,
       forceScroll: options.forceScroll === true
     });
+    updateSegmentNavigationButtons();
   } else {
     highlightChunk(null);
     currentVideoTarget = null;
@@ -1392,6 +1596,7 @@ function setVideoSource(src, shouldLoad = true) {
   revokeCurrentBlobVideoUrl();
 
   video.src = src;
+  updateSegmentNavigationButtons();
 
   if (shouldLoad) {
     video.load();
@@ -1500,6 +1705,10 @@ function startVideoPlaybackAt(seekTo, sourceChanged, { fallbackBlobSrc = null, p
   }
 
   const applySeekAndPlay = () => {
+    if (playbackToken !== null && playbackToken !== videoStartInitToken) {
+      return;
+    }
+
     if (fallbackBlobSrc && (fallbackBlobSrc === MAIN_VIDEO_PATH || !hasUsableSeekRange() || !canSeekLoadedVideoTo(seekTo))) {
       loadSeekableBlobSource(fallbackBlobSrc, seekTo, playbackToken, finishPlaybackState);
       return;
@@ -1555,8 +1764,14 @@ function seekMainVideoFromText(element, { play = false, stopAt = null, position 
   });
 }
 
-function playClipForTarget(src, element, { stopAt = null, seekTo = null, timelineStart = null } = {}) {
-  if (!canActivateTextChunk(element)) {
+function playClipForTarget(src, element, {
+  stopAt = null,
+  seekTo = null,
+  timelineStart = null,
+  limitToLinkedUnit = true,
+  allowProgrammaticNavigation = false
+} = {}) {
+  if (!allowProgrammaticNavigation && !canActivateTextChunk(element)) {
     return;
   }
 
@@ -1583,7 +1798,7 @@ function playClipForTarget(src, element, { stopAt = null, seekTo = null, timelin
   if (shouldSelectVideoSegmentationLevel()) {
     currentVideoTarget = element;
     updateTextLinkStates();
-  } else if (currentNavigation === "text-centric") {
+  } else if (currentNavigation === "text-centric" || currentNavigation === "both") {
     highlightTextClickForActiveRange(element);
   } else {
     activateVideoTarget(element);
@@ -1600,6 +1815,44 @@ function playClipForTarget(src, element, { stopAt = null, seekTo = null, timelin
   const fallbackBlobSrc = (currentNavigation === "text-centric" || currentNavigation === "both" || shouldSelectVideoSegmentationLevel()) && Number.isFinite(seekTo)
     ? src
     : null;
+
+  const linkedUnitPosition = limitToLinkedUnit
+    && getStateMachineState().linkingRank < getStateMachineState().modeRank
+    && (currentNavigation === "text-centric" || currentNavigation === "both")
+    && src !== MAIN_VIDEO_PATH
+    ? getLinkedUnitPositionInsideVideoSegment(element, element)
+    : null;
+
+  if (linkedUnitPosition) {
+    const playEstimatedClipUnit = () => {
+      if (playbackToken !== videoStartInitToken || !Number.isFinite(video.duration)) {
+        return;
+      }
+
+      const unitDuration = video.duration / linkedUnitPosition.count;
+      const estimatedStart = linkedUnitPosition.index * unitDuration;
+      const estimatedEnd = linkedUnitPosition.index === linkedUnitPosition.count - 1
+        ? video.duration
+        : estimatedStart + unitDuration;
+      if (activeTextClickHighlight?.element === element) {
+        activeTextClickHighlight.start = estimatedStart;
+        activeTextClickHighlight.end = estimatedEnd;
+        activeTextClickHighlight.usesLoadedClipDuration = true;
+      }
+      startVideoPlaybackAt(estimatedStart, false, {
+        fallbackBlobSrc: src,
+        playbackToken
+      });
+    };
+
+    if (sourceChanged || video.readyState < 1) {
+      video.addEventListener("loadedmetadata", playEstimatedClipUnit, { once: true });
+      video.load();
+    } else {
+      playEstimatedClipUnit();
+    }
+    return;
+  }
 
   startVideoPlaybackAt(playbackSeekTo, sourceChanged, { fallbackBlobSrc, playbackToken });
 
@@ -1726,6 +1979,10 @@ video.addEventListener("seeked", () => {
 });
 video.addEventListener("play", syncHighlightFromVideoTime);
 video.addEventListener("ended", updateTextClickHighlightFromVideoTime);
+video.addEventListener("loadedmetadata", updateSegmentNavigationButtons);
+
+previousSegmentBtn?.addEventListener("click", () => navigateToAdjacentVideoSegment(-1));
+nextSegmentBtn?.addEventListener("click", () => navigateToAdjacentVideoSegment(1));
 
 videoPanel?.addEventListener("wheel", (event) => {
   if (currentLocation !== "popup" && currentLocation !== "in-place") {
@@ -1889,7 +2146,7 @@ function isPopupDragIgnoredTarget(target, event) {
     return false;
   }
 
-  if (target.closest("button, input, select, textarea, a, [role='button'], [role='slider'], [contenteditable='true']")) {
+  if (target.closest("button, input, select, textarea, a, .video-controls, .segment-nav, [role='button'], [role='slider'], [contenteditable='true']")) {
     return true;
   }
 
@@ -2031,6 +2288,7 @@ function setLocation(location) {
   placeVideoPanel(currentVideoTarget);
   updateNavigationAvailability();
   updateTextLinkStates();
+  updateSegmentNavigationVisibility();
 
   if (videoPanel.style.display !== "none" && currentLocation === "side") {
     setSidebarCollapsed(false);
@@ -2107,6 +2365,7 @@ function setVideoVisible(visible, targetElement = null, { position = true } = {}
   }
 
   updateTextLinkStates();
+  updateSegmentNavigationButtons();
 }
 
 function setSidebarCollapsed(collapsed) {
@@ -2142,6 +2401,7 @@ function setupSidebarControls() {
       currentVideoScopeTarget = getStartingTextChunk();
       setVideoPlaceholderVisible(true);
       updateTextLinkStates();
+      updateSegmentNavigationButtons();
     }
   });
 

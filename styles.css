@@ -90,17 +90,13 @@ li.cue-container::before {
 .cueChunk.is-linked {
   cursor: pointer;
   text-decoration: underline;
-  text-decoration-style: dotted;
+  text-decoration-style: solid;
   text-decoration-thickness: 2px;
   text-underline-offset: 0.2em;
 }
 
 html[data-link-underline-style="solid"] .cueChunk.is-linked {
   text-decoration-style: solid;
-}
-
-html[data-link-underline-style="dotted"] .cueChunk.is-linked {
-  text-decoration-style: dotted;
 }
 
 .cueChunk.activeSegmentHighlight {
@@ -432,7 +428,7 @@ body[data-mode="full"] .cueChunk:not(.is-linked):hover {
 .video-container {
   width: 100%;
   max-width: 100%;
-  aspect-ratio: 16 / 9;
+  container-type: inline-size;
   background: #000;
   border-radius: 8px;
   overflow: hidden;
@@ -551,19 +547,101 @@ body[data-mode="full"] .cueChunk:not(.is-linked):hover {
 
 video {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
   display: block;
   object-fit: contain;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-#segment-status {
-  margin-top: 15px;
-  text-align: center;
-  color: #666;
+.segment-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  background: #fff;
+}
+
+.segment-nav[hidden] {
+  display: none;
+}
+
+.segment-nav-btn {
+  flex: 1 1 0;
+  max-width: 170px;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border: 1px solid #777;
+  border-radius: 5px;
+  background: #fff;
+  color: #111;
+  font: inherit;
+  font-size: 13px;
   font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.08em;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.segment-nav-icon {
+  flex: 0 0 auto;
+  font-size: 17px;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.segment-nav-btn:first-child {
+  margin-right: auto;
+}
+
+.segment-nav-btn:last-child {
+  margin-left: auto;
+}
+
+.segment-nav-btn:hover:not(:disabled) {
+  background: #f0f4f8;
+}
+
+.segment-nav-btn:focus,
+.segment-nav-btn:focus-visible {
+  outline: 3px solid #1967d2;
+  outline-offset: 2px;
+}
+
+.segment-nav-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+@container (max-width: 300px) {
+  .segment-nav {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .segment-nav-btn {
+    gap: 5px;
+    padding-inline: 8px;
+    font-size: 12px;
+  }
+
+}
+
+@container (max-width: 220px) {
+  .segment-nav-btn > span:not(.segment-nav-icon) {
+    display: none;
+  }
+}
+
+#segment-status {
+  display: none;
 }
 
 body.is-resizing {
