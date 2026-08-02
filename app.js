@@ -1,3 +1,4 @@
+
 let currentMode = 'full';
 let currentLocation = 'popup';
 let currentLinkingGranularity = 'word';
@@ -14,6 +15,9 @@ let stopTime = null;
 let lastActiveEl = null;
 let currentVideoTarget = null;
 let currentVideoScopeTarget = null;
+// Stable boundary for the loaded video clip. Unlike link/hover scope, this changes only when a clip is requested.
+let activeVideoSegmentTarget = null;
+let activeVideoSegmentIndex = null;
 let currentVideoTimelineStart = 0;
 let currentVideoHasTimeline = true;
 let isProgrammaticTextScroll = false;
@@ -60,6 +64,17 @@ const MOBILE_LAYOUT_BREAKPOINT = 700;
 const GRANULARITY_ORDER = ["word", "sentence", "paragraph", "full"];
 const TIMELINE_MATCH_EPSILON = 0.005;
 const LINK_UNDERLINE_STYLE = "solid";
+// July 31 setting: keep the implementation available, but manual scrolling is visual only.
+const ENABLE_SCROLL_DRIVEN_INTERACTION = false;
+// Interactive Video is controlled by playback and Previous/Next, not text clicks.
+const ENABLE_TEXT_SELECTION_IN_INTERACTIVE_VIDEO = false;
+// Keep Previous/Next deterministic in Word segmentation by using document-order timeline intervals.
+const USE_INDIVIDUAL_WORD_VIDEOS_FOR_SEGMENT_NAVIGATION = true;
+// Switch to "explicit" to compare Previous Sentence / Next Sentence labels.
+const SEGMENT_NAV_LABEL_STYLE = "compact"; // "compact" or "explicit"
+const POPUP_TEXT_GAP = 12;
+const VIEWPORT_PADDING = 12;
+const segmentNavigationLabel = document.getElementById("segmentNavigationLabel");
 
 document.documentElement.dataset.linkUnderlineStyle = LINK_UNDERLINE_STYLE;
 
@@ -191,8 +206,9 @@ function getClipPlaybackForTarget(element, fallback = {}) {
   const end = parseFloat(element.dataset.end);
   const segmentStart = parseFloat(element.dataset.segmentStart);
   const segmentEnd = parseFloat(element.dataset.segmentEnd);
-  const selectionStart = shouldSelectVideoSegmentationLevel() && Number.isFinite(segmentStart) ? segmentStart : start;
-  const selectionEnd = shouldSelectVideoSegmentationLevel() && Number.isFinite(segmentEnd) ? segmentEnd : end;
+  const selectVideoSegment = shouldSelectVideoSegmentationLevel() || fallback.selectVideoSegment === true;
+  const selectionStart = selectVideoSegment && Number.isFinite(segmentStart) ? segmentStart : start;
+  const selectionEnd = selectVideoSegment && Number.isFinite(segmentEnd) ? segmentEnd : end;
   const sentenceClipIndex = Number.parseInt(element.dataset.sentenceClipIndex, 10);
   const paragraphClipIndex = Number.parseInt(element.dataset.paragraphClipIndex, 10);
 
@@ -606,6 +622,7 @@ function canUseTextChunkForNavigation(chunk) {
 
 function canUseTextChunkForSegmentSelection(chunk) {
   return Boolean(chunk)
+    && ENABLE_TEXT_SELECTION_IN_INTERACTIVE_VIDEO
     && shouldSelectVideoSegmentationLevel()
     && isTextChunkInArticle(chunk)
     && (!hasActiveVideoScope() || !isChunkInCurrentVideoScope(chunk))
@@ -1076,6 +1093,13 @@ function isSameVideoSegment(first, second) {
     && Math.abs(firstRange.end - secondRange.end) < TIMELINE_MATCH_EPSILON);
 }
 
+function getLinkedUnitsInsideActiveVideoSegment(segmentElement = activeVideoSegmentTarget || currentVideoScopeTarget) {
+  if (!segmentElement) return [];
+  return Array.from(document.querySelectorAll(".cueChunk"))
+    .filter((chunk) => isSameVideoSegment(chunk, segmentElement))
+    .sort((first, second) => parseFloat(first.dataset.start) - parseFloat(second.dataset.start));
+}
+
 // Temporary timing adapter. Replace this helper when sign-level timestamps exist.
 function getEstimatedLinkedUnitInterval(element, videoSegmentElement = element) {
   const segment = getVideoSegmentRange(videoSegmentElement);
@@ -1224,7 +1248,12 @@ function getVideoSegments(segmentationType = currentMode) {
 
 function getCurrentVideoSegmentIndex(currentTime = getCurrentVideoTimelineTime(), segmentationType = currentMode) {
   const segments = getVideoSegments(segmentationType);
-  const activeIdentity = getVideoSegmentIdentity(currentVideoScopeTarget, segmentationType);
+  if (segmentationType === currentMode && Number.isInteger(activeVideoSegmentIndex)
+      && activeVideoSegmentIndex >= 0 && activeVideoSegmentIndex < segments.length) {
+    return activeVideoSegmentIndex;
+  }
+  // Previous/Next follows the loaded video segment, never hover or linking-granularity scope.
+  const activeIdentity = getVideoSegmentIdentity(activeVideoSegmentTarget || currentVideoScopeTarget, segmentationType);
   const scopeIndex = segments.findIndex((segment) => segment.identity === activeIdentity);
 
   if (scopeIndex >= 0) {
@@ -1255,6 +1284,19 @@ function updateSegmentNavigationVisibility() {
 }
 
 function updateSegmentNavigationButtons() {
+  const segmentName = currentMode.charAt(0).toUpperCase() + currentMode.slice(1);
+  const accessibleName = currentMode.toLowerCase();
+  segmentNavigation.dataset.labelStyle = SEGMENT_NAV_LABEL_STYLE;
+  if (segmentNavigationLabel) segmentNavigationLabel.textContent = segmentName;
+  const previousLabel = previousSegmentBtn?.querySelector(".segment-nav-label");
+  const nextLabel = nextSegmentBtn?.querySelector(".segment-nav-label");
+  if (previousLabel) previousLabel.textContent = SEGMENT_NAV_LABEL_STYLE === "explicit" ? `Previous ${segmentName}` : "";
+  if (nextLabel) nextLabel.textContent = SEGMENT_NAV_LABEL_STYLE === "explicit" ? `Next ${segmentName}` : "";
+  previousSegmentBtn?.setAttribute("aria-label", `Previous ${accessibleName} video segment`);
+  previousSegmentBtn?.setAttribute("title", `Previous ${accessibleName} video segment`);
+  nextSegmentBtn?.setAttribute("aria-label", `Next ${accessibleName} video segment`);
+  nextSegmentBtn?.setAttribute("title", `Next ${accessibleName} video segment`);
+
   if (!updateSegmentNavigationVisibility()) {
     return;
   }
@@ -1293,9 +1335,11 @@ function navigateToAdjacentVideoSegment(direction) {
   activeTextClickHighlight = null;
   lastTextDrivenNavigationTime = Date.now();
   const target = segments[nextIndex].element;
-  const playback = getClipPlaybackForTarget(target);
+  activeVideoSegmentIndex = nextIndex;
+  const playback = getClipPlaybackForTarget(target, { selectVideoSegment: true });
   currentVideoScopeTarget = null;
-  const individualWordVideo = shouldUseIndividualWordVideos() && target.dataset.hasWordVideo === "true"
+  const individualWordVideo = USE_INDIVIDUAL_WORD_VIDEOS_FOR_SEGMENT_NAVIGATION
+    && shouldUseIndividualWordVideos() && target.dataset.hasWordVideo === "true"
     ? target.dataset.signVideoUrl || getStandaloneWordVideo(target.dataset.wordKey || target.textContent)
     : "";
 
@@ -1347,7 +1391,10 @@ document.addEventListener("mouseover", (event) => {
     return;
   }
 
-  if ((currentNavigation === "text-centric" || currentNavigation === "both") && !isChunkInCurrentVideoScope(chunk)) {
+  // Scrolling can move new words underneath a stationary pointer and dispatch mouseover.
+  // Never let that incidental hover replace an already active video scope.
+  if ((currentNavigation === "text-centric" || currentNavigation === "both")
+      && !hasActiveVideoScope() && !isChunkInCurrentVideoScope(chunk)) {
     setVideoScopeTarget(chunk);
   }
 
@@ -1416,6 +1463,10 @@ function activateVideoTarget(element, options = {}) {
   currentVideoTarget = element;
   highlightChunk(element);
 
+  if (currentLocation === "popup" && videoPanel.style.display !== "none") {
+    positionPopupVideoPanel(element);
+  }
+
   if (shouldScroll) {
     scrollChunkIntoViewFromVideo(element, forceScroll);
   }
@@ -1461,7 +1512,9 @@ function syncHighlightFromVideoTime(options = {}) {
     return;
   }
 
-  const shouldAutoScrollText = options.forceScroll === true || currentNavigation === "video-centric";
+  const shouldAutoScrollText = options.forceScroll === true
+    || currentNavigation === "video-centric"
+    || currentNavigation === "both";
 
   if (!isMainVideoSource() && !currentVideoHasTimeline) {
     if (currentVideoTarget) {
@@ -1473,7 +1526,24 @@ function syncHighlightFromVideoTime(options = {}) {
     return;
   }
 
-  const activeChunk = getChunkForMainVideoTime(currentVideoTimelineStart + video.currentTime);
+  const timelineTime = currentVideoTimelineStart + video.currentTime;
+  let activeChunk;
+  const segmentTarget = activeVideoSegmentTarget || currentVideoScopeTarget;
+  if (currentMode !== "full" && segmentTarget) {
+    const linkedUnits = getLinkedUnitsInsideActiveVideoSegment(segmentTarget);
+    activeChunk = linkedUnits.find((unit) => {
+      const start = parseFloat(unit.dataset.start);
+      const end = parseFloat(unit.dataset.end);
+      return timelineTime + TIMELINE_MATCH_EPSILON >= start && timelineTime < end;
+    });
+    if (!activeChunk && linkedUnits.length) {
+      activeChunk = timelineTime < parseFloat(linkedUnits[0].dataset.start)
+        ? linkedUnits[0]
+        : linkedUnits[linkedUnits.length - 1];
+    }
+  } else {
+    activeChunk = getChunkForMainVideoTime(timelineTime);
+  }
 
   if (activeChunk) {
     activateVideoTarget(activeChunk, {
@@ -1523,6 +1593,8 @@ function prepareVideoCentricPanel() {
   setVideoVisible(true, firstChunk);
   currentVideoTarget = firstChunk;
   currentVideoScopeTarget = firstChunk;
+  activeVideoSegmentTarget = firstChunk;
+  activeVideoSegmentIndex = 0;
   highlightChunk(firstChunk);
   scrollChunkIntoViewFromVideo(firstChunk, true);
   const shouldAutoPlayFullText = currentMode === "full" && initialSrc === MAIN_VIDEO_PATH;
@@ -1742,6 +1814,9 @@ function seekMainVideoFromText(element, { play = false, stopAt = null, position 
   setVideoVisible(true, element, { position });
   currentVideoTarget = element;
   currentVideoScopeTarget = element;
+  activeVideoSegmentTarget = element;
+  activeVideoSegmentIndex = getVideoSegments(currentMode)
+    .findIndex((segment) => segment.identity === getVideoSegmentIdentity(element, currentMode));
   lastActiveEl = element;
   currentVideoTimelineStart = 0;
   currentVideoHasTimeline = true;
@@ -1791,19 +1866,28 @@ function playClipForTarget(src, element, {
 
   setVideoVisible(true, element);
   currentVideoScopeTarget = element;
+  activeVideoSegmentTarget = element;
+  activeVideoSegmentIndex = getVideoSegments(currentMode)
+    .findIndex((segment) => segment.identity === getVideoSegmentIdentity(element, currentMode));
+  const firstLinkedUnit = getLinkedUnitsInsideActiveVideoSegment(element)[0] || element;
   const sourceChanged = setVideoSource(src, false);
   currentVideoTimelineStart = Number.isFinite(timelineStart) ? timelineStart : 0;
   currentVideoHasTimeline = src === MAIN_VIDEO_PATH || Number.isFinite(timelineStart);
 
-  if (shouldSelectVideoSegmentationLevel()) {
-    currentVideoTarget = element;
+  if (shouldSelectVideoSegmentationLevel() || allowProgrammaticNavigation) {
+    currentVideoTarget = firstLinkedUnit;
+    highlightChunk(firstLinkedUnit);
+    scrollChunkIntoViewFromVideo(firstLinkedUnit, true);
+    if (currentLocation === "popup") positionPopupVideoPanel(firstLinkedUnit);
     updateTextLinkStates();
   } else if (currentNavigation === "text-centric" || currentNavigation === "both") {
     highlightTextClickForActiveRange(element);
   } else {
     activateVideoTarget(element);
   }
-  stopTime = (currentNavigation === "text-centric" || currentNavigation === "both") ? null : stopAt;
+  stopTime = allowProgrammaticNavigation
+    ? stopAt
+    : (currentNavigation === "text-centric" || currentNavigation === "both") ? null : stopAt;
 
   if (!Number.isFinite(seekTo) && !sourceChanged) {
     video.currentTime = 0;
@@ -1937,6 +2021,10 @@ function syncVideoToTextScroll() {
 }
 
 function scheduleTextScrollSync() {
+  if (!ENABLE_SCROLL_DRIVEN_INTERACTION) {
+    return;
+  }
+
   if (isProgrammaticTextScroll) {
     return;
   }
@@ -1978,7 +2066,11 @@ video.addEventListener("seeked", () => {
   syncHighlightFromVideoTime({ forceScroll: true });
 });
 video.addEventListener("play", syncHighlightFromVideoTime);
-video.addEventListener("ended", updateTextClickHighlightFromVideoTime);
+video.addEventListener("ended", () => {
+  updateTextClickHighlightFromVideoTime();
+  // Force the final state through the segment-scoped clamp so the last unit remains active.
+  syncHighlightFromVideoTime();
+});
 video.addEventListener("loadedmetadata", updateSegmentNavigationButtons);
 
 previousSegmentBtn?.addEventListener("click", () => navigateToAdjacentVideoSegment(-1));
@@ -2072,37 +2164,40 @@ function positionPopupVideoPanel(targetElement = null) {
 
   videoPanel.style.width = `${panelWidth}px`;
 
-  if (hasUserPlacedPopup && popupDragPosition) {
+  const anchor = getPopupAnchor(targetElement);
+  const anchorRect = anchor.getBoundingClientRect();
+  const panelRect = videoPanel.getBoundingClientRect();
+  const width = panelRect.width || panelWidth;
+  const height = panelRect.height;
+  const overlaps = (position) => !(position.left + width <= anchorRect.left || position.left >= anchorRect.right
+    || position.top + height <= anchorRect.top || position.top >= anchorRect.bottom);
+  const valid = (position) => position.left >= VIEWPORT_PADDING && position.top >= VIEWPORT_PADDING
+    && position.left + width <= window.innerWidth - VIEWPORT_PADDING
+    && position.top + height <= window.innerHeight - VIEWPORT_PADDING && !overlaps(position);
+
+  if (hasUserPlacedPopup && popupDragPosition && valid(popupDragPosition)) {
     setPopupPanelPosition(popupDragPosition.left, popupDragPosition.top);
     return;
   }
 
-  const anchor = getPopupAnchor(targetElement);
-  const anchorRect = anchor.getBoundingClientRect();
-  const textRect = textSide?.getBoundingClientRect() || document.body.getBoundingClientRect();
-  const panelRect = videoPanel.getBoundingClientRect();
-  const margin = 10;
-  const viewportPadding = 12;
-  const minLeft = Math.max(textRect.left + viewportPadding, viewportPadding);
-  const maxLeft = Math.min(textRect.right - panelWidth - viewportPadding, window.innerWidth - panelWidth - viewportPadding);
+  const currentPosition = {
+    left: parseFloat(videoPanel.style.left),
+    top: parseFloat(videoPanel.style.top)
+  };
+  if (!hasUserPlacedPopup && Number.isFinite(currentPosition.left)
+      && Number.isFinite(currentPosition.top) && valid(currentPosition)) {
+    return;
+  }
 
-  const nextPanelRect = videoPanel.getBoundingClientRect();
-  const effectivePanelWidth = nextPanelRect.width || panelWidth;
-  const effectivePanelHeight = nextPanelRect.height || panelRect.height;
-  const needsMoreSpaceAbove = anchorRect.top < effectivePanelHeight + margin + viewportPadding;
-
-  const centeredLeft = anchorRect.left + (anchorRect.width / 2) - (effectivePanelWidth / 2);
-  const aboveTop = anchorRect.top - effectivePanelHeight - margin;
-  const belowTop = anchorRect.bottom + margin;
-  const preferredTop = needsMoreSpaceAbove && window.scrollY <= 0 ? belowTop : aboveTop;
-  const left = Math.min(Math.max(centeredLeft, minLeft), Math.max(maxLeft, minLeft));
-  const top = Math.min(
-    Math.max(preferredTop, viewportPadding),
-    Math.max(window.innerHeight - effectivePanelHeight - viewportPadding, viewportPadding)
-  );
-
-  videoPanel.style.left = `${left}px`;
-  videoPanel.style.top = `${top}px`;
+  const candidates = [
+    { left: anchorRect.right + POPUP_TEXT_GAP, top: Math.min(Math.max(anchorRect.top, VIEWPORT_PADDING), window.innerHeight - height - VIEWPORT_PADDING) },
+    { left: anchorRect.left - width - POPUP_TEXT_GAP, top: Math.min(Math.max(anchorRect.top, VIEWPORT_PADDING), window.innerHeight - height - VIEWPORT_PADDING) },
+    { left: Math.min(Math.max(anchorRect.left, VIEWPORT_PADDING), window.innerWidth - width - VIEWPORT_PADDING), top: anchorRect.bottom + POPUP_TEXT_GAP },
+    { left: Math.min(Math.max(anchorRect.left, VIEWPORT_PADDING), window.innerWidth - width - VIEWPORT_PADDING), top: anchorRect.top - height - POPUP_TEXT_GAP }
+  ];
+  const position = candidates.find(valid)
+    || clampPopupPosition(anchorRect.right + POPUP_TEXT_GAP, anchorRect.bottom + POPUP_TEXT_GAP);
+  setPopupPanelPosition(position.left, position.top);
 }
 
 function positionInPlaceVideoPanel(targetElement = null) {
@@ -2304,6 +2399,8 @@ function resetInteractionState() {
   lastActiveEl = null;
   currentVideoTarget = null;
   currentVideoScopeTarget = null;
+  activeVideoSegmentTarget = null;
+  activeVideoSegmentIndex = null;
   currentNavigation = "none";
   hasNavigationChoice = false;
   choiceMadeByFeature.navigation = false;
@@ -2355,6 +2452,8 @@ function setVideoVisible(visible, targetElement = null, { position = true } = {}
     activeTextClickHighlight = null;
     currentVideoTarget = null;
     currentVideoScopeTarget = null;
+    activeVideoSegmentTarget = null;
+    activeVideoSegmentIndex = null;
     lastActiveEl = null;
     stopTime = null;
     document.querySelectorAll(".cueChunk").forEach((element) => {
@@ -2531,7 +2630,7 @@ window.addEventListener("resize", () => {
 });
 
 function handleScrollInteraction() {
-  scheduleTextScrollSync();
+  if (ENABLE_SCROLL_DRIVEN_INTERACTION) scheduleTextScrollSync();
   scheduleFloatingPanelPosition();
 }
 
