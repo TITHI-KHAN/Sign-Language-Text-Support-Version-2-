@@ -70,11 +70,8 @@ const ENABLE_SCROLL_DRIVEN_INTERACTION = false;
 const ENABLE_TEXT_SELECTION_IN_INTERACTIVE_VIDEO = false;
 // Keep Previous/Next deterministic in Word segmentation by using document-order timeline intervals.
 const USE_INDIVIDUAL_WORD_VIDEOS_FOR_SEGMENT_NAVIGATION = true;
-// Switch to "explicit" to compare Previous Sentence / Next Sentence labels.
-const SEGMENT_NAV_LABEL_STYLE = "compact"; // "compact" or "explicit"
 const POPUP_TEXT_GAP = 12;
 const VIEWPORT_PADDING = 12;
-const segmentNavigationLabel = document.getElementById("segmentNavigationLabel");
 
 document.documentElement.dataset.linkUnderlineStyle = LINK_UNDERLINE_STYLE;
 
@@ -1286,12 +1283,10 @@ function updateSegmentNavigationVisibility() {
 function updateSegmentNavigationButtons() {
   const segmentName = currentMode.charAt(0).toUpperCase() + currentMode.slice(1);
   const accessibleName = currentMode.toLowerCase();
-  segmentNavigation.dataset.labelStyle = SEGMENT_NAV_LABEL_STYLE;
-  if (segmentNavigationLabel) segmentNavigationLabel.textContent = segmentName;
   const previousLabel = previousSegmentBtn?.querySelector(".segment-nav-label");
   const nextLabel = nextSegmentBtn?.querySelector(".segment-nav-label");
-  if (previousLabel) previousLabel.textContent = SEGMENT_NAV_LABEL_STYLE === "explicit" ? `Previous ${segmentName}` : "";
-  if (nextLabel) nextLabel.textContent = SEGMENT_NAV_LABEL_STYLE === "explicit" ? `Next ${segmentName}` : "";
+  if (previousLabel) previousLabel.textContent = `Previous ${segmentName}`;
+  if (nextLabel) nextLabel.textContent = `Next ${segmentName}`;
   previousSegmentBtn?.setAttribute("aria-label", `Previous ${accessibleName} video segment`);
   previousSegmentBtn?.setAttribute("title", `Previous ${accessibleName} video segment`);
   nextSegmentBtn?.setAttribute("aria-label", `Next ${accessibleName} video segment`);
