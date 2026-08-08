@@ -490,12 +490,12 @@ function setLinkingGranularity(granularity) {
 }
 
 function getNavigationAvailability() {
-  const { navigationAvailable } = getStateMachineState();
+  const { navigationAvailable, sameGranularity } = getStateMachineState();
   const requiredSettingsSelected = choiceMadeByFeature.segmentation
     && choiceMadeByFeature["linking-granularity"];
 
   return {
-    available: navigationAvailable && requiredSettingsSelected,
+    available: navigationAvailable && !sameGranularity && requiredSettingsSelected,
     allowedModes: ["text-centric", "video-centric", "both"]
   };
 }
@@ -2385,7 +2385,7 @@ function setLocation(location) {
   }
 }
 
-function resetInteractionState() {
+function resetInteractionState({ preserveNavigationChoice = false } = {}) {
   navigationPanelRevealToken += 1;
   videoStartInitToken += 1;
   isInitializingVideoStart = false;
@@ -2396,10 +2396,12 @@ function resetInteractionState() {
   currentVideoScopeTarget = null;
   activeVideoSegmentTarget = null;
   activeVideoSegmentIndex = null;
-  currentNavigation = "none";
-  hasNavigationChoice = false;
-  choiceMadeByFeature.navigation = false;
-  clearChoiceVisual("navigation");
+  if (!preserveNavigationChoice) {
+    currentNavigation = "none";
+    hasNavigationChoice = false;
+    choiceMadeByFeature.navigation = false;
+    clearChoiceVisual("navigation");
+  }
   document.querySelectorAll(".cueChunk").forEach((element) => {
     element.classList.remove("activeHighlight", "activeSegmentHighlight");
   });
@@ -2507,12 +2509,12 @@ function setupSidebarControls() {
         return;
       }
 
-      resetInteractionState();
+      const preservesNavigationChoice = feature === "segmentation"
+        || feature === "linking-granularity";
+      resetInteractionState({ preserveNavigationChoice: preservesNavigationChoice });
 
       if (feature === "segmentation") {
-        hasNavigationChoice = false;
         choiceMadeByFeature.segmentation = true;
-        clearChoiceVisual("navigation");
         setMode(button.dataset.value, false);
         if (currentNavigation === "video-centric") {
           prepareVideoCentricPanel();
@@ -2527,9 +2529,7 @@ function setupSidebarControls() {
       }
 
       if (feature === "linking-granularity") {
-        hasNavigationChoice = false;
         choiceMadeByFeature["linking-granularity"] = true;
-        clearChoiceVisual("navigation");
         setLinkingGranularity(button.dataset.value);
         scheduleTextScrollSync();
       }
