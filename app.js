@@ -159,14 +159,8 @@ const CUES = [
 
 
 /**
- * PHYSICAL CLIP PLAYER
- * index: The number of the sentence/paragraph (0, 1, 2...)
- * type: 'sent' or 'para'
- */
-
-/**
  * SMART PLAYER
- * Handles Word files, Sentence files, and seek-jumps in Full Mode
+ * Handles standalone Word files and timed ranges in the main video.
  */
 function playSegment(startTime, endTime, isWordFile = false, wordUrl = null, element = null) {
   if (isWordFile && wordUrl && element) {
@@ -188,26 +182,6 @@ function getClipPlaybackForTarget(element, fallback = {}) {
   const selectVideoSegment = shouldSelectVideoSegmentationLevel() || fallback.selectVideoSegment === true;
   const selectionStart = selectVideoSegment && Number.isFinite(segmentStart) ? segmentStart : start;
   const selectionEnd = selectVideoSegment && Number.isFinite(segmentEnd) ? segmentEnd : end;
-  const sentenceClipIndex = Number.parseInt(element.dataset.sentenceClipIndex, 10);
-  const paragraphClipIndex = Number.parseInt(element.dataset.paragraphClipIndex, 10);
-
-  if (currentMode === "paragraph" && Number.isFinite(paragraphClipIndex)) {
-    return {
-      src: MAIN_VIDEO_PATH,
-      timelineStart: 0,
-      seekTo: Number.isFinite(selectionStart) ? selectionStart : null,
-      stopAt: Number.isFinite(segmentEnd) ? segmentEnd : selectionEnd
-    };
-  }
-
-  if (currentMode === "sentence" && Number.isFinite(sentenceClipIndex)) {
-    return {
-      src: MAIN_VIDEO_PATH,
-      timelineStart: 0,
-      seekTo: Number.isFinite(selectionStart) ? selectionStart : 0,
-      stopAt: Number.isFinite(segmentEnd) ? segmentEnd : selectionEnd
-    };
-  }
 
   return {
     src: MAIN_VIDEO_PATH,

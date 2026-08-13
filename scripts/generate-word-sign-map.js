@@ -75,10 +75,8 @@ function roundTimestamp(value) {
 const source = fs.readFileSync(APP_PATH, "utf8");
 const title = extractLiteral(source, /const TITLE_TEXT = "([^"]+)";/, "TITLE_TEXT");
 const cuesLiteral = extractLiteral(source, /const CUES = ([\s\S]*?\n\];)/, "CUES");
-const complexVideosLiteral = extractLiteral(source, /const complexWordVideos = ({[\s\S]*?\n});/, "complexWordVideos");
-
 const cues = Function(`return ${cuesLiteral}`)();
-const complexWordVideos = Function(`return ${complexVideosLiteral}`)();
+const complexWordVideos = {};
 const textParts = [title];
 
 cues.forEach((cue) => {
@@ -159,8 +157,6 @@ function addTimingRows({
         relative_sentence_clip_end: roundTimestamp(relativeSentenceClipEnd),
         relative_paragraph_clip_start: roundTimestamp(relativeParagraphClipStart),
         relative_paragraph_clip_end: roundTimestamp(relativeParagraphClipEnd),
-        sentence_clip_src: `segments/sentences/sent_${currentSentenceClipIndex}.mp4`,
-        paragraph_clip_src: `segments/paragraphs/para_${paragraphClipIndex}.mp4`,
         timing_status: "estimated-needs-review",
         notes: "Relative clip timestamp = main video word timestamp - segment start timestamp. Estimates are evenly divided and must be replaced with reviewed sign-level annotation timestamps."
       });
@@ -214,7 +210,7 @@ const rows = Array.from(counts.entries())
       signbank_search_url: `https://aslsignbank.haskins.yale.edu/signs/search/?translation=${encodeURIComponent(word)}`,
       signasl_lookup_url: `https://www.signasl.org/sign/${encodeURIComponent(word)}`,
       status: localVideo ? "local-video-exists" : "needs-review",
-      notes: localVideo ? "Already mapped in complexWordVideos." : ""
+      notes: localVideo ? "Already mapped to a local word video." : ""
     };
   });
 
@@ -269,8 +265,6 @@ const timingHeaders = [
   "relative_sentence_clip_end",
   "relative_paragraph_clip_start",
   "relative_paragraph_clip_end",
-  "sentence_clip_src",
-  "paragraph_clip_src",
   "timing_status",
   "sentence_text",
   "paragraph_text",
