@@ -81,20 +81,6 @@ popupVideoLayer.hidden = true;
 document.body.appendChild(popupVideoLayer);
 
 
-/**
- * WORD ASSET MAP
- * For every "Complex Word" you have a video for, add it here.
- * Format: "word": "path/to/video.mp4"
- */
-const complexWordVideos = {
-  "accessibility": "assets/words/accessibility.mp4",
-  "mobilizations": "assets/words/mobilizations.mp4",
-  "recommendations": "assets/words/recommendations.mp4",
-  "ableism": "assets/words/ableism.mp4",
-  "autonomy": "assets/words/autonomy.mp4",
-  "justice": "assets/words/justice.mp4"
-};
-
 function normalizeWordKey(word) {
   return word
     .normalize("NFKD")
@@ -102,16 +88,12 @@ function normalizeWordKey(word) {
     .replace(/[^a-z]/g, "");
 }
 
-function getAvailableWordVideo(word) {
-  return complexWordVideos[normalizeWordKey(word)] || "";
-}
-
 function getIndividualSignVideo(word) {
   return window.SIGN_VIDEO_MAP?.[normalizeWordKey(word)]?.video_url || "";
 }
 
 function getStandaloneWordVideo(word) {
-  return getAvailableWordVideo(word) || getIndividualSignVideo(word);
+  return getIndividualSignVideo(word);
 }
 
 function revokeCurrentBlobVideoUrl() {
@@ -210,22 +192,20 @@ function getClipPlaybackForTarget(element, fallback = {}) {
   const paragraphClipIndex = Number.parseInt(element.dataset.paragraphClipIndex, 10);
 
   if (currentMode === "paragraph" && Number.isFinite(paragraphClipIndex)) {
-    const timelineStart = Number.isFinite(segmentStart) ? segmentStart : start;
     return {
-      src: `segments/paragraphs/para_${paragraphClipIndex}.mp4`,
-      timelineStart,
-      seekTo: Number.isFinite(selectionStart) && Number.isFinite(timelineStart) ? Math.max(selectionStart - timelineStart, 0) : null,
-      stopAt: Number.isFinite(selectionEnd) && Number.isFinite(timelineStart) ? Math.max(selectionEnd - timelineStart, 0) : null
+      src: MAIN_VIDEO_PATH,
+      timelineStart: 0,
+      seekTo: Number.isFinite(selectionStart) ? selectionStart : null,
+      stopAt: Number.isFinite(segmentEnd) ? segmentEnd : selectionEnd
     };
   }
 
   if (currentMode === "sentence" && Number.isFinite(sentenceClipIndex)) {
-    const timelineStart = Number.isFinite(segmentStart) ? segmentStart : start;
     return {
-      src: `segments/sentences/sent_${sentenceClipIndex}.mp4`,
-      timelineStart,
-      seekTo: Number.isFinite(selectionStart) && Number.isFinite(timelineStart) ? Math.max(selectionStart - timelineStart, 0) : 0,
-      stopAt: Number.isFinite(selectionEnd) && Number.isFinite(timelineStart) ? Math.max(selectionEnd - timelineStart, 0) : null
+      src: MAIN_VIDEO_PATH,
+      timelineStart: 0,
+      seekTo: Number.isFinite(selectionStart) ? selectionStart : 0,
+      stopAt: Number.isFinite(segmentEnd) ? segmentEnd : selectionEnd
     };
   }
 
@@ -1815,7 +1795,7 @@ function seekMainVideoFromText(element, { play = false, stopAt = null, position 
   lastActiveEl = element;
   currentVideoTimelineStart = 0;
   currentVideoHasTimeline = true;
-  stopTime = (currentNavigation === "text-centric" || currentNavigation === "both") ? null : stopAt;
+  stopTime = currentMode === "full" ? null : stopAt;
   isTextDrivenVideoSeek = true;
   lastTextDrivenNavigationTime = Date.now();
   const sourceChanged = setVideoSource(MAIN_VIDEO_PATH, false);
@@ -1880,9 +1860,7 @@ function playClipForTarget(src, element, {
   } else {
     activateVideoTarget(element);
   }
-  stopTime = allowProgrammaticNavigation
-    ? stopAt
-    : (currentNavigation === "text-centric" || currentNavigation === "both") ? null : stopAt;
+  stopTime = currentMode === "full" && !allowProgrammaticNavigation ? null : stopAt;
 
   if (!Number.isFinite(seekTo) && !sourceChanged) {
     video.currentTime = 0;
