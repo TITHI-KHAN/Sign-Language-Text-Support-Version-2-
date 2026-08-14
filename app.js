@@ -705,7 +705,11 @@ function renderTitle() {
   blogTitle.innerHTML = "";
 
   if (isFullTextLinkedUnit()) {
-    appendFullTextLinkedUnit(blogTitle, TITLE_TEXT);
+    if (hasExplicitGranularityChoices()) {
+      configureFullTextLinkedUnit(blogTitle, TITLE_TEXT);
+    } else {
+      setFormattedText(blogTitle, TITLE_TEXT);
+    }
     return;
   }
 
@@ -756,21 +760,19 @@ function appendInterUnitSpace(container) {
   container.appendChild(document.createTextNode(" "));
 }
 
-function appendFullTextLinkedUnit(container, text) {
-  const span = document.createElement("span");
-  span.className = "cueChunk full-text-linked-unit";
-  span.dataset.start = TITLE_CUE.start;
-  span.dataset.end = getFullTextEnd();
-  setSegmentRange(span, TITLE_CUE.start, getFullTextEnd());
-  setFormattedText(span, text);
-  span.onclick = () => {
-    playClipForTarget(MAIN_VIDEO_PATH, span, {
+function configureFullTextLinkedUnit(element, text) {
+  element.classList.add("cueChunk", "full-text-linked-unit");
+  element.dataset.start = TITLE_CUE.start;
+  element.dataset.end = getFullTextEnd();
+  setSegmentRange(element, TITLE_CUE.start, getFullTextEnd());
+  setFormattedText(element, text);
+  element.onclick = () => {
+    playClipForTarget(MAIN_VIDEO_PATH, element, {
       seekTo: TITLE_CUE.start,
       timelineStart: 0,
       stopAt: null
     });
   };
-  container.appendChild(span);
 }
 
 function setSegmentRange(element, start, end) {
@@ -933,7 +935,11 @@ function appendProcessedText(container, rawText, cue, cueIndex) {
     container.appendChild(span);
   }
   else if (currentLinkingGranularity === 'full') {
-    appendFullTextLinkedUnit(container, rawText);
+    if (hasExplicitGranularityChoices()) {
+      configureFullTextLinkedUnit(container, rawText);
+    } else {
+      setFormattedText(container, rawText);
+    }
   }
 }
 
