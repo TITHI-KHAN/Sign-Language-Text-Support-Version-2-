@@ -262,6 +262,11 @@ function isFullTextLinkedUnit() {
   return currentMode === "full" && currentLinkingGranularity === "full";
 }
 
+function hasExplicitGranularityChoices() {
+  return choiceMadeByFeature.segmentation
+    && choiceMadeByFeature["linking-granularity"];
+}
+
 function getStateMachineState(mode = currentMode, linkingGranularity = currentLinkingGranularity) {
   const modeRank = getGranularityRank(mode);
   const linkingRank = getGranularityRank(linkingGranularity);
@@ -535,9 +540,7 @@ function canTextControlVideo() {
     return false;
   }
 
-  if (isFullTextLinkedUnit()
-      && (!choiceMadeByFeature.segmentation
-        || !choiceMadeByFeature["linking-granularity"])) {
+  if (state.sameGranularity && !hasExplicitGranularityChoices()) {
     return false;
   }
 
@@ -622,18 +625,19 @@ function canActivateTextChunk(chunk) {
 }
 
 function updateTextLinkStates() {
+  const { sameGranularity } = getStateMachineState();
+
   document.querySelectorAll(".cueChunk").forEach((chunk) => {
     const isInActiveScope = isChunkInCurrentVideoScope(chunk);
-    const shouldShowFullTextLink = isFullTextLinkedUnit()
-      && choiceMadeByFeature.segmentation
-      && choiceMadeByFeature["linking-granularity"]
+    const shouldShowSameGranularityLink = sameGranularity
+      && hasExplicitGranularityChoices()
       && canUseTextChunkForNavigation(chunk);
     const shouldShowNavigationLink = (currentNavigation === "text-centric" || currentNavigation === "both")
       && canUseTextChunkForNavigation(chunk)
       && isInActiveScope;
     const shouldShowSegmentSelectionLink = canUseTextChunkForSegmentSelection(chunk)
       && !hasActiveVideoScope();
-    const shouldShowLink = shouldShowFullTextLink
+    const shouldShowLink = shouldShowSameGranularityLink
       || shouldShowNavigationLink
       || shouldShowSegmentSelectionLink;
 
