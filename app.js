@@ -535,6 +535,12 @@ function canTextControlVideo() {
     return false;
   }
 
+  if (isFullTextLinkedUnit()
+      && (!choiceMadeByFeature.segmentation
+        || !choiceMadeByFeature["linking-granularity"])) {
+    return false;
+  }
+
   if (hasNavigationChoice) {
     return currentNavigation === "text-centric" || currentNavigation === "both";
   }
@@ -619,6 +625,8 @@ function updateTextLinkStates() {
   document.querySelectorAll(".cueChunk").forEach((chunk) => {
     const isInActiveScope = isChunkInCurrentVideoScope(chunk);
     const shouldShowFullTextLink = isFullTextLinkedUnit()
+      && choiceMadeByFeature.segmentation
+      && choiceMadeByFeature["linking-granularity"]
       && canUseTextChunkForNavigation(chunk);
     const shouldShowNavigationLink = (currentNavigation === "text-centric" || currentNavigation === "both")
       && canUseTextChunkForNavigation(chunk)
