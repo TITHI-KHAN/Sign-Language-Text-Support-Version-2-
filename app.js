@@ -59,8 +59,7 @@ const navigationOptionButtons = document.querySelectorAll('[data-feature-option=
 const locationOptionButtons = document.querySelectorAll('[data-feature-option="location"]');
 const navigationDropdown = navigationOptionButtons[0]?.closest(".support-dropdown");
 const navigationUnavailableMessage = document.getElementById("navigationUnavailableMessage");
-
-;
+const MAIN_VIDEO_PATH = "video.mp4?v=2";
 const MOBILE_LAYOUT_BREAKPOINT = 700;
 const GRANULARITY_ORDER = ["word", "sentence", "paragraph", "full"];
 const TIMELINE_MATCH_EPSILON = 0.005;
