@@ -59,7 +59,8 @@ const navigationOptionButtons = document.querySelectorAll('[data-feature-option=
 const locationOptionButtons = document.querySelectorAll('[data-feature-option="location"]');
 const navigationDropdown = navigationOptionButtons[0]?.closest(".support-dropdown");
 const navigationUnavailableMessage = document.getElementById("navigationUnavailableMessage");
-const MAIN_VIDEO_PATH = "video.mp4?v=2";
+
+;
 const MOBILE_LAYOUT_BREAKPOINT = 700;
 const GRANULARITY_ORDER = ["word", "sentence", "paragraph", "full"];
 const TIMELINE_MATCH_EPSILON = 0.005;
@@ -159,8 +160,14 @@ const CUES = [
 
 
 /**
+ * PHYSICAL CLIP PLAYER
+ * index: The number of the sentence/paragraph (0, 1, 2...)
+ * type: 'sent' or 'para'
+ */
+
+/**
  * SMART PLAYER
- * Handles standalone Word files and timed ranges in the main video.
+ * Handles Word files, Sentence files, and seek-jumps in Full Mode
  */
 function playSegment(startTime, endTime, isWordFile = false, wordUrl = null, element = null) {
   if (isWordFile && wordUrl && element) {
@@ -182,6 +189,26 @@ function getClipPlaybackForTarget(element, fallback = {}) {
   const selectVideoSegment = shouldSelectVideoSegmentationLevel() || fallback.selectVideoSegment === true;
   const selectionStart = selectVideoSegment && Number.isFinite(segmentStart) ? segmentStart : start;
   const selectionEnd = selectVideoSegment && Number.isFinite(segmentEnd) ? segmentEnd : end;
+  const sentenceClipIndex = Number.parseInt(element.dataset.sentenceClipIndex, 10);
+  const paragraphClipIndex = Number.parseInt(element.dataset.paragraphClipIndex, 10);
+
+  if (currentMode === "paragraph" && Number.isFinite(paragraphClipIndex)) {
+    return {
+      src: MAIN_VIDEO_PATH,
+      timelineStart: 0,
+      seekTo: Number.isFinite(selectionStart) ? selectionStart : null,
+      stopAt: Number.isFinite(segmentEnd) ? segmentEnd : selectionEnd
+    };
+  }
+
+  if (currentMode === "sentence" && Number.isFinite(sentenceClipIndex)) {
+    return {
+      src: MAIN_VIDEO_PATH,
+      timelineStart: 0,
+      seekTo: Number.isFinite(selectionStart) ? selectionStart : 0,
+      stopAt: Number.isFinite(segmentEnd) ? segmentEnd : selectionEnd
+    };
+  }
 
   return {
     src: MAIN_VIDEO_PATH,
