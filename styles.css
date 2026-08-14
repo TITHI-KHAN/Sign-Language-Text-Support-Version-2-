@@ -97,6 +97,11 @@ li.cue-container::before {
   text-underline-offset: 0.2em;
 }
 
+.cueChunk.full-text-linked-unit.is-linked {
+  background-color: #eef4fb;
+  padding: 2px 8px;
+}
+
 html[data-link-underline-style="solid"] .cueChunk.is-linked {
   text-decoration-style: solid;
 }

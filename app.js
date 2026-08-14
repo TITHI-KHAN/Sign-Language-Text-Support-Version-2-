@@ -258,6 +258,10 @@ function isSupportedGranularity(granularity) {
   return getGranularityRank(granularity) !== -1;
 }
 
+function isFullTextLinkedUnit() {
+  return currentMode === "full" && currentLinkingGranularity === "full";
+}
+
 function getStateMachineState(mode = currentMode, linkingGranularity = currentLinkingGranularity) {
   const modeRank = getGranularityRank(mode);
   const linkingRank = getGranularityRank(linkingGranularity);
@@ -614,12 +618,16 @@ function canActivateTextChunk(chunk) {
 function updateTextLinkStates() {
   document.querySelectorAll(".cueChunk").forEach((chunk) => {
     const isInActiveScope = isChunkInCurrentVideoScope(chunk);
+    const shouldShowFullTextLink = isFullTextLinkedUnit()
+      && canUseTextChunkForNavigation(chunk);
     const shouldShowNavigationLink = (currentNavigation === "text-centric" || currentNavigation === "both")
       && canUseTextChunkForNavigation(chunk)
       && isInActiveScope;
     const shouldShowSegmentSelectionLink = canUseTextChunkForSegmentSelection(chunk)
       && !hasActiveVideoScope();
-    const shouldShowLink = shouldShowNavigationLink || shouldShowSegmentSelectionLink;
+    const shouldShowLink = shouldShowFullTextLink
+      || shouldShowNavigationLink
+      || shouldShowSegmentSelectionLink;
 
     chunk.classList.toggle("is-linked", shouldShowLink);
     chunk.setAttribute("aria-disabled", String(!canActivateTextChunk(chunk)));
@@ -684,6 +692,11 @@ function renderTitle() {
 
   blogTitle.innerHTML = "";
 
+  if (isFullTextLinkedUnit()) {
+    appendFullTextLinkedUnit(blogTitle, TITLE_TEXT);
+    return;
+  }
+
   if (currentLinkingGranularity === 'paragraph') {
     const span = document.createElement("span");
     span.className = "cueChunk paragraph-group-0";
@@ -729,6 +742,23 @@ function setFormattedText(element, text, trailingSpace = false) {
 
 function appendInterUnitSpace(container) {
   container.appendChild(document.createTextNode(" "));
+}
+
+function appendFullTextLinkedUnit(container, text) {
+  const span = document.createElement("span");
+  span.className = "cueChunk full-text-linked-unit";
+  span.dataset.start = TITLE_CUE.start;
+  span.dataset.end = getFullTextEnd();
+  setSegmentRange(span, TITLE_CUE.start, getFullTextEnd());
+  setFormattedText(span, text);
+  span.onclick = () => {
+    playClipForTarget(MAIN_VIDEO_PATH, span, {
+      seekTo: TITLE_CUE.start,
+      timelineStart: 0,
+      stopAt: null
+    });
+  };
+  container.appendChild(span);
 }
 
 function setSegmentRange(element, start, end) {
@@ -891,30 +921,7 @@ function appendProcessedText(container, rawText, cue, cueIndex) {
     container.appendChild(span);
   }
   else if (currentLinkingGranularity === 'full') {
-    const sentences = splitIntoSentences(rawText);
-    const cueDuration = Math.max(cue.end - cue.start, 0);
-    const perSentenceDuration = sentences.length > 0 ? cueDuration / sentences.length : 0;
-
-    sentences.forEach((sentenceText, sentenceIdx) => {
-      const sentenceStart = cue.start + (sentenceIdx * perSentenceDuration);
-      const sentenceEnd = sentenceIdx === sentences.length - 1
-        ? cue.end
-        : cue.start + ((sentenceIdx + 1) * perSentenceDuration);
-
-      const span = document.createElement("span");
-      span.className = "cueChunk inline-text sentence-chunk";
-      span.dataset.start = sentenceStart;
-      span.dataset.end = sentenceEnd;
-      setDisplayedSegmentRange(span, cue, { sentenceStart, sentenceEnd });
-      setClipIndexes(span, { sentenceClipIndex: sentenceClipCounter++, paragraphClipIndex: cueIndex });
-      setFormattedText(span, sentenceText);
-      span.onclick = () => {
-        const playback = getClipPlaybackForTarget(span, { seekTo: sentenceStart });
-        playClipForTarget(playback.src, span, playback);
-      };
-      container.appendChild(span);
-      appendInterUnitSpace(container);
-    });
+    appendFullTextLinkedUnit(container, rawText);
   }
 }
 
@@ -985,6 +992,14 @@ function highlightChunk(element) {
   });
 
   if (!element) {
+    updateTextLinkStates();
+    return;
+  }
+
+  if (isFullTextLinkedUnit()) {
+    document.querySelectorAll(".cueChunk.full-text-linked-unit").forEach((chunk) => {
+      chunk.classList.add("activeHighlight");
+    });
     updateTextLinkStates();
     return;
   }
@@ -1119,6 +1134,10 @@ function getLinkedUnitPositionInsideVideoSegment(element, videoSegmentElement = 
 function getLinkedUnitTimelineRange(element) {
   if (!element) {
     return null;
+  }
+
+  if (isFullTextLinkedUnit()) {
+    return { start: TITLE_CUE.start, end: getFullTextEnd() };
   }
 
   return getEstimatedLinkedUnitInterval(element, currentVideoScopeTarget || element);
