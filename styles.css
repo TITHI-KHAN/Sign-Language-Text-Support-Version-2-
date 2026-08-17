@@ -101,7 +101,7 @@ li.cue-container::before {
   background-color: #fff;
 }
 
-.text-side.full-text-linked-unit.is-linked .blog-header,
+.text-side.full-text-linked-unit.is-linked .blog-title,
 .text-side.full-text-linked-unit.is-linked .cue-container {
   background-color: #eef4fb;
   border-radius: 4px;
@@ -140,7 +140,7 @@ html[data-link-underline-style="solid"] .cueChunk.is-linked {
   font-weight: inherit;
 }
 
-.text-side.full-text-linked-unit.activeHighlight .blog-header,
+.text-side.full-text-linked-unit.activeHighlight .blog-title,
 .text-side.full-text-linked-unit.activeHighlight .cue-container {
   background-color: #c9ddf5 !important;
 }
