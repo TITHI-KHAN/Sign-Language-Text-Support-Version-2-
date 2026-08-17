@@ -97,9 +97,8 @@ li.cue-container::before {
   text-underline-offset: 0.2em;
 }
 
-.cueChunk.full-text-linked-unit.is-linked {
+.text-side.full-text-linked-unit.is-linked {
   background-color: #eef4fb;
-  padding: 2px 8px;
 }
 
 html[data-link-underline-style="solid"] .cueChunk.is-linked {
@@ -125,6 +124,12 @@ html[data-link-underline-style="solid"] .cueChunk.is-linked {
   border-radius: 4px;
   padding: 2px 8px;
   font-weight: 700;
+}
+
+.text-side.full-text-linked-unit.activeHighlight {
+  background-color: #c9ddf5 !important;
+  padding: 60px 80px;
+  font-weight: inherit;
 }
 
 .cueChunk.is-linked:hover {

@@ -648,6 +648,7 @@ function updateTextLinkStates() {
 
 function renderContent() {
   // 1. Clear the panel
+  resetFullTextLinkedUnit();
   textPanel.innerHTML = "";
   sentenceClipCounter = 0;
   renderTitle();
@@ -695,6 +696,10 @@ function renderContent() {
 
     textPanel.appendChild(container);
   });
+
+  if (isFullTextLinkedUnit() && hasExplicitGranularityChoices()) {
+    configureFullTextLinkedUnit(textSide);
+  }
 }
 
 function renderTitle() {
@@ -705,11 +710,7 @@ function renderTitle() {
   blogTitle.innerHTML = "";
 
   if (isFullTextLinkedUnit()) {
-    if (hasExplicitGranularityChoices()) {
-      configureFullTextLinkedUnit(blogTitle, TITLE_TEXT);
-    } else {
-      setFormattedText(blogTitle, TITLE_TEXT);
-    }
+    setFormattedText(blogTitle, TITLE_TEXT);
     return;
   }
 
@@ -760,18 +761,49 @@ function appendInterUnitSpace(container) {
   container.appendChild(document.createTextNode(" "));
 }
 
-function configureFullTextLinkedUnit(element, text) {
+function resetFullTextLinkedUnit() {
+  if (!textSide) {
+    return;
+  }
+
+  textSide.classList.remove("cueChunk", "full-text-linked-unit", "is-linked", "activeHighlight");
+  textSide.removeAttribute("data-start");
+  textSide.removeAttribute("data-end");
+  textSide.removeAttribute("data-segment-start");
+  textSide.removeAttribute("data-segment-end");
+  textSide.removeAttribute("role");
+  textSide.removeAttribute("tabindex");
+  textSide.removeAttribute("aria-disabled");
+  textSide.removeAttribute("aria-label");
+  textSide.onclick = null;
+  textSide.onkeydown = null;
+}
+
+function configureFullTextLinkedUnit(element) {
   element.classList.add("cueChunk", "full-text-linked-unit");
   element.dataset.start = TITLE_CUE.start;
   element.dataset.end = getFullTextEnd();
   setSegmentRange(element, TITLE_CUE.start, getFullTextEnd());
-  setFormattedText(element, text);
-  element.onclick = () => {
+  element.setAttribute("role", "button");
+  element.setAttribute("tabindex", "0");
+  element.setAttribute("aria-label", "Play the full text ASL video");
+
+  const activateFullText = () => {
     playClipForTarget(MAIN_VIDEO_PATH, element, {
       seekTo: TITLE_CUE.start,
       timelineStart: 0,
       stopAt: null
     });
+  };
+
+  element.onclick = activateFullText;
+  element.onkeydown = (event) => {
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    event.preventDefault();
+    activateFullText();
   };
 }
 
@@ -935,11 +967,7 @@ function appendProcessedText(container, rawText, cue, cueIndex) {
     container.appendChild(span);
   }
   else if (currentLinkingGranularity === 'full') {
-    if (hasExplicitGranularityChoices()) {
-      configureFullTextLinkedUnit(container, rawText);
-    } else {
-      setFormattedText(container, rawText);
-    }
+    setFormattedText(container, rawText);
   }
 }
 
@@ -1393,7 +1421,7 @@ function highlightHoverSegment(element) {
 }
 
 function isTextChunkInArticle(element) {
-  return Boolean(element && (textPanel?.contains(element) || blogTitle?.contains(element)));
+  return Boolean(element && (element === textSide || textPanel?.contains(element) || blogTitle?.contains(element)));
 }
 
 document.addEventListener("mouseover", (event) => {
