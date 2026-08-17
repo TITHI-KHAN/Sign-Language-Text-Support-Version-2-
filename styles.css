@@ -98,7 +98,15 @@ li.cue-container::before {
 }
 
 .text-side.full-text-linked-unit.is-linked {
+  background-color: #fff;
+}
+
+.text-side.full-text-linked-unit.is-linked .blog-header,
+.text-side.full-text-linked-unit.is-linked .cue-container {
   background-color: #eef4fb;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-weight: 700;
 }
 
 html[data-link-underline-style="solid"] .cueChunk.is-linked {
@@ -127,13 +135,22 @@ html[data-link-underline-style="solid"] .cueChunk.is-linked {
 }
 
 .text-side.full-text-linked-unit.activeHighlight {
-  background-color: #c9ddf5 !important;
+  background-color: #fff !important;
   padding: 60px 80px;
   font-weight: inherit;
 }
 
+.text-side.full-text-linked-unit.activeHighlight .blog-header,
+.text-side.full-text-linked-unit.activeHighlight .cue-container {
+  background-color: #c9ddf5 !important;
+}
+
 .cueChunk.is-linked:hover {
   background-color: #f3f7ff;
+}
+
+.text-side.full-text-linked-unit.is-linked:hover {
+  background-color: #fff;
 }
 
 body[data-mode="full"] .cueChunk:not(.is-linked):hover {
