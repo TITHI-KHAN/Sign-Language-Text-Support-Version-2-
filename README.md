@@ -81,6 +81,14 @@ Video files are stored in:
 
 Large video files are tracked using Git LFS.
 
+## Sign-Language Video Attribution and Use
+
+The sign-language video content included in this repository is presented solely for non-commercial research, educational, and demonstration purposes. All rights to the video content remain with its respective creator(s) and rights holder(s).
+
+The videos may not be reused, redistributed, republished, or incorporated into a commercial product or service without prior permission from the applicable rights holder. Their inclusion in this repository does not transfer ownership or grant a commercial-use license.
+
+The repository's software license applies to the source code only and does not grant additional rights to the sign-language video content. For permission or attribution questions, contact the repository owner before reusing the videos.
+
 ## Technologies Used
 
 - HTML
