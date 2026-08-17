@@ -540,8 +540,8 @@ function canTextControlVideo() {
     return false;
   }
 
-  if (state.sameGranularity && !hasExplicitGranularityChoices()) {
-    return false;
+  if (state.sameGranularity) {
+    return hasExplicitGranularityChoices();
   }
 
   if (hasNavigationChoice) {
