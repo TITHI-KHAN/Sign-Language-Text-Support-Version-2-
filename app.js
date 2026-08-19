@@ -1855,6 +1855,9 @@ function startVideoPlaybackAt(seekTo, sourceChanged, { fallbackBlobSrc = null, p
   };
 
   if (!Number.isFinite(seekTo)) {
+    if (sourceChanged) {
+      video.load();
+    }
     isTextDrivenVideoSeek = false;
     finishPlaybackState();
     return;
