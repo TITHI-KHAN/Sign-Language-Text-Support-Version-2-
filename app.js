@@ -207,11 +207,13 @@ function getClipPlaybackForTarget(element, fallback = {}) {
   }
 
   if (currentMode === "sentence" && Number.isFinite(sentenceClipIndex)) {
+    const clipStart = Number.isFinite(segmentStart) ? segmentStart : 0;
+    const clipEnd = Number.isFinite(segmentEnd) ? segmentEnd : selectionEnd;
     return {
-      src: MAIN_VIDEO_PATH,
-      timelineStart: 0,
-      seekTo: Number.isFinite(selectionStart) ? selectionStart : 0,
-      stopAt: Number.isFinite(segmentEnd) ? segmentEnd : selectionEnd
+      src: `segments/sentences/sent_${sentenceClipIndex}.mp4`,
+      timelineStart: clipStart,
+      seekTo: Number.isFinite(selectionStart) ? Math.max(selectionStart - clipStart, 0) : 0,
+      stopAt: Number.isFinite(clipEnd) ? Math.max(clipEnd - clipStart, 0) : null
     };
   }
 
@@ -2169,6 +2171,33 @@ function getPopupAnchor(targetElement) {
   return targetElement || currentVideoTarget || blogTitle || textPanel;
 }
 
+function getPopupAvoidanceRect(targetElement = null) {
+  if (currentMode === "full") {
+    return linkingGranularityOptionButtons[0]?.closest(".support-dropdown")?.getBoundingClientRect()
+      || getPopupAnchor(targetElement).getBoundingClientRect();
+  }
+
+  const anchor = getPopupAnchor(targetElement);
+  const protectedElements = currentMode === "word"
+    ? [anchor]
+    : getLinkedUnitsInsideActiveVideoSegment(anchor);
+  const rects = (protectedElements.length ? protectedElements : [anchor])
+    .map((element) => element.getBoundingClientRect());
+
+  return rects.reduce((bounds, rect) => ({
+    left: Math.min(bounds.left, rect.left),
+    right: Math.max(bounds.right, rect.right),
+    top: Math.min(bounds.top, rect.top),
+    bottom: Math.max(bounds.bottom, rect.bottom)
+  }));
+}
+
+function getRectOverlapArea(first, second) {
+  const overlapWidth = Math.max(0, Math.min(first.right, second.right) - Math.max(first.left, second.left));
+  const overlapHeight = Math.max(0, Math.min(first.bottom, second.bottom) - Math.max(first.top, second.top));
+  return overlapWidth * overlapHeight;
+}
+
 function getSideVideoWidth() {
   const sidebarWidth = sidebarContent?.getBoundingClientRect().width || videoSidebar?.getBoundingClientRect().width;
   return Math.max(sidebarWidth || 360, 180);
@@ -2212,8 +2241,7 @@ function positionPopupVideoPanel(targetElement = null) {
 
   videoPanel.style.width = `${panelWidth}px`;
 
-  const anchor = getPopupAnchor(targetElement);
-  const anchorRect = anchor.getBoundingClientRect();
+  const anchorRect = getPopupAvoidanceRect(targetElement);
   const panelRect = videoPanel.getBoundingClientRect();
   const width = panelRect.width || panelWidth;
   const height = panelRect.height;
@@ -2243,7 +2271,19 @@ function positionPopupVideoPanel(targetElement = null) {
     { left: Math.min(Math.max(anchorRect.left, VIEWPORT_PADDING), window.innerWidth - width - VIEWPORT_PADDING), top: anchorRect.bottom + POPUP_TEXT_GAP },
     { left: Math.min(Math.max(anchorRect.left, VIEWPORT_PADDING), window.innerWidth - width - VIEWPORT_PADDING), top: anchorRect.top - height - POPUP_TEXT_GAP }
   ];
-  const position = candidates.find(valid)
+  const visibleCandidates = candidates
+    .map((candidate) => clampPopupPosition(candidate.left, candidate.top));
+  const position = visibleCandidates.find(valid)
+    || visibleCandidates.reduce((best, candidate) => {
+      const candidateRect = {
+        left: candidate.left,
+        right: candidate.left + width,
+        top: candidate.top,
+        bottom: candidate.top + height
+      };
+      const overlapArea = getRectOverlapArea(candidateRect, anchorRect);
+      return !best || overlapArea < best.overlapArea ? { ...candidate, overlapArea } : best;
+    }, null)
     || clampPopupPosition(anchorRect.right + POPUP_TEXT_GAP, anchorRect.bottom + POPUP_TEXT_GAP);
   setPopupPanelPosition(position.left, position.top);
 }
