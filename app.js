@@ -111,6 +111,28 @@ function shouldUseIndividualWordVideos() {
   return currentMode === "word" && currentLinkingGranularity === "word";
 }
 
+function isRequestedStandaloneWordVideo(src, element) {
+  if (!src || !element) {
+    return false;
+  }
+
+  const mappedSource = element.dataset.signVideoUrl
+    || getStandaloneWordVideo(element.dataset.wordKey || element.textContent);
+  return Boolean(mappedSource && src === mappedSource);
+}
+
+function resetStandaloneWordVideoIfDisallowed() {
+  if (shouldUseIndividualWordVideos() || currentVideoHasTimeline) {
+    return;
+  }
+
+  video.pause();
+  setVideoSource(MAIN_VIDEO_PATH);
+  currentVideoTimelineStart = 0;
+  currentVideoHasTimeline = true;
+  video.currentTime = 0;
+}
+
 function setWordLinkAffordance(element, word) {
   if (currentLinkingGranularity !== "word") {
     return;
@@ -475,6 +497,7 @@ function setLinkingGranularity(granularity) {
 
   activeTextClickHighlight = null;
   currentLinkingGranularity = granularity;
+  resetStandaloneWordVideoIfDisallowed();
 
   updateChoiceVisuals("linking-granularity", granularity);
 
@@ -1898,6 +1921,11 @@ function playClipForTarget(src, element, {
   limitToLinkedUnit = true,
   allowProgrammaticNavigation = false
 } = {}) {
+  if (isRequestedStandaloneWordVideo(src, element) && !shouldUseIndividualWordVideos()) {
+    resetStandaloneWordVideoIfDisallowed();
+    return;
+  }
+
   if (!allowProgrammaticNavigation && !canActivateTextChunk(element)) {
     return;
   }
