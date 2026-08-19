@@ -2558,11 +2558,11 @@
     {
       "word": "recommendations",
       "count": 1,
-      "local_video": "assets/words/recommendations.mp4",
+      "local_video": "",
       "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=recommendations",
       "signasl_lookup_url": "https://www.signasl.org/sign/recommendations",
-      "status": "cropped-from-main-video",
-      "notes": "Derived from video.mp4 at 5.9s–6.8s; no external standalone sign video."
+      "status": "main-video-range",
+      "notes": "Virtual crop from video.mp4 at 5.9s–6.8s; no standalone video is loaded."
     },
     {
       "word": "relationships",

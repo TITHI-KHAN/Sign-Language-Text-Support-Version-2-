@@ -72,6 +72,12 @@ const ENABLE_SCROLL_DRIVEN_INTERACTION = false;
 const ENABLE_TEXT_SELECTION_IN_INTERACTIVE_VIDEO = false;
 // Keep Previous/Next deterministic in Word segmentation by using document-order timeline intervals.
 const USE_INDIVIDUAL_WORD_VIDEOS_FOR_SEGMENT_NAVIGATION = true;
+// Word + Word now uses virtual ranges from the continuous main video.
+// Keep legacy word assets in the repository only as migration references.
+const ENABLE_STANDALONE_WORD_VIDEOS = false;
+const VERIFIED_MAIN_VIDEO_WORD_RANGES = {
+  recommendations: { start: 5.9, end: 6.8 }
+};
 const POPUP_TEXT_GAP = 12;
 const VIEWPORT_PADDING = 12;
 
@@ -108,7 +114,9 @@ function revokeCurrentBlobVideoUrl() {
 }
 
 function shouldUseIndividualWordVideos() {
-  return currentMode === "word" && currentLinkingGranularity === "word";
+  return ENABLE_STANDALONE_WORD_VIDEOS
+    && currentMode === "word"
+    && currentLinkingGranularity === "word";
 }
 
 function isRequestedStandaloneWordVideo(src, element) {
@@ -916,10 +924,15 @@ function appendProcessedText(container, rawText, cue, cueIndex) {
       words.forEach((word, wordIndex) => {
         const clean = normalizeWordKey(word);
         const span = document.createElement("span");
-        const wordStart = sentenceStart + (wordIndex * perWordDuration);
-        const wordEnd = wordIndex === words.length - 1
+        const estimatedWordStart = sentenceStart + (wordIndex * perWordDuration);
+        const estimatedWordEnd = wordIndex === words.length - 1
           ? sentenceEnd
           : sentenceStart + ((wordIndex + 1) * perWordDuration);
+        const verifiedRange = currentMode === "word" && currentLinkingGranularity === "word"
+          ? VERIFIED_MAIN_VIDEO_WORD_RANGES[clean]
+          : null;
+        const wordStart = verifiedRange?.start ?? estimatedWordStart;
+        const wordEnd = verifiedRange?.end ?? estimatedWordEnd;
         span.textContent = word;
         span.className = "cueChunk inline-text";
         span.dataset.start = wordStart;

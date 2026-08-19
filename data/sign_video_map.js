@@ -719,11 +719,6 @@ window.SIGN_VIDEO_MAP = {
     "source": "SignASL",
     "lookup_url": "https://www.signasl.org/sign/rally"
   },
-  "recommendations": {
-    "video_url": "assets/words/recommendations.mp4?v=main-5.9-6.8",
-    "source": "Main continuous video (5.9s–6.8s)",
-    "lookup_url": "video.mp4#t=5.9,6.8"
-  },
   "rent": {
     "video_url": "https://media.signbsl.com/videos/asl/aslsearch/mp4/rent.mp4",
     "source": "SignASL",
