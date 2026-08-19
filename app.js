@@ -2635,8 +2635,8 @@ function setupSidebarControls() {
       if (feature === "segmentation") {
         choiceMadeByFeature.segmentation = true;
         setMode(button.dataset.value, false);
-        if (currentNavigation === "video-centric") {
-          prepareVideoCentricPanel();
+        if (hasNavigationChoice) {
+          applyNavigationInitialState(currentNavigation);
         } else {
           scheduleTextScrollSync();
         }
@@ -2650,7 +2650,11 @@ function setupSidebarControls() {
       if (feature === "linking-granularity") {
         choiceMadeByFeature["linking-granularity"] = true;
         setLinkingGranularity(button.dataset.value);
-        scheduleTextScrollSync();
+        if (hasNavigationChoice) {
+          applyNavigationInitialState(currentNavigation);
+        } else {
+          scheduleTextScrollSync();
+        }
       }
 
       if (feature === "location") {
