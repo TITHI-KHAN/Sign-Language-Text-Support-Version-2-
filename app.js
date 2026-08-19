@@ -187,7 +187,11 @@ function getClipPlaybackForTarget(element, fallback = {}) {
   const end = parseFloat(element.dataset.end);
   const segmentStart = parseFloat(element.dataset.segmentStart);
   const segmentEnd = parseFloat(element.dataset.segmentEnd);
-  const selectVideoSegment = shouldSelectVideoSegmentationLevel() || fallback.selectVideoSegment === true;
+  const state = getStateMachineState();
+  const selectVideoSegment = (shouldSelectVideoSegmentationLevel() && state.sameGranularity)
+    || fallback.selectVideoSegment === true;
+  // A finer text link (for example, a word inside a sentence video) must seek
+  // to that linked unit. The enclosing segment still supplies the stop time.
   const selectionStart = selectVideoSegment && Number.isFinite(segmentStart) ? segmentStart : start;
   const selectionEnd = selectVideoSegment && Number.isFinite(segmentEnd) ? segmentEnd : end;
   const sentenceClipIndex = Number.parseInt(element.dataset.sentenceClipIndex, 10);
