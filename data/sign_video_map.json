@@ -2654,11 +2654,11 @@
     },
     {
       "word": "recommendations",
-      "sign_video_url": "",
-      "sign_source": "",
-      "sign_lookup_url": "https://www.signasl.org/sign/recommendations",
-      "status": "no-exact-single-word-video-found",
-      "notes": "SignASL gloss is \"recommendation\"."
+      "sign_video_url": "assets/words/recommendations.mp4?v=main-5.9-6.8",
+      "sign_source": "Main continuous video",
+      "sign_lookup_url": "video.mp4#t=5.9,6.8",
+      "status": "cropped-from-main-video",
+      "notes": "Derived from the continuous source video at 5.9s–6.8s; no external standalone sign video."
     },
     {
       "word": "relationships",
