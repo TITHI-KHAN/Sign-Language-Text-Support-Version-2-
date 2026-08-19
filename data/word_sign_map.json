@@ -11,7 +11,7 @@
     {
       "word": "a",
       "count": 16,
-      "local_video": "",
+      "local_video": "assets/words/recommendations.mp4",
       "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=a",
       "signasl_lookup_url": "https://www.signasl.org/sign/a",
       "status": "needs-review",
@@ -2561,8 +2561,8 @@
       "local_video": "",
       "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=recommendations",
       "signasl_lookup_url": "https://www.signasl.org/sign/recommendations",
-      "status": "main-video-range",
-      "notes": "Virtual crop from video.mp4 at 5.9s–6.8s; no standalone video is loaded."
+      "status": "cropped-from-main-video",
+      "notes": "A 0.9-second display clip derived from video.mp4 at 5.9s–6.8s; no external standalone video."
     },
     {
       "word": "relationships",

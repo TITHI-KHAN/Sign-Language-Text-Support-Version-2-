@@ -72,9 +72,12 @@ const ENABLE_SCROLL_DRIVEN_INTERACTION = false;
 const ENABLE_TEXT_SELECTION_IN_INTERACTIVE_VIDEO = false;
 // Keep Previous/Next deterministic in Word segmentation by using document-order timeline intervals.
 const USE_INDIVIDUAL_WORD_VIDEOS_FOR_SEGMENT_NAVIGATION = true;
-// Word + Word now uses virtual ranges from the continuous main video.
-// Keep legacy word assets in the repository only as migration references.
-const ENABLE_STANDALONE_WORD_VIDEOS = false;
+// Word clips must be derived from the continuous main video. Never use the
+// legacy external SIGN_VIDEO_MAP entries in Word + Word mode.
+const ENABLE_STANDALONE_WORD_VIDEOS = true;
+const MAIN_DERIVED_WORD_CLIPS = {
+  recommendations: "assets/words/recommendations.mp4?v=main-5.9-6.8"
+};
 const VERIFIED_MAIN_VIDEO_WORD_RANGES = {
   recommendations: { start: 5.9, end: 6.8 }
 };
@@ -97,7 +100,7 @@ function normalizeWordKey(word) {
 }
 
 function getIndividualSignVideo(word) {
-  return window.SIGN_VIDEO_MAP?.[normalizeWordKey(word)]?.video_url || "";
+  return MAIN_DERIVED_WORD_CLIPS[normalizeWordKey(word)] || "";
 }
 
 function getStandaloneWordVideo(word) {
@@ -643,8 +646,7 @@ function canUseTextChunkForNavigation(chunk) {
   return Boolean(chunk)
     && canTextControlVideo()
     && isTextChunkInArticle(chunk)
-    && (!shouldLimitTextNavigationToCurrentVideoScope() || isChunkInCurrentVideoScope(chunk))
-    && (!shouldUseIndividualWordVideos() || chunk.dataset.hasWordVideo === "true");
+    && (!shouldLimitTextNavigationToCurrentVideoScope() || isChunkInCurrentVideoScope(chunk));
 }
 
 function canUseTextChunkForSegmentSelection(chunk) {
@@ -951,8 +953,8 @@ function appendProcessedText(container, rawText, cue, cueIndex) {
 
               if (availableWordVideo) {
                 playSegment(null, null, true, availableWordVideo, span);
+                return;
               }
-              return;
             }
 
             const playback = getClipPlaybackForTarget(span, { seekTo: wordStart, stopAt: wordEnd });
