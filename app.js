@@ -2224,6 +2224,10 @@ function getRectOverlapArea(first, second) {
   return overlapWidth * overlapHeight;
 }
 
+function getPopupControlsRect() {
+  return sidebarContent?.querySelector(".support-dropdowns")?.getBoundingClientRect() || null;
+}
+
 function getSideVideoWidth() {
   const sidebarWidth = sidebarContent?.getBoundingClientRect().width || videoSidebar?.getBoundingClientRect().width;
   return Math.max(sidebarWidth || 360, 180);
@@ -2271,11 +2275,16 @@ function positionPopupVideoPanel(targetElement = null) {
   const panelRect = videoPanel.getBoundingClientRect();
   const width = panelRect.width || panelWidth;
   const height = panelRect.height;
+  const controlsRect = getPopupControlsRect();
   const overlaps = (position) => !(position.left + width <= anchorRect.left || position.left >= anchorRect.right
     || position.top + height <= anchorRect.top || position.top >= anchorRect.bottom);
+  const overlapsControls = (position) => Boolean(controlsRect)
+    && !(position.left + width <= controlsRect.left || position.left >= controlsRect.right
+      || position.top + height <= controlsRect.top || position.top >= controlsRect.bottom);
   const valid = (position) => position.left >= VIEWPORT_PADDING && position.top >= VIEWPORT_PADDING
     && position.left + width <= window.innerWidth - VIEWPORT_PADDING
-    && position.top + height <= window.innerHeight - VIEWPORT_PADDING && !overlaps(position);
+    && position.top + height <= window.innerHeight - VIEWPORT_PADDING
+    && !overlaps(position) && !overlapsControls(position);
 
   if (hasUserPlacedPopup && popupDragPosition && valid(popupDragPosition)) {
     setPopupPanelPosition(popupDragPosition.left, popupDragPosition.top);
@@ -2291,11 +2300,17 @@ function positionPopupVideoPanel(targetElement = null) {
     return;
   }
 
+  const centeredLeft = anchorRect.left + ((anchorRect.right - anchorRect.left - width) / 2);
   const candidates = [
-    { left: anchorRect.right + POPUP_TEXT_GAP, top: Math.min(Math.max(anchorRect.top, VIEWPORT_PADDING), window.innerHeight - height - VIEWPORT_PADDING) },
-    { left: anchorRect.left - width - POPUP_TEXT_GAP, top: Math.min(Math.max(anchorRect.top, VIEWPORT_PADDING), window.innerHeight - height - VIEWPORT_PADDING) },
-    { left: Math.min(Math.max(anchorRect.left, VIEWPORT_PADDING), window.innerWidth - width - VIEWPORT_PADDING), top: anchorRect.bottom + POPUP_TEXT_GAP },
-    { left: Math.min(Math.max(anchorRect.left, VIEWPORT_PADDING), window.innerWidth - width - VIEWPORT_PADDING), top: anchorRect.top - height - POPUP_TEXT_GAP }
+    // Vertical placement is easier to follow while reading and keeps the
+    // support controls visible, so prefer below and above the active text.
+    { left: centeredLeft, top: anchorRect.bottom + POPUP_TEXT_GAP },
+    { left: centeredLeft, top: anchorRect.top - height - POPUP_TEXT_GAP },
+    { left: anchorRect.left, top: anchorRect.bottom + POPUP_TEXT_GAP },
+    { left: anchorRect.right - width, top: anchorRect.top - height - POPUP_TEXT_GAP },
+    // Side placement is a last resort for short viewports.
+    { left: anchorRect.right + POPUP_TEXT_GAP, top: anchorRect.top },
+    { left: anchorRect.left - width - POPUP_TEXT_GAP, top: anchorRect.top }
   ];
   const visibleCandidates = candidates
     .map((candidate) => clampPopupPosition(candidate.left, candidate.top));
@@ -2307,7 +2322,8 @@ function positionPopupVideoPanel(targetElement = null) {
         top: candidate.top,
         bottom: candidate.top + height
       };
-      const overlapArea = getRectOverlapArea(candidateRect, anchorRect);
+      const overlapArea = getRectOverlapArea(candidateRect, anchorRect)
+        + (controlsRect ? getRectOverlapArea(candidateRect, controlsRect) * 2 : 0);
       return !best || overlapArea < best.overlapArea ? { ...candidate, overlapArea } : best;
     }, null)
     || clampPopupPosition(anchorRect.right + POPUP_TEXT_GAP, anchorRect.bottom + POPUP_TEXT_GAP);
