@@ -229,13 +229,11 @@ function getClipPlaybackForTarget(element, fallback = {}) {
   }
 
   if (currentMode === "sentence" && Number.isFinite(sentenceClipIndex)) {
-    const clipStart = Number.isFinite(segmentStart) ? segmentStart : 0;
-    const clipEnd = Number.isFinite(segmentEnd) ? segmentEnd : selectionEnd;
     return {
-      src: `segments/sentences/sent_${sentenceClipIndex}.mp4`,
-      timelineStart: clipStart,
-      seekTo: Number.isFinite(selectionStart) ? Math.max(selectionStart - clipStart, 0) : 0,
-      stopAt: Number.isFinite(clipEnd) ? Math.max(clipEnd - clipStart, 0) : null
+      src: MAIN_VIDEO_PATH,
+      timelineStart: 0,
+      seekTo: Number.isFinite(selectionStart) ? selectionStart : 0,
+      stopAt: Number.isFinite(segmentEnd) ? segmentEnd : selectionEnd
     };
   }
 
