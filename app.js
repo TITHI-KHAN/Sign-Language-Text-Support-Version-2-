@@ -1827,7 +1827,11 @@ function startVideoPlaybackAt(seekTo, sourceChanged, { fallbackBlobSrc = null, p
       return;
     }
 
-    if (fallbackBlobSrc && (fallbackBlobSrc === MAIN_VIDEO_PATH || !hasUsableSeekRange() || !canSeekLoadedVideoTo(seekTo))) {
+    // The main video is large, so converting it to a Blob here makes every
+    // text click wait for a full download before seeking. Native media seeking
+    // can jump to the requested timestamp immediately (including file://).
+    if (fallbackBlobSrc && fallbackBlobSrc !== MAIN_VIDEO_PATH
+      && (!hasUsableSeekRange() || !canSeekLoadedVideoTo(seekTo))) {
       loadSeekableBlobSource(fallbackBlobSrc, seekTo, playbackToken, finishPlaybackState);
       return;
     }
