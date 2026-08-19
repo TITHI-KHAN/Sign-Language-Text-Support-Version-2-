@@ -76,7 +76,7 @@ const USE_INDIVIDUAL_WORD_VIDEOS_FOR_SEGMENT_NAVIGATION = true;
 // legacy external SIGN_VIDEO_MAP entries in Word + Word mode.
 const ENABLE_STANDALONE_WORD_VIDEOS = true;
 const MAIN_DERIVED_WORD_CLIPS = {
-  recommendations: "assets/words/recommendations.mp4?v=main-5.9-6.8"
+  recommendations: "assets/main-derived/recommendations.mp4?v=main-5.9-6.8"
 };
 const VERIFIED_MAIN_VIDEO_WORD_RANGES = {
   recommendations: { start: 5.9, end: 6.8 }

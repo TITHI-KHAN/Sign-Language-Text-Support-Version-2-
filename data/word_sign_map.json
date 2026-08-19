@@ -11,7 +11,7 @@
     {
       "word": "a",
       "count": 16,
-      "local_video": "assets/words/recommendations.mp4",
+      "local_video": "assets/main-derived/recommendations.mp4",
       "signbank_search_url": "https://aslsignbank.haskins.yale.edu/signs/search/?translation=a",
       "signasl_lookup_url": "https://www.signasl.org/sign/a",
       "status": "needs-review",
