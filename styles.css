@@ -99,6 +99,7 @@ li.cue-container::before {
 
 .text-side.full-text-linked-unit.is-linked {
   background-color: #fff;
+  text-decoration: none;
 }
 
 .text-side.full-text-linked-unit.is-linked .blog-title,
