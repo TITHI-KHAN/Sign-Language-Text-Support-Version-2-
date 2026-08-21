@@ -107,7 +107,6 @@ li.cue-container::before {
   background-color: #eef4fb;
   border-radius: 4px;
   padding: 2px 8px;
-  font-weight: 700;
 }
 
 html[data-link-underline-style="solid"] .cueChunk.is-linked {
@@ -144,6 +143,7 @@ html[data-link-underline-style="solid"] .cueChunk.is-linked {
 .text-side.full-text-linked-unit.activeHighlight .blog-title,
 .text-side.full-text-linked-unit.activeHighlight .cue-container {
   background-color: #c9ddf5 !important;
+  font-weight: 700;
 }
 
 .cueChunk.is-linked:hover {
